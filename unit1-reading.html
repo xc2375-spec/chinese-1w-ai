@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 1 - Smart Reading</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    .page-header,
+    .panel,
+    .detail-panel,
+    .question-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .page-header h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .page-header p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.45fr 0.9fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .section-title {
+      margin-top: 0;
+      margin-bottom: 14px;
+      color: var(--accent-dark);
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-size: 0.96rem;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .small-btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 14px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .small-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .small-btn:hover {
+      box-shadow: var(--shadow);
+    }
+
+    .reading-box {
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      line-height: 2.05;
+      font-size: 1.06rem;
+    }
+
+    .reading-sentence {
+      margin-bottom: 14px;
+    }
+
+    .click-word {
+      display: inline-block;
+      padding: 0 2px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .click-word:hover {
+      background: #efe7dc;
+    }
+
+    .word-help {
+      display: inline-block;
+      margin-left: 4px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .detail-panel h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      color: var(--accent-dark);
+    }
+
+    .detail-panel p {
+      margin: 8px 0;
+    }
+
+    .detail-label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .example-box,
+    .grammar-box {
+      margin-top: 14px;
+      background: #fffaf4;
+      border-left: 4px solid var(--accent);
+      padding: 14px;
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+
+    .question-card h3 {
+      margin-top: 0;
+      color: var(--accent-dark);
+    }
+
+    .question-card label {
+      display: block;
+      margin: 8px 0;
+      cursor: pointer;
+    }
+
+    .result-box {
+      margin-top: 14px;
+      padding: 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    @media (max-width: 980px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <a class="back-link" href="smart-reading.html">← Back to Smart Reading</a>
+
+    <header class="topbar">
+      <div>
+        <h1 id="site-title">Smart Reading</h1>
+        <p id="site-subtitle">Unit 1 reading support</p>
+      </div>
+
+      <div class="lang-switch">
+        <button id="btn-simplified" class="switch-btn active">简体</button>
+        <button id="btn-traditional" class="switch-btn">繁體</button>
+      </div>
+    </header>
+
+    <section class="page-header">
+      <h1 id="unit-title">Unit 1: Chinese Names</h1>
+      <p id="unit-question">Read with click-to-see support, English glosses, grammar help, and guided comprehension.</p>
+    </section>
+
+    <div class="layout">
+      <div>
+        <section class="panel">
+          <h2 class="section-title" id="reading-title">Extended Reading 1: My Friends</h2>
+          <p class="section-subtitle" id="reading-subtitle">
+            Click key words for support. Adjust the support level based on how much help you want.
+          </p>
+
+          <div class="toolbar">
+            <button class="small-btn active" id="level-a-btn">Level A</button>
+            <button class="small-btn" id="level-b-btn">Level B</button>
+            <button class="small-btn" id="level-c-btn">Level C</button>
+            <button class="small-btn" id="read-aloud-btn">Read Aloud</button>
+            <button class="small-btn" id="stop-reading-btn">Stop</button>
+          </div>
+
+          <div class="reading-box" id="reading-box"></div>
+        </section>
+
+        <section class="question-card">
+          <h3 id="check-title">Reading Check</h3>
+
+          <div>
+            <p id="q1-text">1. Where is Wang Xiaowen studying?</p>
+            <label><input type="radio" name="q1" value="A"> <span id="q1a">A. Shanghai</span></label>
+            <label><input type="radio" name="q1" value="B"> <span id="q1b">B. Beijing University</span></label>
+            <label><input type="radio" name="q1" value="C"> <span id="q1c">C. Japan</span></label>
+          </div>
+
+          <div style="margin-top:18px;">
+            <p id="q2-text">2. Which word means “surname”?</p>
+            <label><input type="radio" name="q2" value="A"> <span id="q2a">A. 名</span></label>
+            <label><input type="radio" name="q2" value="B"> <span id="q2b">B. 姓</span></label>
+            <label><input type="radio" name="q2" value="C"> <span id="q2c">C. 位</span></label>
+          </div>
+
+          <div style="margin-top:18px;">
+            <p id="q3-text">3. Why do people call him “山口先生”?</p>
+            <label><input type="radio" name="q3" value="A"> <span id="q3a">A. Because 先生 is a polite title for a man.</span></label>
+            <label><input type="radio" name="q3" value="B"> <span id="q3b">B. Because he is a student.</span></label>
+            <label><input type="radio" name="q3" value="C"> <span id="q3c">C. Because he is from France.</span></label>
+          </div>
+
+          <div class="toolbar" style="margin-top:18px;">
+            <button class="small-btn active" id="check-btn">Check Answers</button>
+          </div>
+
+          <div class="result-box" id="result-box">Your result will appear here.</div>
+        </section>
+      </div>
+
+      <aside class="detail-panel">
+        <h2 id="detail-word">名字</h2>
+        <p><span class="detail-label" id="label-pinyin">Pinyin:</span> <span id="detail-pinyin">míngzi</span></p>
+        <p><span class="detail-label" id="label-meaning">English:</span> <span id="detail-meaning">name</span></p>
+        <p><span class="detail-label" id="label-help">Help:</span> <span id="detail-help">A very common everyday word for name.</span></p>
+
+        <div class="example-box">
+          <div><span class="detail-label" id="label-example">Example:</span></div>
+          <div id="detail-example">你的名字叫什么？</div>
+        </div>
+
+        <div class="grammar-box">
+          <div><span class="detail-label" id="label-grammar">Grammar Hint:</span></div>
+          <div id="detail-grammar">In Chinese, the topic often comes first. For example: 在中国，人们先说姓，再说名字。</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const content = {
+      simplified: {
+        htmlLang: "zh-Hans",
+        siteTitle: "Smart Reading",
+        siteSubtitle: "Unit 1 reading support",
+        unitTitle: "Unit 1: Chinese Names",
+        unitQuestion: "Read with click-to-see support, English glosses, grammar help, and guided comprehension.",
+        readingTitle: "Extended Reading 1: My Friends",
+        readingSubtitle: "Click key words for support. Adjust the support level based on how much help you want.",
+        levelA: "Level A",
+        levelB: "Level B",
+        levelC: "Level C",
+        readAloud: "Read Aloud",
+        stop: "Stop",
+        checkTitle: "Reading Check",
+        q1Text: "1. Where is Wang Xiaowen studying?",
+        q1a: "A. Shanghai",
+        q1b: "B. Beijing University",
+        q1c: "C. Japan",
+        q2Text: "2. Which word means “surname”?",
+        q2a: "A. 名",
+        q2b: "B. 姓",
+        q2c: "C. 位",
+        q3Text: "3. Why do people call him “山口先生”?",
+        q3a: "A. Because 先生 is a polite title for a man.",
+        q3b: "B. Because he is a student.",
+        q3c: "C. Because he is from France.",
+        checkBtn: "Check Answers",
+        resultDefault: "Your result will appear here.",
+        labelPinyin: "Pinyin:",
+        labelMeaning: "English:",
+        labelHelp: "Help:",
+        labelExample: "Example:",
+        labelGrammar: "Grammar Hint:"
+      },
+      traditional: {
+        htmlLang: "zh-Hant",
+        siteTitle: "Smart Reading",
+        siteSubtitle: "Unit 1 reading support",
+        unitTitle: "Unit 1: Chinese Names",
+        unitQuestion: "Read with click-to-see support, English glosses, grammar help, and guided comprehension.",
+        readingTitle: "Extended Reading 1: 我的朋友",
+        readingSubtitle: "點擊關鍵詞可查看支援。你也可以調整支援程度。",
+        levelA: "Level A",
+        levelB: "Level B",
+        levelC: "Level C",
+        readAloud: "Read Aloud",
+        stop: "Stop",
+        checkTitle: "Reading Check",
+        q1Text: "1. Where is Wang Xiaowen studying?",
+        q1a: "A. Shanghai",
+        q1b: "B. Beijing University",
+        q1c: "C. Japan",
+        q2Text: "2. Which word means “surname”?",
+        q2a: "A. 名",
+        q2b: "B. 姓",
+        q2c: "C. 位",
+        q3Text: "3. Why do people call him “山口先生”?",
+        q3a: "A. Because 先生 is a polite title for a man.",
+        q3b: "B. Because he is a student.",
+        q3c: "C. Because he is from France.",
+        checkBtn: "Check Answers",
+        resultDefault: "Your result will appear here.",
+        labelPinyin: "Pinyin:",
+        labelMeaning: "English:",
+        labelHelp: "Help:",
+        labelExample: "Example:",
+        labelGrammar: "Grammar Hint:"
+      }
+    };
+
+    const readingSupport = {
+      "英国人": {
+        simplified: "英国人",
+        traditional: "英國人",
+        pinyin: "Yīngguó rén",
+        english: "British person",
+        help: "A nationality word. 国家 + 人 is a common pattern in Chinese.",
+        exampleSimplified: "我是英国人。",
+        exampleTraditional: "我是英國人。",
+        grammar: "国家 + 人 means a person from that country, for example: 中国人, 美国人."
+      },
+      "中国": {
+        simplified: "中国",
+        traditional: "中國",
+        pinyin: "Zhōngguó",
+        english: "China",
+        help: "A country name. You will see it often in this course.",
+        exampleSimplified: "我在中国学习中文。",
+        exampleTraditional: "我在中國學習中文。",
+        grammar: "Place words often come before verbs, such as 在中国学习中文."
+      },
+      "中文": {
+        simplified: "中文",
+        traditional: "中文",
+        pinyin: "Zhōngwén",
+        english: "Chinese language",
+        help: "This means the Chinese language.",
+        exampleSimplified: "我学习中文。",
+        exampleTraditional: "我學習中文。",
+        grammar: "中文 is a noun and often comes after 学习 / 说 / 会."
+      },
+      "名字": {
+        simplified: "名字",
+        traditional: "名字",
+        pinyin: "míngzi",
+        english: "name",
+        help: "A common everyday word for someone’s name.",
+        exampleSimplified: "你的名字叫什么？",
+        exampleTraditional: "你的名字叫什麼？",
+        grammar: "Chinese often uses 名字 with 叫 to ask or tell a name."
+      },
+      "朋友": {
+        simplified: "朋友",
+        traditional: "朋友",
+        pinyin: "péngyou",
+        english: "friend",
+        help: "A very useful high-frequency noun.",
+        exampleSimplified: "她是我的朋友。",
+        exampleTraditional: "她是我的朋友。",
+        grammar: "朋友 can be used after 我的 / 你的 / 他的."
+      },
+      "北京大学": {
+        simplified: "北京大学",
+        traditional: "北京大學",
+        pinyin: "Běijīng Dàxué",
+        english: "Peking University / Beijing University",
+        help: "A university name in Beijing.",
+        exampleSimplified: "她是北京大学的学生。",
+        exampleTraditional: "她是北京大學的學生。",
+        grammar: "X 是 Y 的学生 means “X is a student at Y.”"
+      },
+      "学生": {
+        simplified: "学生",
+        traditional: "學生",
+        pinyin: "xuésheng",
+        english: "student",
+        help: "A high-frequency word for a learner in school.",
+        exampleSimplified: "她是学生。",
+        exampleTraditional: "她是學生。",
+        grammar: "是 + noun is a very common basic sentence pattern."
+      },
+      "语言": {
+        simplified: "语言",
+        traditional: "語言",
+        pinyin: "yǔyán",
+        english: "language",
+        help: "Use this when talking about Chinese, English, Japanese, and other languages.",
+        exampleSimplified: "她很喜欢学习语言。",
+        exampleTraditional: "她很喜歡學習語言。",
+        grammar: "喜欢 + verb phrase is common, such as 喜欢学习语言."
+      },
+      "先生": {
+        simplified: "先生",
+        traditional: "先生",
+        pinyin: "xiānsheng",
+        english: "Mr.; gentleman",
+        help: "A polite title for a man.",
+        exampleSimplified: "这是山口先生。",
+        exampleTraditional: "這是山口先生。",
+        grammar: "Titles often come after the family name, such as 王先生."
+      },
+      "以前": {
+        simplified: "以前",
+        traditional: "以前",
+        pinyin: "yǐqián",
+        english: "before; previously",
+        help: "A time word for something in the past.",
+        exampleSimplified: "他以前是英文老师。",
+        exampleTraditional: "他以前是英文老師。",
+        grammar: "以前 often comes before 是 / 在 / 做 to give time background."
+      },
+      "文化": {
+        simplified: "文化",
+        traditional: "文化",
+        pinyin: "wénhuà",
+        english: "culture",
+        help: "An important academic and cultural word.",
+        exampleSimplified: "他对中国文化很有兴趣。",
+        exampleTraditional: "他對中國文化很有興趣。",
+        grammar: "对……有兴趣 is a useful pattern."
+      }
+    };
+
+    const passages = {
+      simplified: [
+        [
+          { text: "我是" },
+          { text: "英国人", key: "英国人" },
+          { text: "，叫 Emmy Lee，现在我在" },
+          { text: "中国", key: "中国" },
+          { text: "学习" },
+          { text: "中文", key: "中文" },
+          { text: "。" }
+        ],
+        [
+          { text: "在" },
+          { text: "中国", key: "中国" },
+          { text: "，很多外国人也会有一个中文" },
+          { text: "名字", key: "名字" },
+          { text: "。" }
+        ],
+        [
+          { text: "我还没有正式的中文名字，所以老师和同学们都叫我“小李”。" }
+        ],
+        [
+          { text: "我有很多好" },
+          { text: "朋友", key: "朋友" },
+          { text: "，我来给你们介绍一下。" }
+        ],
+        [
+          { text: "这是我的中国朋友王小文。她今年二十一岁，是" },
+          { text: "北京大学", key: "北京大学" },
+          { text: "的" },
+          { text: "学生", key: "学生" },
+          { text: "。" }
+        ],
+        [
+          { text: "小文会说英文，也会说一点儿日文。因为她很喜欢学习" },
+          { text: "语言", key: "语言" },
+          { text: "。" }
+        ],
+        [
+          { text: "她也很喜欢唱歌，中文歌和日文歌她都会唱。" }
+        ],
+        [
+          { text: "这是我的日本朋友山口" },
+          { text: "先生", key: "先生" },
+          { text: "。" }
+        ],
+        [
+          { text: "在中国，人们常常用“先生”称呼男性。" }
+        ],
+        [
+          { text: "山口先生" },
+          { text: "以前", key: "以前" },
+          { text: "是英文老师，他的英文很好。" }
+        ],
+        [
+          { text: "他说中文的时候，有时候会用一点儿英文。" }
+        ],
+        [
+          { text: "他是法国人，是我在中国认识的第一个朋友。" }
+        ],
+        [
+          { text: "他的法文名字很长，我们都叫他的中文名字林欢。" }
+        ],
+        [
+          { text: "小林今年二十二岁，他喜欢听音乐，也喜欢看法文小说。" }
+        ],
+        [
+          { text: "他对中国" },
+          { text: "文化", key: "文化" },
+          { text: "很有兴趣，现在也在学习中文。" }
+        ]
+      ],
+      traditional: [
+        [
+          { text: "我是" },
+          { text: "英國人", key: "英国人" },
+          { text: "，叫 Emmy Lee，現在我在" },
+          { text: "中國", key: "中国" },
+          { text: "學習" },
+          { text: "中文", key: "中文" },
+          { text: "。" }
+        ],
+        [
+          { text: "在" },
+          { text: "中國", key: "中国" },
+          { text: "，很多外國人也會有一個中文" },
+          { text: "名字", key: "名字" },
+          { text: "。" }
+        ],
+        [
+          { text: "我還沒有正式的中文名字，所以老師和同學們都叫我「小李」。" }
+        ],
+        [
+          { text: "我有很多好" },
+          { text: "朋友", key: "朋友" },
+          { text: "，我來給你們介紹一下。" }
+        ],
+        [
+          { text: "這是我的中國朋友王小文。她今年二十一歲，是" },
+          { text: "北京大學", key: "北京大学" },
+          { text: "的" },
+          { text: "學生", key: "学生" },
+          { text: "。" }
+        ],
+        [
+          { text: "小文會說英文，也會說一點兒日文。因為她很喜歡學習" },
+          { text: "語言", key: "语言" },
+          { text: "。" }
+        ],
+        [
+          { text: "她也很喜歡唱歌，中文歌和日文歌她都會唱。" }
+        ],
+        [
+          { text: "這是我的日本朋友山口" },
+          { text: "先生", key: "先生" },
+          { text: "。" }
+        ],
+        [
+          { text: "在中國，人們常常用「先生」稱呼男性。" }
+        ],
+        [
+          { text: "山口先生" },
+          { text: "以前", key: "以前" },
+          { text: "是英文老師，他的英文很好。" }
+        ],
+        [
+          { text: "他說中文的時候，有時候會用一點兒英文。" }
+        ],
+        [
+          { text: "他是法國人，是我在中國認識的第一個朋友。" }
+        ],
+        [
+          { text: "他的法文名字很長，我們都叫他的中文名字林歡。" }
+        ],
+        [
+          { text: "小林今年二十二歲，他喜歡聽音樂，也喜歡看法文小說。" }
+        ],
+        [
+          { text: "他對中國" },
+          { text: "文化", key: "文化" },
+          { text: "很有興趣，現在也在學習中文。" }
+        ]
+      ]
+    };
+
+    let currentMode = localStorage.getItem("scriptMode") || "simplified";
+    let supportLevel = "A";
+    let currentWordKey = "名字";
+
+    function applyLanguage(mode) {
+      currentMode = mode;
+      const data = content[mode];
+      document.documentElement.lang = data.htmlLang;
+
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("unit-title").textContent = data.unitTitle;
+      document.getElementById("unit-question").textContent = data.unitQuestion;
+      document.getElementById("reading-title").textContent = data.readingTitle;
+      document.getElementById("reading-subtitle").textContent = data.readingSubtitle;
+      document.getElementById("level-a-btn").textContent = data.levelA;
+      document.getElementById("level-b-btn").textContent = data.levelB;
+      document.getElementById("level-c-btn").textContent = data.levelC;
+      document.getElementById("read-aloud-btn").textContent = data.readAloud;
+      document.getElementById("stop-reading-btn").textContent = data.stop;
+      document.getElementById("check-title").textContent = data.checkTitle;
+      document.getElementById("q1-text").textContent = data.q1Text;
+      document.getElementById("q1a").textContent = data.q1a;
+      document.getElementById("q1b").textContent = data.q1b;
+      document.getElementById("q1c").textContent = data.q1c;
+      document.getElementById("q2-text").textContent = data.q2Text;
+      document.getElementById("q2a").textContent = data.q2a;
+      document.getElementById("q2b").textContent = data.q2b;
+      document.getElementById("q2c").textContent = data.q2c;
+      document.getElementById("q3-text").textContent = data.q3Text;
+      document.getElementById("q3a").textContent = data.q3a;
+      document.getElementById("q3b").textContent = data.q3b;
+      document.getElementById("q3c").textContent = data.q3c;
+      document.getElementById("check-btn").textContent = data.checkBtn;
+      document.getElementById("label-pinyin").textContent = data.labelPinyin;
+      document.getElementById("label-meaning").textContent = data.labelMeaning;
+      document.getElementById("label-help").textContent = data.labelHelp;
+      document.getElementById("label-example").textContent = data.labelExample;
+      document.getElementById("label-grammar").textContent = data.labelGrammar;
+
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
+
+      renderReading();
+      showWord(currentWordKey);
+      document.getElementById("result-box").textContent = data.resultDefault;
+
+      localStorage.setItem("scriptMode", mode);
+    }
+
+    function renderReading() {
+      const box = document.getElementById("reading-box");
+      box.innerHTML = "";
+
+      const data = passages[currentMode];
+      data.forEach(sentenceParts => {
+        const sentenceDiv = document.createElement("div");
+        sentenceDiv.className = "reading-sentence";
+
+        sentenceParts.forEach(part => {
+          if (!part.key) {
+            const span = document.createElement("span");
+            span.textContent = part.text;
+            sentenceDiv.appendChild(span);
+          } else {
+            const wordSpan = document.createElement("span");
+            wordSpan.className = "click-word";
+            wordSpan.textContent = part.text;
+            wordSpan.addEventListener("click", () => showWord(part.key));
+            sentenceDiv.appendChild(wordSpan);
+
+            if (supportLevel === "A") {
+              const help = readingSupport[part.key];
+              const helper = document.createElement("span");
+              helper.className = "word-help";
+              helper.textContent = `(${help.pinyin} · ${help.english})`;
+              sentenceDiv.appendChild(helper);
+            } else if (supportLevel === "B") {
+              const help = readingSupport[part.key];
+              const helper = document.createElement("span");
+              helper.className = "word-help";
+              helper.textContent = `(${help.english})`;
+              sentenceDiv.appendChild(helper);
+            }
+          }
+        });
+
+        box.appendChild(sentenceDiv);
+      });
+    }
+
+    function showWord(wordKey) {
+      currentWordKey = wordKey;
+      const item = readingSupport[wordKey];
+      if (!item) return;
+
+      const displayWord = currentMode === "traditional" ? item.traditional : item.simplified;
+      const displayExample = currentMode === "traditional" ? item.exampleTraditional : item.exampleSimplified;
+
+      document.getElementById("detail-word").textContent = displayWord;
+      document.getElementById("detail-pinyin").textContent = item.pinyin;
+      document.getElementById("detail-meaning").textContent = item.english;
+      document.getElementById("detail-help").textContent = item.help;
+      document.getElementById("detail-example").textContent = displayExample;
+      document.getElementById("detail-grammar").textContent = item.grammar;
+    }
+
+    function setSupportLevel(level) {
+      supportLevel = level;
+      document.getElementById("level-a-btn").classList.toggle("active", level === "A");
+      document.getElementById("level-b-btn").classList.toggle("active", level === "B");
+      document.getElementById("level-c-btn").classList.toggle("active", level === "C");
+      renderReading();
+    }
+
+    function getPlainReadingText() {
+      return passages[currentMode]
+        .map(sentence => sentence.map(part => part.text).join(""))
+        .join("\n");
+    }
+
+    function readAloud() {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(getPlainReadingText());
+      utterance.lang = "zh-CN";
+      utterance.rate = 0.85;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function checkAnswers() {
+      let score = 0;
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+
+      if (q1 && q1.value === "B") score++;
+      if (q2 && q2.value === "B") score++;
+      if (q3 && q3.value === "A") score++;
+
+      const resultBox = document.getElementById("result-box");
+      resultBox.innerHTML = `<strong>Score:</strong> ${score}/3<br><br>
+      <strong>Quick diagnosis:</strong><br>
+      ${score === 3 ? "Excellent. You understood both vocabulary and cultural meaning well." :
+      score === 2 ? "Good job. Review the clicked words and try reading again with Level A support." :
+      "Try again with more support. Use Level A and click key words while reading."}`;
+    }
+
+    document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
+    document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
+
+    document.getElementById("level-a-btn").addEventListener("click", () => setSupportLevel("A"));
+    document.getElementById("level-b-btn").addEventListener("click", () => setSupportLevel("B"));
+    document.getElementById("level-c-btn").addEventListener("click", () => setSupportLevel("C"));
+
+    document.getElementById("read-aloud-btn").addEventListener("click", readAloud);
+    document.getElementById("stop-reading-btn").addEventListener("click", () => window.speechSynthesis.cancel());
+    document.getElementById("check-btn").addEventListener("click", checkAnswers);
+
+    applyLanguage(currentMode);
+    setSupportLevel("A");
+    showWord("名字");
+  </script>
+</body>
+</html>
