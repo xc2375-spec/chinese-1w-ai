@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 1 - Chinese Names</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .unit-header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .unit-header h2 {
+      margin: 0 0 10px 0;
+      font-size: 1.8rem;
+      color: var(--accent-dark);
+    }
+
+    .unit-header p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .section-card h3 {
+      margin-top: 0;
+      color: var(--accent-dark);
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .pill {
+      background: #f1ebe3;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .reading-box {
+      background: #fffaf4;
+      border-left: 4px solid var(--accent);
+      padding: 16px;
+      border-radius: 12px;
+      line-height: 1.9;
+      white-space: pre-line;
+    }
+
+    .helper-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .mini-card {
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 14px;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #fff;
+    }
+
+    .action-row {
+      margin-top: 14px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn {
+      border: none;
+      background: var(--accent);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.96rem;
+    }
+
+    .secondary-btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.96rem;
+    }
+
+    .feedback-box {
+      margin-top: 16px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      color: var(--text);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    @media (max-width: 780px) {
+      .helper-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <a class="back-link" href="index.html">← Back to Home</a>
+
+    <header class="topbar">
+      <div>
+        <h1 id="site-title">Chinese 1W AI Learning Companion</h1>
+        <p id="site-subtitle">Unit 1 learning module</p>
+      </div>
+
+      <div class="lang-switch">
+        <button id="btn-simplified" class="switch-btn active">简体</button>
+        <button id="btn-traditional" class="switch-btn">繁體</button>
+      </div>
+    </header>
+
+    <section class="unit-header">
+      <h2 id="unit-title">Unit 1: Chinese Names</h2>
+      <p id="unit-question">Essential Question: How do Chinese names reflect family, culture, and identity?</p>
+    </section>
+
+    <section class="section-card">
+      <h3 id="vocab-title">Word Explorer</h3>
+      <p id="vocab-intro">Click a word to preview vocabulary support. We will make this interactive in the next step.</p>
+      <div class="pill-list">
+        <span class="pill">中国</span>
+        <span class="pill">人</span>
+        <span class="pill">姓</span>
+        <span class="pill">名</span>
+        <span class="pill">名字</span>
+        <span class="pill">先生</span>
+        <span class="pill">小姐</span>
+        <span class="pill">太太</span>
+        <span class="pill">贵姓</span>
+        <span class="pill">认识</span>
+        <span class="pill">高兴</span>
+        <span class="pill">北京</span>
+        <span class="pill">上海</span>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h3 id="reading-title">Smart Reading</h3>
+      <p id="reading-subtitle">Extended Reading 1: My Friends</p>
+      <div class="reading-box" id="reading-text">
+我是英国人，叫 Emmy Lee，现在我在中国学习中文。
+在中国，很多外国人也会有一个中文名字。
+我还没有正式的中文名字，所以老师和同学们都叫我“小李”。
+我有很多好朋友，我来给你们介绍一下。
+
+这是我的中国朋友王小文。她今年二十一岁，是北京大学的学生。
+小文会说英文，也会说一点儿日文。因为她很喜欢学习语言。
+她也很喜欢唱歌，中文歌和日文歌她都会唱。
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h3 id="writing-title">Writing Studio</h3>
+      <div class="helper-grid">
+        <div class="mini-card">
+          <h4 id="prompt-title">Writing Prompt</h4>
+          <p id="prompt-text">Write a short self-introduction. Include your name, nationality, languages, and friends.</p>
+        </div>
+
+        <div class="mini-card">
+          <h4 id="helper-title">Writing Helper</h4>
+          <p id="helper-text">Useful patterns:</p>
+          <ul id="helper-list">
+            <li>我叫……</li>
+            <li>我是……人。</li>
+            <li>我会说……</li>
+            <li>我有很多朋友。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <textarea id="draft-input" placeholder="请在这里写你的自我介绍……"></textarea>
+        <div class="action-row">
+          <button class="primary-btn" id="feedback-btn">Get AI Feedback</button>
+          <button class="secondary-btn" id="clear-btn">Clear</button>
+        </div>
+        <div class="feedback-box" id="feedback-box">
+          Your feedback will appear here.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const content = {
+      simplified: {
+        htmlLang: "zh-Hans",
+        siteTitle: "Chinese 1W AI Learning Companion",
+        siteSubtitle: "Unit 1 learning module",
+        unitTitle: "Unit 1: Chinese Names",
+        unitQuestion: "Essential Question: How do Chinese names reflect family, culture, and identity?",
+        vocabTitle: "Word Explorer",
+        vocabIntro: "Click a word to preview vocabulary support. We will make this interactive in the next step.",
+        readingTitle: "Smart Reading",
+        readingSubtitle: "Extended Reading 1: My Friends",
+        readingText: `我是英国人，叫 Emmy Lee，现在我在中国学习中文。
+在中国，很多外国人也会有一个中文名字。
+我还没有正式的中文名字，所以老师和同学们都叫我“小李”。
+我有很多好朋友，我来给你们介绍一下。
+
+这是我的中国朋友王小文。她今年二十一岁，是北京大学的学生。
+小文会说英文，也会说一点儿日文。因为她很喜欢学习语言。
+她也很喜欢唱歌，中文歌和日文歌她都会唱。`,
+        writingTitle: "Writing Studio",
+        promptTitle: "Writing Prompt",
+        promptText: "Write a short self-introduction. Include your name, nationality, languages, and friends.",
+        helperTitle: "Writing Helper",
+        helperText: "Useful patterns:",
+        helperList: ["我叫……", "我是……人。", "我会说……", "我有很多朋友。"],
+        feedbackDefault: "Your feedback will appear here.",
+        feedbackBtn: "Get AI Feedback",
+        clearBtn: "Clear",
+        draftPlaceholder: "请在这里写你的自我介绍……"
+      },
+      traditional: {
+        htmlLang: "zh-Hant",
+        siteTitle: "Chinese 1W AI Learning Companion",
+        siteSubtitle: "Unit 1 learning module",
+        unitTitle: "Unit 1: Chinese Names",
+        unitQuestion: "Essential Question: How do Chinese names reflect family, culture, and identity?",
+        vocabTitle: "Word Explorer",
+        vocabIntro: "點擊詞語可預覽詞彙支援。我們下一步會把這裡做成互動式。",
+        readingTitle: "Smart Reading",
+        readingSubtitle: "Extended Reading 1: 我的朋友",
+        readingText: `我是英國人，叫 Emmy Lee，現在我在中國學習中文。
+在中國，很多外國人也會有一個中文名字。
+我還沒有正式的中文名字，所以老師和同學們都叫我「小李」。
+我有很多好朋友，我來給你們介紹一下。
+
+這是我的中國朋友王小文。她今年二十一歲，是北京大學的學生。
+小文會說英文，也會說一點兒日文。因為她很喜歡學習語言。
+她也很喜歡唱歌，中文歌和日文歌她都會唱。`,
+        writingTitle: "Writing Studio",
+        promptTitle: "Writing Prompt",
+        promptText: "請寫一段簡短的自我介紹，包括你的名字、國籍、會說的語言和朋友。",
+        helperTitle: "Writing Helper",
+        helperText: "可用句型：",
+        helperList: ["我叫……", "我是……人。", "我會說……", "我有很多朋友。"],
+        feedbackDefault: "你的回饋會顯示在這裡。",
+        feedbackBtn: "Get AI Feedback",
+        clearBtn: "Clear",
+        draftPlaceholder: "請在這裡寫你的自我介紹……"
+      }
+    };
+
+    function applyLanguage(mode) {
+      const data = content[mode];
+      document.documentElement.lang = data.htmlLang;
+
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("unit-title").textContent = data.unitTitle;
+      document.getElementById("unit-question").textContent = data.unitQuestion;
+      document.getElementById("vocab-title").textContent = data.vocabTitle;
+      document.getElementById("vocab-intro").textContent = data.vocabIntro;
+      document.getElementById("reading-title").textContent = data.readingTitle;
+      document.getElementById("reading-subtitle").textContent = data.readingSubtitle;
+      document.getElementById("reading-text").textContent = data.readingText;
+      document.getElementById("writing-title").textContent = data.writingTitle;
+      document.getElementById("prompt-title").textContent = data.promptTitle;
+      document.getElementById("prompt-text").textContent = data.promptText;
+      document.getElementById("helper-title").textContent = data.helperTitle;
+      document.getElementById("helper-text").textContent = data.helperText;
+
+      const helperList = document.getElementById("helper-list");
+      helperList.innerHTML = "";
+      data.helperList.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        helperList.appendChild(li);
+      });
+
+      document.getElementById("feedback-box").textContent = data.feedbackDefault;
+      document.getElementById("feedback-btn").textContent = data.feedbackBtn;
+      document.getElementById("clear-btn").textContent = data.clearBtn;
+      document.getElementById("draft-input").placeholder = data.draftPlaceholder;
+
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
+
+      localStorage.setItem("scriptMode", mode);
+    }
+
+    document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
+    document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
+
+    document.getElementById("clear-btn").addEventListener("click", () => {
+      document.getElementById("draft-input").value = "";
+      const mode = localStorage.getItem("scriptMode") || "simplified";
+      document.getElementById("feedback-box").textContent = content[mode].feedbackDefault;
+    });
+
+    document.getElementById("feedback-btn").addEventListener("click", () => {
+      const text = document.getElementById("draft-input").value.trim();
+      const mode = localStorage.getItem("scriptMode") || "simplified";
+      if (!text) {
+        document.getElementById("feedback-box").textContent =
+          mode === "traditional" ? "請先寫一些內容。" : "Please write something first.";
+        return;
+      }
+
+      document.getElementById("feedback-box").innerHTML =
+        mode === "traditional"
+          ? "<strong>示範回饋：</strong><br>內容清楚。你可以再加上你在哪裡學中文，以及你認識什麼朋友。"
+          : "<strong>Sample feedback:</strong><br>Your introduction is clear. You can add where you study Chinese and what friends you know.";
+    });
+
+    const savedMode = localStorage.getItem("scriptMode") || "simplified";
+    applyLanguage(savedMode);
+  </script>
+</body>
+</html>
