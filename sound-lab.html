@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sound Lab</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-header,
+    .lab-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .lab-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    @media (max-width: 780px) {
+      .lab-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <a class="back-link" href="index.html">← Back to Home</a>
+
+    <section class="page-header">
+      <h1>Sound Lab</h1>
+      <p>An independent foundation module for tone training, pinyin building, pronunciation practice, and reading aloud.</p>
+    </section>
+
+    <section class="lab-grid">
+      <div class="lab-card">
+        <h3>Tone Trainer</h3>
+        <p>Practice identifying and producing Mandarin tones.</p>
+      </div>
+
+      <div class="lab-card">
+        <h3>Pinyin Builder</h3>
+        <p>Learn initials, finals, syllables, and tone patterns.</p>
+      </div>
+
+      <div class="lab-card">
+        <h3>Pronunciation Practice</h3>
+        <p>Practice high-frequency words and receive pronunciation support.</p>
+      </div>
+
+      <div class="lab-card">
+        <h3>Reading Aloud</h3>
+        <p>Listen, follow, record, and build reading confidence.</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
