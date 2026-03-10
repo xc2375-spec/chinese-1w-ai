@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 1 - Word Explorer</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    .page-header,
+    .panel,
+    .detail-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .page-header h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .page-header p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .section-title {
+      margin-top: 0;
+      margin-bottom: 14px;
+      color: var(--accent-dark);
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-size: 0.96rem;
+    }
+
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .word-pill {
+      background: #f1ebe3;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.96rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .word-pill:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+      background: #ebe3d8;
+    }
+
+    .mini-note {
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .detail-panel h2 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      color: var(--accent-dark);
+    }
+
+    .detail-panel p {
+      margin: 8px 0;
+    }
+
+    .detail-label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .example-box {
+      margin-top: 14px;
+      background: #fffaf4;
+      border-left: 4px solid var(--accent);
+      padding: 14px;
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+
+    .group-card {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .group-card:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <a class="back-link" href="word-explorer.html">← Back to Word Explorer</a>
+
+    <header class="topbar">
+      <div>
+        <h1 id="site-title">Word Explorer</h1>
+        <p id="site-subtitle">Unit 1 vocabulary network</p>
+      </div>
+
+      <div class="lang-switch">
+        <button id="btn-simplified" class="switch-btn active">简体</button>
+        <button id="btn-traditional" class="switch-btn">繁體</button>
+      </div>
+    </header>
+
+    <section class="page-header">
+      <h1 id="unit-title">Unit 1: Chinese Names</h1>
+      <p id="unit-question">Explore identity words, social interaction, naming sources, and character families.</p>
+    </section>
+
+    <div class="layout">
+      <div>
+        <section class="panel">
+          <h2 class="section-title" id="section-topic-title">Topic Vocabulary</h2>
+          <p class="section-subtitle" id="section-topic-subtitle">Core vocabulary for names, identity, and social interaction.</p>
+
+          <div class="group-card">
+            <h3 id="group-identity-title">Identity</h3>
+            <div class="pill-group">
+              <button class="word-pill" data-word="中国">中国</button>
+              <button class="word-pill" data-word="人">人</button>
+              <button class="word-pill" data-word="姓">姓</button>
+              <button class="word-pill" data-word="名">名</button>
+              <button class="word-pill" data-word="名字">名字</button>
+            </div>
+          </div>
+
+          <div class="group-card">
+            <h3 id="group-social-title">Social Interaction</h3>
+            <div class="pill-group">
+              <button class="word-pill" data-word="您好">您好</button>
+              <button class="word-pill" data-word="请问">请问</button>
+              <button class="word-pill" data-word="贵姓">贵姓</button>
+              <button class="word-pill" data-word="先生">先生</button>
+              <button class="word-pill" data-word="小姐">小姐</button>
+              <button class="word-pill" data-word="太太">太太</button>
+              <button class="word-pill" data-word="认识">认识</button>
+              <button class="word-pill" data-word="高兴">高兴</button>
+            </div>
+          </div>
+
+          <div class="group-card">
+            <h3 id="group-place-title">Place & Identity</h3>
+            <div class="pill-group">
+              <button class="word-pill" data-word="北京">北京</button>
+              <button class="word-pill" data-word="上海">上海</button>
+              <button class="word-pill" data-word="美国">美国</button>
+              <button class="word-pill" data-word="地方">地方</button>
+              <button class="word-pill" data-word="出生">出生</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="section-title" id="section-context-title">Word in Context</h2>
+          <p class="section-subtitle" id="section-context-subtitle">Learn how words work in real phrases and sentences.</p>
+
+          <div class="group-card">
+            <h3>叫</h3>
+            <div class="pill-group">
+              <button class="word-pill" data-word="我叫">我叫</button>
+              <button class="word-pill" data-word="叫名字">叫名字</button>
+            </div>
+          </div>
+
+          <div class="group-card">
+            <h3>姓</h3>
+            <div class="pill-group">
+              <button class="word-pill" data-word="我姓">我姓</button>
+              <button class="word-pill" data-word="您贵姓">您贵姓</button>
+            </div>
+          </div>
+
+          <div class="group-card">
+            <h3>认识</h3>
+            <div class="pill-group">
+              <button class="word-pill" data-word="认识你">认识你</button>
+              <button class="word-pill" data-word="很高兴认识你">很高兴认识你</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="section-title" id="section-character-title">Character Families</h2>
+          <p class="section-subtitle" id="section-character-subtitle">Use radicals and character families to build memory and meaning.</p>
+
+          <div class="group-card">
+            <h3 id="group-radical-female">女字旁</h3>
+            <div class="pill-group">
+              <button class="word-pill" data-word="姓">姓</button>
+              <button class="word-pill" data-word="姐">姐</button>
+              <button class="word-pill" data-word="妈">妈</button>
+              <button class="word-pill" data-word="她">她</button>
+            </div>
+            <div class="mini-note" id="female-note">
+              The 女 radical is often related to women or family.
+            </div>
+          </div>
+
+          <div class="group-card">
+            <h3 id="group-radical-person">单人旁</h3>
+            <div class="pill-group">
+              <button class="word-pill" data-word="你">你</button>
+              <button class="word-pill" data-word="们">们</button>
+              <button class="word-pill" data-word="他">他</button>
+              <button class="word-pill" data-word="位">位</button>
+            </div>
+            <div class="mini-note" id="person-note">
+              The 亻 radical often refers to people.
+            </div>
+          </div>
+
+          <div class="group-card">
+            <h3 id="group-radical-sun">日字旁</h3>
+            <div class="pill-group">
+              <button class="word-pill" data-word="时间">时间</button>
+              <button class="word-pill" data-word="明">明</button>
+              <button class="word-pill" data-word="晚">晚</button>
+            </div>
+            <div class="mini-note" id="sun-note">
+              The 日 radical often relates to time.
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="detail-panel">
+        <h2 id="detail-word">姓</h2>
+        <p><span class="detail-label" id="label-pinyin">Pinyin:</span> <span id="detail-pinyin">xìng</span></p>
+        <p><span class="detail-label" id="label-meaning">Meaning:</span> <span id="detail-meaning">family name; surname</span></p>
+        <p><span class="detail-label" id="label-note">Note:</span> <span id="detail-note">A core word for talking about names and identity.</span></p>
+
+        <div class="example-box">
+          <div><span class="detail-label" id="label-example">Example:</span></div>
+          <div id="detail-example">我姓王。</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const content = {
+      simplified: {
+        htmlLang: "zh-Hans",
+        siteTitle: "Word Explorer",
+        siteSubtitle: "Unit 1 vocabulary network",
+        unitTitle: "Unit 1: Chinese Names",
+        unitQuestion: "Explore identity words, social interaction, naming sources, and character families.",
+        sectionTopicTitle: "Topic Vocabulary",
+        sectionTopicSubtitle: "Core vocabulary for names, identity, and social interaction.",
+        groupIdentityTitle: "Identity",
+        groupSocialTitle: "Social Interaction",
+        groupPlaceTitle: "Place & Identity",
+        sectionContextTitle: "Word in Context",
+        sectionContextSubtitle: "Learn how words work in real phrases and sentences.",
+        sectionCharacterTitle: "Character Families",
+        sectionCharacterSubtitle: "Use radicals and character families to build memory and meaning.",
+        groupRadicalFemale: "女字旁",
+        groupRadicalPerson: "单人旁",
+        groupRadicalSun: "日字旁",
+        femaleNote: "The 女 radical is often related to women or family.",
+        personNote: "The 亻 radical often refers to people.",
+        sunNote: "The 日 radical often relates to time.",
+        labelPinyin: "Pinyin:",
+        labelMeaning: "Meaning:",
+        labelNote: "Note:",
+        labelExample: "Example:"
+      },
+      traditional: {
+        htmlLang: "zh-Hant",
+        siteTitle: "Word Explorer",
+        siteSubtitle: "Unit 1 vocabulary network",
+        unitTitle: "Unit 1: Chinese Names",
+        unitQuestion: "探索與姓名、身份、稱呼和漢字家族相關的核心詞彙。",
+        sectionTopicTitle: "Topic Vocabulary",
+        sectionTopicSubtitle: "與姓名、身份和社交互動相關的核心詞彙。",
+        groupIdentityTitle: "身份",
+        groupSocialTitle: "社交互動",
+        groupPlaceTitle: "地方與身份",
+        sectionContextTitle: "Word in Context",
+        sectionContextSubtitle: "在真實語境中學習詞語怎麼使用。",
+        sectionCharacterTitle: "Character Families",
+        sectionCharacterSubtitle: "透過部首與漢字家族建立記憶與理解。",
+        groupRadicalFemale: "女字旁",
+        groupRadicalPerson: "單人旁",
+        groupRadicalSun: "日字旁",
+        femaleNote: "女字旁常常和女性或家庭有關。",
+        personNote: "單人旁常常和人有關。",
+        sunNote: "日字旁常常和時間有關。",
+        labelPinyin: "拼音：",
+        labelMeaning: "意思：",
+        labelNote: "說明：",
+        labelExample: "例句："
+      }
+    };
+
+    const wordData = {
+      "中国": {
+        pinyin: "Zhōngguó",
+        meaning: "China",
+        note: "A country name; often used when introducing nationality or place.",
+        example: "我在中国学习中文。"
+      },
+      "人": {
+        pinyin: "rén",
+        meaning: "person; people",
+        note: "Used in nationality expressions, such as 中国人 / 美国人.",
+        example: "她是中国人。"
+      },
+      "姓": {
+        pinyin: "xìng",
+        meaning: "family name; surname",
+        note: "A core word for talking about names and identity.",
+        example: "我姓王。"
+      },
+      "名": {
+        pinyin: "míng",
+        meaning: "given name; name",
+        note: "Often paired with 姓 to describe a full Chinese name structure.",
+        example: "名字有姓和名。"
+      },
+      "名字": {
+        pinyin: "míngzi",
+        meaning: "name",
+        note: "A common everyday word when asking or telling someone’s name.",
+        example: "你的名字叫什么？"
+      },
+      "您好": {
+        pinyin: "nín hǎo",
+        meaning: "hello (polite)",
+        note: "A respectful greeting.",
+        example: "您好，请问您贵姓？"
+      },
+      "请问": {
+        pinyin: "qǐng wèn",
+        meaning: "may I ask…",
+        note: "A polite phrase used before asking a question.",
+        example: "请问，您贵姓？"
+      },
+      "贵姓": {
+        pinyin: "guì xìng",
+        meaning: "your surname (polite)",
+        note: "A polite way to ask someone’s family name.",
+        example: "请问您贵姓？"
+      },
+      "先生": {
+        pinyin: "xiānsheng",
+        meaning: "Mr.; gentleman",
+        note: "A polite form of address for a man.",
+        example: "这是山口先生。"
+      },
+      "小姐": {
+        pinyin: "xiǎojiě",
+        meaning: "Miss; young lady",
+        note: "A form of address for a young woman, depending on context.",
+        example: "那位小姐是我的朋友。"
+      },
+      "太太": {
+        pinyin: "tàitai",
+        meaning: "Mrs.; madam; wife",
+        note: "A respectful form of address for a married woman.",
+        example: "王太太很高兴认识你。"
+      },
+      "认识": {
+        pinyin: "rènshi",
+        meaning: "to know; to meet",
+        note: "A high-frequency verb for social interaction.",
+        example: "很高兴认识你。"
+      },
+      "高兴": {
+        pinyin: "gāoxìng",
+        meaning: "happy; glad",
+        note: "Often used in greetings and social interaction.",
+        example: "很高兴认识你。"
+      },
+      "北京": {
+        pinyin: "Běijīng",
+        meaning: "Beijing",
+        note: "A major city in China and an important cultural reference.",
+        example: "她是北京人。"
+      },
+      "上海": {
+        pinyin: "Shànghǎi",
+        meaning: "Shanghai",
+        note: "A major city in China.",
+        example: "他是在上海出生的。"
+      },
+      "美国": {
+        pinyin: "Měiguó",
+        meaning: "the United States",
+        note: "A country name used for nationality and place identity.",
+        example: "我是美国人。"
+      },
+      "地方": {
+        pinyin: "dìfang",
+        meaning: "place",
+        note: "Used to talk about where someone is from or where something happens.",
+        example: "这是我出生的地方。"
+      },
+      "出生": {
+        pinyin: "chūshēng",
+        meaning: "to be born; birth",
+        note: "Useful for talking about identity and background.",
+        example: "我在北京出生。"
+      },
+      "我叫": {
+        pinyin: "wǒ jiào",
+        meaning: "my name is…",
+        note: "A basic sentence starter for self-introduction.",
+        example: "我叫 Lisa。"
+      },
+      "叫名字": {
+        pinyin: "jiào míngzi",
+        meaning: "to be called / name",
+        note: "Used when talking about what someone is called.",
+        example: "他们都叫我小李。"
+      },
+      "我姓": {
+        pinyin: "wǒ xìng",
+        meaning: "my family name is…",
+        note: "Used to introduce your surname.",
+        example: "我姓王。"
+      },
+      "您贵姓": {
+        pinyin: "nín guì xìng",
+        meaning: "what is your surname? (polite)",
+        note: "A polite full expression often used in formal interaction.",
+        example: "您好，请问您贵姓？"
+      },
+      "认识你": {
+        pinyin: "rènshi nǐ",
+        meaning: "to know / meet you",
+        note: "A useful phrase in social introductions.",
+        example: "很高兴认识你。"
+      },
+      "很高兴认识你": {
+        pinyin: "hěn gāoxìng rènshi nǐ",
+        meaning: "nice to meet you",
+        note: "A common greeting after introduction.",
+        example: "我也很高兴认识你。"
+      },
+      "姐": {
+        pinyin: "jiě",
+        meaning: "older sister",
+        note: "Contains the 女 radical.",
+        example: "她是我姐姐。"
+      },
+      "妈": {
+        pinyin: "mā",
+        meaning: "mom; mother",
+        note: "Contains the 女 radical.",
+        example: "我妈妈是北京人。"
+      },
+      "她": {
+        pinyin: "tā",
+        meaning: "she; her",
+        note: "Contains the 女 radical in writing.",
+        example: "她是我的朋友。"
+      },
+      "你": {
+        pinyin: "nǐ",
+        meaning: "you",
+        note: "A high-frequency pronoun with the 亻 radical.",
+        example: "你叫什么名字？"
+      },
+      "们": {
+        pinyin: "men",
+        meaning: "plural marker for pronouns / people",
+        note: "Used to make pronouns plural, such as 我们 / 你们 / 他们.",
+        example: "我们都是好朋友。"
+      },
+      "他": {
+        pinyin: "tā",
+        meaning: "he; him",
+        note: "A high-frequency pronoun with the 亻 radical.",
+        example: "他是法国人。"
+      },
+      "位": {
+        pinyin: "wèi",
+        meaning: "measure word for people (polite)",
+        note: "Often used in polite expressions such as 这位先生.",
+        example: "这位先生是我的老师。"
+      },
+      "时间": {
+        pinyin: "shíjiān",
+        meaning: "time",
+        note: "Contains the 日 radical in 时.",
+        example: "现在没有时间。"
+      },
+      "明": {
+        pinyin: "míng",
+        meaning: "bright; clear",
+        note: "Contains the 日 radical.",
+        example: "明天我去学校。"
+      },
+      "晚": {
+        pinyin: "wǎn",
+        meaning: "evening; late",
+        note: "Contains the 日 radical.",
+        example: "晚上我看书。"
+      }
+    };
+
+    function applyLanguage(mode) {
+      const data = content[mode];
+      document.documentElement.lang = data.htmlLang;
+
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("unit-title").textContent = data.unitTitle;
+      document.getElementById("unit-question").textContent = data.unitQuestion;
+      document.getElementById("section-topic-title").textContent = data.sectionTopicTitle;
+      document.getElementById("section-topic-subtitle").textContent = data.sectionTopicSubtitle;
+      document.getElementById("group-identity-title").textContent = data.groupIdentityTitle;
+      document.getElementById("group-social-title").textContent = data.groupSocialTitle;
+      document.getElementById("group-place-title").textContent = data.groupPlaceTitle;
+      document.getElementById("section-context-title").textContent = data.sectionContextTitle;
+      document.getElementById("section-context-subtitle").textContent = data.sectionContextSubtitle;
+      document.getElementById("section-character-title").textContent = data.sectionCharacterTitle;
+      document.getElementById("section-character-subtitle").textContent = data.sectionCharacterSubtitle;
+      document.getElementById("group-radical-female").textContent = data.groupRadicalFemale;
+      document.getElementById("group-radical-person").textContent = data.groupRadicalPerson;
+      document.getElementById("group-radical-sun").textContent = data.groupRadicalSun;
+      document.getElementById("female-note").textContent = data.femaleNote;
+      document.getElementById("person-note").textContent = data.personNote;
+      document.getElementById("sun-note").textContent = data.sunNote;
+      document.getElementById("label-pinyin").textContent = data.labelPinyin;
+      document.getElementById("label-meaning").textContent = data.labelMeaning;
+      document.getElementById("label-note").textContent = data.labelNote;
+      document.getElementById("label-example").textContent = data.labelExample;
+
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
+
+      localStorage.setItem("scriptMode", mode);
+    }
+
+    function showWord(word) {
+      const item = wordData[word];
+      if (!item) return;
+
+      document.getElementById("detail-word").textContent = word;
+      document.getElementById("detail-pinyin").textContent = item.pinyin;
+      document.getElementById("detail-meaning").textContent = item.meaning;
+      document.getElementById("detail-note").textContent = item.note;
+      document.getElementById("detail-example").textContent = item.example;
+    }
+
+    document.querySelectorAll(".word-pill").forEach(button => {
+      button.addEventListener("click", () => {
+        const word = button.getAttribute("data-word");
+        showWord(word);
+      });
+    });
+
+    document.getElementById("btn-simplified").addEventListener("click", () => {
+      applyLanguage("simplified");
+    });
+
+    document.getElementById("btn-traditional").addEventListener("click", () => {
+      applyLanguage("traditional");
+    });
+
+    const savedMode = localStorage.getItem("scriptMode") || "simplified";
+    applyLanguage(savedMode);
+    showWord("姓");
+  </script>
+</body>
+</html>
