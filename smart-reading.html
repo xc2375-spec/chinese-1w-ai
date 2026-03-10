@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Reading</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-header,
+    .unit-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .unit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .unit-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .unit-link:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    @media (max-width: 780px) {
+      .unit-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <a class="back-link" href="index.html">← Back to Home</a>
+
+    <section class="page-header">
+      <h1>Smart Reading</h1>
+      <p>Select a unit to read with click-to-see support, glosses, and guided comprehension.</p>
+    </section>
+
+    <section class="unit-grid">
+      <div class="unit-card">
+        <a class="unit-link" href="unit1-reading.html">
+          <h3>Unit 1: Chinese Names</h3>
+          <p>Read extended passages with vocabulary, pinyin, and cultural support.</p>
+        </a>
+      </div>
+
+      <div class="unit-card">
+        <a class="unit-link" href="#">
+          <h3>Unit 2: Chinese Family</h3>
+          <p>Coming soon</p>
+        </a>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
