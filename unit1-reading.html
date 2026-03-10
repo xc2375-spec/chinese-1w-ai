@@ -72,12 +72,6 @@
       font-size: 0.9rem;
     }
 
-    .small-btn.active {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-    }
-
     .small-btn:hover {
       box-shadow: var(--shadow);
     }
@@ -87,7 +81,7 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 18px;
-      line-height: 2.05;
+      line-height: 2.1;
       font-size: 1.06rem;
     }
 
@@ -101,17 +95,11 @@
       border-radius: 6px;
       cursor: pointer;
       transition: background 0.2s ease;
+      border-bottom: 1px dashed rgba(86, 112, 91, 0.35);
     }
 
     .click-word:hover {
       background: #efe7dc;
-    }
-
-    .word-help {
-      display: inline-block;
-      margin-left: 4px;
-      color: var(--muted);
-      font-size: 0.92rem;
     }
 
     .detail-panel h2 {
@@ -129,14 +117,23 @@
       color: var(--text);
     }
 
-    .example-box,
-    .grammar-box {
+    .example-box {
       margin-top: 14px;
       background: #fffaf4;
       border-left: 4px solid var(--accent);
       padding: 14px;
       border-radius: 12px;
       line-height: 1.8;
+    }
+
+    .audio-note {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
     }
 
     .question-card h3 {
@@ -183,7 +180,7 @@
 
     <section class="page-header">
       <h1 id="unit-title">Unit 1: Chinese Names</h1>
-      <p id="unit-question">Read with click-to-see support, English glosses, grammar help, and guided comprehension.</p>
+      <p id="unit-question">Read the passage, click key words for support, and check your understanding.</p>
     </section>
 
     <div class="layout">
@@ -191,16 +188,21 @@
         <section class="panel">
           <h2 class="section-title" id="reading-title">Extended Reading 1: My Friends</h2>
           <p class="section-subtitle" id="reading-subtitle">
-            Click key words for support. Adjust the support level based on how much help you want.
+            Click highlighted words for pinyin and English support.
           </p>
 
           <div class="toolbar">
-            <button class="small-btn active" id="level-a-btn">Level A</button>
-            <button class="small-btn" id="level-b-btn">Level B</button>
-            <button class="small-btn" id="level-c-btn">Level C</button>
-            <button class="small-btn" id="read-aloud-btn">Read Aloud</button>
-            <button class="small-btn" id="stop-reading-btn">Stop</button>
+            <button class="small-btn" id="play-audio-btn">Play Reading Audio</button>
+            <button class="small-btn" id="stop-audio-btn">Stop Audio</button>
           </div>
+
+          <div class="audio-note" id="audio-note">
+            Add your own recorded mp3 later for natural, standard Mandarin reading.
+          </div>
+
+          <audio id="reading-audio" preload="none">
+            <source src="audio/unit1-my-friends.mp3" type="audio/mpeg">
+          </audio>
 
           <div class="reading-box" id="reading-box"></div>
         </section>
@@ -230,7 +232,7 @@
           </div>
 
           <div class="toolbar" style="margin-top:18px;">
-            <button class="small-btn active" id="check-btn">Check Answers</button>
+            <button class="small-btn" id="check-btn">Check Answers</button>
           </div>
 
           <div class="result-box" id="result-box">Your result will appear here.</div>
@@ -247,11 +249,6 @@
           <div><span class="detail-label" id="label-example">Example:</span></div>
           <div id="detail-example">你的名字叫什么？</div>
         </div>
-
-        <div class="grammar-box">
-          <div><span class="detail-label" id="label-grammar">Grammar Hint:</span></div>
-          <div id="detail-grammar">In Chinese, the topic often comes first. For example: 在中国，人们先说姓，再说名字。</div>
-        </div>
       </aside>
     </div>
   </div>
@@ -263,14 +260,12 @@
         siteTitle: "Smart Reading",
         siteSubtitle: "Unit 1 reading support",
         unitTitle: "Unit 1: Chinese Names",
-        unitQuestion: "Read with click-to-see support, English glosses, grammar help, and guided comprehension.",
+        unitQuestion: "Read the passage, click key words for support, and check your understanding.",
         readingTitle: "Extended Reading 1: My Friends",
-        readingSubtitle: "Click key words for support. Adjust the support level based on how much help you want.",
-        levelA: "Level A",
-        levelB: "Level B",
-        levelC: "Level C",
-        readAloud: "Read Aloud",
-        stop: "Stop",
+        readingSubtitle: "Click highlighted words for pinyin and English support.",
+        playAudio: "Play Reading Audio",
+        stopAudio: "Stop Audio",
+        audioNote: "Add your own recorded mp3 later for natural, standard Mandarin reading.",
         checkTitle: "Reading Check",
         q1Text: "1. Where is Wang Xiaowen studying?",
         q1a: "A. Shanghai",
@@ -289,22 +284,19 @@
         labelPinyin: "Pinyin:",
         labelMeaning: "English:",
         labelHelp: "Help:",
-        labelExample: "Example:",
-        labelGrammar: "Grammar Hint:"
+        labelExample: "Example:"
       },
       traditional: {
         htmlLang: "zh-Hant",
         siteTitle: "Smart Reading",
         siteSubtitle: "Unit 1 reading support",
         unitTitle: "Unit 1: Chinese Names",
-        unitQuestion: "Read with click-to-see support, English glosses, grammar help, and guided comprehension.",
+        unitQuestion: "Read the passage, click key words for support, and check your understanding.",
         readingTitle: "Extended Reading 1: 我的朋友",
-        readingSubtitle: "點擊關鍵詞可查看支援。你也可以調整支援程度。",
-        levelA: "Level A",
-        levelB: "Level B",
-        levelC: "Level C",
-        readAloud: "Read Aloud",
-        stop: "Stop",
+        readingSubtitle: "點擊標出的詞語可查看拼音與英文支援。",
+        playAudio: "Play Reading Audio",
+        stopAudio: "Stop Audio",
+        audioNote: "之後可加入你自己錄製的 mp3，提供自然、標準的普通話朗讀。",
         checkTitle: "Reading Check",
         q1Text: "1. Where is Wang Xiaowen studying?",
         q1a: "A. Shanghai",
@@ -323,8 +315,7 @@
         labelPinyin: "Pinyin:",
         labelMeaning: "English:",
         labelHelp: "Help:",
-        labelExample: "Example:",
-        labelGrammar: "Grammar Hint:"
+        labelExample: "Example:"
       }
     };
 
@@ -334,20 +325,18 @@
         traditional: "英國人",
         pinyin: "Yīngguó rén",
         english: "British person",
-        help: "A nationality word. 国家 + 人 is a common pattern in Chinese.",
+        help: "国家 + 人 is a common pattern for nationality words.",
         exampleSimplified: "我是英国人。",
-        exampleTraditional: "我是英國人。",
-        grammar: "国家 + 人 means a person from that country, for example: 中国人, 美国人."
+        exampleTraditional: "我是英國人。"
       },
       "中国": {
         simplified: "中国",
         traditional: "中國",
         pinyin: "Zhōngguó",
         english: "China",
-        help: "A country name. You will see it often in this course.",
+        help: "A country name used very often in this course.",
         exampleSimplified: "我在中国学习中文。",
-        exampleTraditional: "我在中國學習中文。",
-        grammar: "Place words often come before verbs, such as 在中国学习中文."
+        exampleTraditional: "我在中國學習中文。"
       },
       "中文": {
         simplified: "中文",
@@ -356,18 +345,16 @@
         english: "Chinese language",
         help: "This means the Chinese language.",
         exampleSimplified: "我学习中文。",
-        exampleTraditional: "我學習中文。",
-        grammar: "中文 is a noun and often comes after 学习 / 说 / 会."
+        exampleTraditional: "我學習中文。"
       },
       "名字": {
         simplified: "名字",
         traditional: "名字",
         pinyin: "míngzi",
         english: "name",
-        help: "A common everyday word for someone’s name.",
+        help: "A very common everyday word for name.",
         exampleSimplified: "你的名字叫什么？",
-        exampleTraditional: "你的名字叫什麼？",
-        grammar: "Chinese often uses 名字 with 叫 to ask or tell a name."
+        exampleTraditional: "你的名字叫什麼？"
       },
       "朋友": {
         simplified: "朋友",
@@ -376,8 +363,7 @@
         english: "friend",
         help: "A very useful high-frequency noun.",
         exampleSimplified: "她是我的朋友。",
-        exampleTraditional: "她是我的朋友。",
-        grammar: "朋友 can be used after 我的 / 你的 / 他的."
+        exampleTraditional: "她是我的朋友。"
       },
       "北京大学": {
         simplified: "北京大学",
@@ -386,8 +372,7 @@
         english: "Peking University / Beijing University",
         help: "A university name in Beijing.",
         exampleSimplified: "她是北京大学的学生。",
-        exampleTraditional: "她是北京大學的學生。",
-        grammar: "X 是 Y 的学生 means “X is a student at Y.”"
+        exampleTraditional: "她是北京大學的學生。"
       },
       "学生": {
         simplified: "学生",
@@ -396,18 +381,16 @@
         english: "student",
         help: "A high-frequency word for a learner in school.",
         exampleSimplified: "她是学生。",
-        exampleTraditional: "她是學生。",
-        grammar: "是 + noun is a very common basic sentence pattern."
+        exampleTraditional: "她是學生。"
       },
       "语言": {
         simplified: "语言",
         traditional: "語言",
         pinyin: "yǔyán",
         english: "language",
-        help: "Use this when talking about Chinese, English, Japanese, and other languages.",
+        help: "Use this word when talking about Chinese, English, Japanese, and other languages.",
         exampleSimplified: "她很喜欢学习语言。",
-        exampleTraditional: "她很喜歡學習語言。",
-        grammar: "喜欢 + verb phrase is common, such as 喜欢学习语言."
+        exampleTraditional: "她很喜歡學習語言。"
       },
       "先生": {
         simplified: "先生",
@@ -416,8 +399,7 @@
         english: "Mr.; gentleman",
         help: "A polite title for a man.",
         exampleSimplified: "这是山口先生。",
-        exampleTraditional: "這是山口先生。",
-        grammar: "Titles often come after the family name, such as 王先生."
+        exampleTraditional: "這是山口先生。"
       },
       "以前": {
         simplified: "以前",
@@ -426,8 +408,7 @@
         english: "before; previously",
         help: "A time word for something in the past.",
         exampleSimplified: "他以前是英文老师。",
-        exampleTraditional: "他以前是英文老師。",
-        grammar: "以前 often comes before 是 / 在 / 做 to give time background."
+        exampleTraditional: "他以前是英文老師。"
       },
       "文化": {
         simplified: "文化",
@@ -436,8 +417,7 @@
         english: "culture",
         help: "An important academic and cultural word.",
         exampleSimplified: "他对中国文化很有兴趣。",
-        exampleTraditional: "他對中國文化很有興趣。",
-        grammar: "对……有兴趣 is a useful pattern."
+        exampleTraditional: "他對中國文化很有興趣。"
       }
     };
 
@@ -587,7 +567,6 @@
     };
 
     let currentMode = localStorage.getItem("scriptMode") || "simplified";
-    let supportLevel = "A";
     let currentWordKey = "名字";
 
     function applyLanguage(mode) {
@@ -601,11 +580,9 @@
       document.getElementById("unit-question").textContent = data.unitQuestion;
       document.getElementById("reading-title").textContent = data.readingTitle;
       document.getElementById("reading-subtitle").textContent = data.readingSubtitle;
-      document.getElementById("level-a-btn").textContent = data.levelA;
-      document.getElementById("level-b-btn").textContent = data.levelB;
-      document.getElementById("level-c-btn").textContent = data.levelC;
-      document.getElementById("read-aloud-btn").textContent = data.readAloud;
-      document.getElementById("stop-reading-btn").textContent = data.stop;
+      document.getElementById("play-audio-btn").textContent = data.playAudio;
+      document.getElementById("stop-audio-btn").textContent = data.stopAudio;
+      document.getElementById("audio-note").textContent = data.audioNote;
       document.getElementById("check-title").textContent = data.checkTitle;
       document.getElementById("q1-text").textContent = data.q1Text;
       document.getElementById("q1a").textContent = data.q1a;
@@ -624,7 +601,6 @@
       document.getElementById("label-meaning").textContent = data.labelMeaning;
       document.getElementById("label-help").textContent = data.labelHelp;
       document.getElementById("label-example").textContent = data.labelExample;
-      document.getElementById("label-grammar").textContent = data.labelGrammar;
 
       document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
       document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
@@ -656,20 +632,6 @@
             wordSpan.textContent = part.text;
             wordSpan.addEventListener("click", () => showWord(part.key));
             sentenceDiv.appendChild(wordSpan);
-
-            if (supportLevel === "A") {
-              const help = readingSupport[part.key];
-              const helper = document.createElement("span");
-              helper.className = "word-help";
-              helper.textContent = `(${help.pinyin} · ${help.english})`;
-              sentenceDiv.appendChild(helper);
-            } else if (supportLevel === "B") {
-              const help = readingSupport[part.key];
-              const helper = document.createElement("span");
-              helper.className = "word-help";
-              helper.textContent = `(${help.english})`;
-              sentenceDiv.appendChild(helper);
-            }
           }
         });
 
@@ -690,29 +652,22 @@
       document.getElementById("detail-meaning").textContent = item.english;
       document.getElementById("detail-help").textContent = item.help;
       document.getElementById("detail-example").textContent = displayExample;
-      document.getElementById("detail-grammar").textContent = item.grammar;
     }
 
-    function setSupportLevel(level) {
-      supportLevel = level;
-      document.getElementById("level-a-btn").classList.toggle("active", level === "A");
-      document.getElementById("level-b-btn").classList.toggle("active", level === "B");
-      document.getElementById("level-c-btn").classList.toggle("active", level === "C");
-      renderReading();
+    function playRecordedAudio() {
+      const audio = document.getElementById("reading-audio");
+      audio.play().catch(() => {
+        const note = document.getElementById("audio-note");
+        note.textContent = currentMode === "traditional"
+          ? "目前還沒有找到音檔。之後把錄好的 mp3 放到 audio/unit1-my-friends.mp3 就可以播放。"
+          : "Audio file not found yet. Later, place your recorded mp3 at audio/unit1-my-friends.mp3.";
+      });
     }
 
-    function getPlainReadingText() {
-      return passages[currentMode]
-        .map(sentence => sentence.map(part => part.text).join(""))
-        .join("\n");
-    }
-
-    function readAloud() {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(getPlainReadingText());
-      utterance.lang = "zh-CN";
-      utterance.rate = 0.85;
-      window.speechSynthesis.speak(utterance);
+    function stopRecordedAudio() {
+      const audio = document.getElementById("reading-audio");
+      audio.pause();
+      audio.currentTime = 0;
     }
 
     function checkAnswers() {
@@ -729,23 +684,17 @@
       resultBox.innerHTML = `<strong>Score:</strong> ${score}/3<br><br>
       <strong>Quick diagnosis:</strong><br>
       ${score === 3 ? "Excellent. You understood both vocabulary and cultural meaning well." :
-      score === 2 ? "Good job. Review the clicked words and try reading again with Level A support." :
-      "Try again with more support. Use Level A and click key words while reading."}`;
+      score === 2 ? "Good job. Review the highlighted words and read again once more." :
+      "Try again. Click the highlighted words while reading and then answer again."}`;
     }
 
     document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
     document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
-
-    document.getElementById("level-a-btn").addEventListener("click", () => setSupportLevel("A"));
-    document.getElementById("level-b-btn").addEventListener("click", () => setSupportLevel("B"));
-    document.getElementById("level-c-btn").addEventListener("click", () => setSupportLevel("C"));
-
-    document.getElementById("read-aloud-btn").addEventListener("click", readAloud);
-    document.getElementById("stop-reading-btn").addEventListener("click", () => window.speechSynthesis.cancel());
+    document.getElementById("play-audio-btn").addEventListener("click", playRecordedAudio);
+    document.getElementById("stop-audio-btn").addEventListener("click", stopRecordedAudio);
     document.getElementById("check-btn").addEventListener("click", checkAnswers);
 
     applyLanguage(currentMode);
-    setSupportLevel("A");
     showWord("名字");
   </script>
 </body>
