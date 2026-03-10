@@ -195,7 +195,9 @@
             <button class="small-btn" id="play-audio-btn">Play Reading Audio</button>
             <button class="small-btn" id="stop-audio-btn">Stop Audio</button>
           </div>
-
+<audio id="reading-audio">
+<source src="audio/unit1-reading1.mp3" type="audio/mpeg">
+</audio>
           <div class="audio-note" id="audio-note">
             Add your own recorded mp3 later for natural, standard Mandarin reading.
           </div>
@@ -899,20 +901,15 @@ document.getElementById("q5c").textContent = data.q5c;
     }
 
     function playRecordedAudio() {
-      const audio = document.getElementById("reading-audio");
-      audio.play().catch(() => {
-        const note = document.getElementById("audio-note");
-        note.textContent = currentMode === "traditional"
-          ? "目前還沒有找到音檔。之後把錄好的 mp3 放到 audio/unit1-my-friends.mp3 就可以播放。"
-          : "Audio file not found yet. Later, place your recorded mp3 at audio/unit1-my-friends.mp3.";
-      });
-    }
+  const audio = document.getElementById("reading-audio");
+  audio.play();
+}
 
-    function stopRecordedAudio() {
-      const audio = document.getElementById("reading-audio");
-      audio.pause();
-      audio.currentTime = 0;
-    }
+function stopRecordedAudio() {
+  const audio = document.getElementById("reading-audio");
+  audio.pause();
+  audio.currentTime = 0;
+}
 
     function checkAnswers() {
   let score = 0;
