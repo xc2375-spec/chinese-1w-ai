@@ -1,342 +1,500 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 1 - Culture & Characters</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
 
-<title>Unit 1 – Culture & Characters</title>
+    .page-header,
+    .panel,
+    .character-card,
+    .exercise-card,
+    .radical-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
 
-<link rel="stylesheet" href="style.css">
+    .page-header h1,
+    .panel h2,
+    .character-card h3,
+    .exercise-card h3,
+    .radical-card h3 {
+      margin-top: 0;
+      color: var(--accent-dark);
+    }
 
-<style>
+    .page-header p,
+    .panel p,
+    .character-card p,
+    .exercise-card p,
+    .radical-card p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
 
-.back-link{
-display:inline-block;
-margin-bottom:18px;
-text-decoration:none;
-color:var(--accent-dark);
-font-weight:600;
-}
+    .character-grid,
+    .radical-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
 
-.page-header,
-.panel,
-.character-card,
-.exercise-card{
-background:var(--card);
-border:1px solid var(--border);
-border-radius:var(--radius);
-padding:24px;
-box-shadow:var(--shadow);
-margin-bottom:20px;
-}
+    .character-main {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--accent-dark);
+    }
 
-.page-header h1,
-.panel h2,
-.character-card h3,
-.exercise-card h3{
-margin-top:0;
-color:var(--accent-dark);
-}
+    .structure {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
 
-.character-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px;
-}
+    .radical-main {
+      font-size: 34px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 6px;
+    }
 
-.character{
-font-size:48px;
-font-weight:700;
-margin-bottom:10px;
-}
+    .radical-meta {
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
 
-.structure{
-font-weight:600;
-margin-bottom:6px;
-}
+    .example-list {
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
 
-.radical-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-}
+    .example-item {
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      line-height: 1.6;
+    }
 
-.radical{
-font-size:30px;
-font-weight:700;
-}
+    .example-char {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-right: 6px;
+    }
 
-.char-list{
-margin-top:8px;
-line-height:1.9;
-}
+    .example-pinyin {
+      color: var(--muted);
+      margin-right: 6px;
+    }
 
-.exercise-options{
-margin-top:10px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-}
+    .exercise-options {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-.option-btn{
-padding:8px 14px;
-border-radius:999px;
-border:1px solid var(--border);
-background:white;
-cursor:pointer;
-}
+    .option-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: white;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
 
-.option-btn:hover{
-box-shadow:var(--shadow);
-}
+    .option-btn:hover {
+      box-shadow: var(--shadow);
+    }
 
-.result{
-margin-top:10px;
-color:var(--accent-dark);
-font-weight:600;
-}
+    .result {
+      margin-top: 10px;
+      color: var(--accent-dark);
+      font-weight: 600;
+      line-height: 1.7;
+    }
 
-</style>
+    .note-box {
+      margin-top: 14px;
+      padding: 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="site-shell">
-
-<a class="back-link" href="culture-characters.html">← Back</a>
-
-<header class="topbar">
-
-<div>
-<h1 id="site-title">Culture & Characters</h1>
-<p id="site-subtitle">Understanding Chinese characters</p>
-</div>
-
-<div class="lang-switch">
-<button id="btn-simplified" class="switch-btn active">简体</button>
-<button id="btn-traditional" class="switch-btn">繁體</button>
-</div>
-
-</header>
-
-<section class="page-header">
-
-<h1 id="unit-title">Unit 1 Characters</h1>
-
-<p id="unit-desc">
-Chinese characters often combine meaningful parts called radicals.  
-Understanding them can help you guess meanings and remember characters.
-</p>
-
-</section>
-
-<!-- Character Stories -->
-
-<section class="panel">
-
-<h2 id="story-title">Character Stories</h2>
-
-<div class="character-grid">
-
-<div class="character-card">
-
-<div class="character" id="char-xing">姓</div>
-
-<div class="structure">Structure: 女 + 生</div>
-
-<p id="xing-text">
-The radical 女 relates to women.  
-In ancient China, some clans used maternal family names.  
-Later, 姓 came to mean “family name” or surname.
-</p>
-
-</div>
-
-<div class="character-card">
-
-<div class="character" id="char-ming">名</div>
-
-<div class="structure">Structure: 夕 + 口</div>
-
-<p id="ming-text">
-The character 名 originally suggested calling someone's name at night.  
-Today it simply means “name”.
-</p>
-
-</div>
-
-<div class="character-card">
-
-<div class="character" id="char-ren">人</div>
-
-<div class="structure">Basic character</div>
-
-<p id="ren-text">
-人 means “person”.  
-Many characters related to people use the radical 亻.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- Radical Explorer -->
-
-<section class="panel">
-
-<h2 id="radical-title">Radical Explorer</h2>
-
-<div class="radical-grid">
-
-<div class="character-card">
-
-<div class="radical">女</div>
-
-<p>Radical meaning: woman</p>
-
-<div class="char-list">
-妈 · 姐 · 她 · 姓
-</div>
-
-</div>
-
-<div class="character-card">
-
-<div class="radical">亻</div>
-
-<p>Radical meaning: person</p>
-
-<div class="char-list">
-你 · 他 · 们 · 位
-</div>
-
-</div>
-
-<div class="character-card">
-
-<div class="radical">日</div>
-
-<p>Radical meaning: sun / time</p>
-
-<div class="char-list">
-日 · 明 · 时
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- Character Lab -->
-
-<section class="panel">
-
-<h2 id="lab-title">Character Lab</h2>
-
-<div class="exercise-card">
-
-<h3>Exercise 1: Build the character</h3>
-
-<p>女 + 生 = ?</p>
-
-<div class="exercise-options">
-
-<button class="option-btn" onclick="checkAnswer('wrong1')">妈</button>
-
-<button class="option-btn" onclick="checkAnswer('correct1')">姓</button>
-
-<button class="option-btn" onclick="checkAnswer('wrong1')">她</button>
-
-</div>
-
-<div id="result1" class="result"></div>
-
-</div>
-
-
-<div class="exercise-card">
-
-<h3>Exercise 2: Guess the meaning</h3>
-
-<p>亻 + 木 → 休</p>
-
-<div class="exercise-options">
-
-<button class="option-btn" onclick="checkAnswer('wrong2')">walk</button>
-
-<button class="option-btn" onclick="checkAnswer('correct2')">rest</button>
-
-<button class="option-btn" onclick="checkAnswer('wrong2')">tree</button>
-
-</div>
-
-<div id="result2" class="result"></div>
-
-</div>
-
-</section>
-
-</div>
-
-
-<script>
-
-function checkAnswer(type){
-
-if(type==="correct1"){
-document.getElementById("result1").textContent="Correct! 女 + 生 = 姓";
-}
-
-if(type==="wrong1"){
-document.getElementById("result1").textContent="Try again.";
-}
-
-if(type==="correct2"){
-document.getElementById("result2").textContent="Correct! A person leaning on a tree → rest.";
-}
-
-if(type==="wrong2"){
-document.getElementById("result2").textContent="Try again.";
-}
-
-}
-
-function setLanguage(mode){
-
-if(mode==="traditional"){
-
-document.documentElement.lang="zh-Hant"
-
-document.getElementById("btn-simplified").classList.remove("active")
-document.getElementById("btn-traditional").classList.add("active")
-
-document.getElementById("site-title").textContent="Culture & Characters"
-document.getElementById("site-subtitle").textContent="Understanding Chinese characters"
-
-document.getElementById("unit-title").textContent="第一課漢字文化"
-
-document.getElementById("char-ren").textContent="人"
-
-}
-
-else{
-
-document.documentElement.lang="zh-Hans"
-
-document.getElementById("btn-simplified").classList.add("active")
-document.getElementById("btn-traditional").classList.remove("active")
-
-}
-
-}
-
-document.getElementById("btn-simplified").onclick=()=>setLanguage("simplified")
-document.getElementById("btn-traditional").onclick=()=>setLanguage("traditional")
-
-</script>
-
+  <div class="site-shell">
+    <a class="back-link" href="culture-characters.html">← Back to Culture & Characters</a>
+
+    <header class="topbar">
+      <div>
+        <h1 id="site-title">Culture & Characters</h1>
+        <p id="site-subtitle">Understanding Chinese characters through structure, meaning, and culture</p>
+      </div>
+
+      <div class="lang-switch">
+        <button id="btn-simplified" class="switch-btn active">简体</button>
+        <button id="btn-traditional" class="switch-btn">繁體</button>
+      </div>
+    </header>
+
+    <section class="page-header">
+      <h1 id="unit-title">Unit 1: Chinese Names</h1>
+      <p id="unit-desc">
+        Chinese characters often combine meaningful parts called radicals. Understanding them can help you guess meanings and remember characters more easily.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2 id="story-title">Character Stories</h2>
+
+      <div class="character-grid">
+        <div class="character-card">
+          <div class="character-main" id="char-xing">姓</div>
+          <div class="structure" id="xing-structure">Structure: 女 + 生</div>
+          <p id="xing-text">
+            The radical 女 relates to women. In ancient China, some early clans were connected with maternal family lines. Later, 姓 came to mean “family name” or surname.
+          </p>
+        </div>
+
+        <div class="character-card">
+          <div class="character-main" id="char-ming">名</div>
+          <div class="structure" id="ming-structure">Structure: 夕 + 口</div>
+          <p id="ming-text">
+            The character 名 originally suggested calling someone’s name at night. Today it simply means “name”.
+          </p>
+        </div>
+
+        <div class="character-card">
+          <div class="character-main" id="char-ren">人</div>
+          <div class="structure" id="ren-structure">Basic character</div>
+          <p id="ren-text">
+            人 means “person”. Many characters related to people use the radical 亻, which is a side form of 人.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 id="radical-title">Radical Explorer</h2>
+
+      <div class="radical-grid">
+        <div class="radical-card">
+          <div class="radical-main">女</div>
+          <div class="radical-meta" id="radical-female-meta">nǚ · woman / female</div>
+          <p id="radical-female-text">
+            The radical 女 often appears in characters related to women, family, or traditional social roles.
+          </p>
+          <div class="example-list" id="female-example-list"></div>
+        </div>
+
+        <div class="radical-card">
+          <div class="radical-main">亻</div>
+          <div class="radical-meta" id="radical-person-meta">rén · person</div>
+          <p id="radical-person-text">
+            The radical 亻 is a side form of 人 and often appears in characters related to people.
+          </p>
+          <div class="example-list" id="person-example-list"></div>
+        </div>
+
+        <div class="radical-card">
+          <div class="radical-main">日</div>
+          <div class="radical-meta" id="radical-sun-meta">rì · sun / time</div>
+          <p id="radical-sun-text">
+            The radical 日 often appears in characters related to the sun, light, or time.
+          </p>
+          <div class="example-list" id="sun-example-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 id="lab-title">Character Lab</h2>
+
+      <div class="exercise-card">
+        <h3 id="ex1-title">Exercise 1: Build the character</h3>
+        <p id="ex1-text">女 + 生 = ?</p>
+
+        <div class="exercise-options">
+          <button class="option-btn" onclick="checkAnswer('wrong1')">妈 / 媽</button>
+          <button class="option-btn" onclick="checkAnswer('correct1')">姓</button>
+          <button class="option-btn" onclick="checkAnswer('wrong1')">她</button>
+        </div>
+
+        <div id="result1" class="result"></div>
+      </div>
+
+      <div class="exercise-card">
+        <h3 id="ex2-title">Exercise 2: Guess the meaning</h3>
+        <p id="ex2-text">亻 + 木 → 休</p>
+
+        <div class="exercise-options">
+          <button class="option-btn" onclick="checkAnswer('wrong2')">walk</button>
+          <button class="option-btn" onclick="checkAnswer('correct2')">rest</button>
+          <button class="option-btn" onclick="checkAnswer('wrong2')">tree</button>
+        </div>
+
+        <div id="result2" class="result"></div>
+      </div>
+
+      <div class="note-box" id="lab-note">
+        Later, this section can also include stroke-order animation, drag-and-build exercises, and character family maps.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const pageContent = {
+      simplified: {
+        htmlLang: "zh-Hans",
+        siteTitle: "Culture & Characters",
+        siteSubtitle: "Understanding Chinese characters through structure, meaning, and culture",
+        unitTitle: "Unit 1: Chinese Names",
+        unitDesc: "Chinese characters often combine meaningful parts called radicals. Understanding them can help you guess meanings and remember characters more easily.",
+        storyTitle: "Character Stories",
+        charXing: "姓",
+        xingStructure: "Structure: 女 + 生",
+        xingText: "The radical 女 relates to women. In ancient China, some early clans were connected with maternal family lines. Later, 姓 came to mean “family name” or surname.",
+        charMing: "名",
+        mingStructure: "Structure: 夕 + 口",
+        mingText: "The character 名 originally suggested calling someone’s name at night. Today it simply means “name”.",
+        charRen: "人",
+        renStructure: "Basic character",
+        renText: "人 means “person”. Many characters related to people use the radical 亻, which is a side form of 人.",
+        radicalTitle: "Radical Explorer",
+        radicalFemaleMeta: "nǚ · woman / female",
+        radicalFemaleText: "The radical 女 often appears in characters related to women, family, or traditional social roles.",
+        radicalPersonMeta: "rén · person",
+        radicalPersonText: "The radical 亻 is a side form of 人 and often appears in characters related to people.",
+        radicalSunMeta: "rì · sun / time",
+        radicalSunText: "The radical 日 often appears in characters related to the sun, light, or time.",
+        labTitle: "Character Lab",
+        ex1Title: "Exercise 1: Build the character",
+        ex1Text: "女 + 生 = ?",
+        ex2Title: "Exercise 2: Guess the meaning",
+        ex2Text: "亻 + 木 → 休",
+        labNote: "Later, this section can also include stroke-order animation, drag-and-build exercises, and character family maps.",
+        result1Correct: "Correct! 女 + 生 = 姓",
+        result1Wrong: "Try again.",
+        result2Correct: "Correct! A person leaning on a tree → rest.",
+        result2Wrong: "Try again."
+      },
+      traditional: {
+        htmlLang: "zh-Hant",
+        siteTitle: "Culture & Characters",
+        siteSubtitle: "Understanding Chinese characters through structure, meaning, and culture",
+        unitTitle: "Unit 1: Chinese Names",
+        unitDesc: "Chinese characters often combine meaningful parts called radicals. Understanding them can help you guess meanings and remember characters more easily.",
+        storyTitle: "Character Stories",
+        charXing: "姓",
+        xingStructure: "Structure: 女 + 生",
+        xingText: "The radical 女 relates to women. In ancient China, some early clans were connected with maternal family lines. Later, 姓 came to mean “family name” or surname.",
+        charMing: "名",
+        mingStructure: "Structure: 夕 + 口",
+        mingText: "The character 名 originally suggested calling someone’s name at night. Today it simply means “name”.",
+        charRen: "人",
+        renStructure: "Basic character",
+        renText: "人 means “person”. Many characters related to people use the radical 亻, which is a side form of 人.",
+        radicalTitle: "Radical Explorer",
+        radicalFemaleMeta: "nǚ · woman / female",
+        radicalFemaleText: "The radical 女 often appears in characters related to women, family, or traditional social roles.",
+        radicalPersonMeta: "rén · person",
+        radicalPersonText: "The radical 亻 is a side form of 人 and often appears in characters related to people.",
+        radicalSunMeta: "rì · sun / time",
+        radicalSunText: "The radical 日 often appears in characters related to the sun, light, or time.",
+        labTitle: "Character Lab",
+        ex1Title: "Exercise 1: Build the character",
+        ex1Text: "女 + 生 = ?",
+        ex2Title: "Exercise 2: Guess the meaning",
+        ex2Text: "亻 + 木 → 休",
+        labNote: "Later, this section can also include stroke-order animation, drag-and-build exercises, and character family maps.",
+        result1Correct: "Correct! 女 + 生 = 姓",
+        result1Wrong: "Try again.",
+        result2Correct: "Correct! A person leaning on a tree → rest.",
+        result2Wrong: "Try again."
+      }
+    };
+
+    const radicalExamples = {
+      female: [
+        {
+          simplified: "妈",
+          traditional: "媽",
+          pinyin: "mā",
+          meaning: "mother"
+        },
+        {
+          simplified: "姐",
+          traditional: "姐",
+          pinyin: "jiě",
+          meaning: "older sister"
+        },
+        {
+          simplified: "她",
+          traditional: "她",
+          pinyin: "tā",
+          meaning: "she"
+        },
+        {
+          simplified: "姓",
+          traditional: "姓",
+          pinyin: "xìng",
+          meaning: "surname"
+        }
+      ],
+      person: [
+        {
+          simplified: "你",
+          traditional: "你",
+          pinyin: "nǐ",
+          meaning: "you"
+        },
+        {
+          simplified: "他",
+          traditional: "他",
+          pinyin: "tā",
+          meaning: "he"
+        },
+        {
+          simplified: "们",
+          traditional: "們",
+          pinyin: "men",
+          meaning: "plural marker"
+        },
+        {
+          simplified: "位",
+          traditional: "位",
+          pinyin: "wèi",
+          meaning: "polite measure word"
+        }
+      ],
+      sun: [
+        {
+          simplified: "日",
+          traditional: "日",
+          pinyin: "rì",
+          meaning: "sun"
+        },
+        {
+          simplified: "明",
+          traditional: "明",
+          pinyin: "míng",
+          meaning: "bright"
+        },
+        {
+          simplified: "时",
+          traditional: "時",
+          pinyin: "shí",
+          meaning: "time"
+        }
+      ]
+    };
+
+    let currentMode = localStorage.getItem("scriptMode") || "simplified";
+
+    function renderExamples(groupName, containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      radicalExamples[groupName].forEach(item => {
+        const displayChar = currentMode === "traditional" ? item.traditional : item.simplified;
+
+        const div = document.createElement("div");
+        div.className = "example-item";
+        div.innerHTML = `
+          <span class="example-char">${displayChar}</span>
+          <span class="example-pinyin">${item.pinyin}</span>
+          <span>${item.meaning}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function applyLanguage(mode) {
+      currentMode = mode;
+      const data = pageContent[mode];
+      document.documentElement.lang = data.htmlLang;
+
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("unit-title").textContent = data.unitTitle;
+      document.getElementById("unit-desc").textContent = data.unitDesc;
+      document.getElementById("story-title").textContent = data.storyTitle;
+      document.getElementById("char-xing").textContent = data.charXing;
+      document.getElementById("xing-structure").textContent = data.xingStructure;
+      document.getElementById("xing-text").textContent = data.xingText;
+      document.getElementById("char-ming").textContent = data.charMing;
+      document.getElementById("ming-structure").textContent = data.mingStructure;
+      document.getElementById("ming-text").textContent = data.mingText;
+      document.getElementById("char-ren").textContent = data.charRen;
+      document.getElementById("ren-structure").textContent = data.renStructure;
+      document.getElementById("ren-text").textContent = data.renText;
+      document.getElementById("radical-title").textContent = data.radicalTitle;
+      document.getElementById("radical-female-meta").textContent = data.radicalFemaleMeta;
+      document.getElementById("radical-female-text").textContent = data.radicalFemaleText;
+      document.getElementById("radical-person-meta").textContent = data.radicalPersonMeta;
+      document.getElementById("radical-person-text").textContent = data.radicalPersonText;
+      document.getElementById("radical-sun-meta").textContent = data.radicalSunMeta;
+      document.getElementById("radical-sun-text").textContent = data.radicalSunText;
+      document.getElementById("lab-title").textContent = data.labTitle;
+      document.getElementById("ex1-title").textContent = data.ex1Title;
+      document.getElementById("ex1-text").textContent = data.ex1Text;
+      document.getElementById("ex2-title").textContent = data.ex2Title;
+      document.getElementById("ex2-text").textContent = data.ex2Text;
+      document.getElementById("lab-note").textContent = data.labNote;
+
+      renderExamples("female", "female-example-list");
+      renderExamples("person", "person-example-list");
+      renderExamples("sun", "sun-example-list");
+
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
+
+      localStorage.setItem("scriptMode", mode);
+    }
+
+    function checkAnswer(type) {
+      const data = pageContent[currentMode];
+
+      if (type === "correct1") {
+        document.getElementById("result1").textContent = data.result1Correct;
+      }
+      if (type === "wrong1") {
+        document.getElementById("result1").textContent = data.result1Wrong;
+      }
+      if (type === "correct2") {
+        document.getElementById("result2").textContent = data.result2Correct;
+      }
+      if (type === "wrong2") {
+        document.getElementById("result2").textContent = data.result2Wrong;
+      }
+    }
+
+    document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
+    document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
+
+    applyLanguage(currentMode);
+  </script>
 </body>
 </html>
