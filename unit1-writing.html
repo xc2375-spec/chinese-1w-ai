@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 1 - Writing Studio</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    .page-header,
+    .panel,
+    .mini-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .page-header h1,
+    .panel h2,
+    .mini-card h3 {
+      margin-top: 0;
+      color: var(--accent-dark);
+    }
+
+    .page-header p,
+    .panel p,
+    .mini-card p {
+      color: var(--muted);
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      background: #f1ebe3;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .sentence-list {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.9;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .small-btn,
+    .primary-btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .primary-btn {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .small-btn:hover,
+    .primary-btn:hover {
+      box-shadow: var(--shadow);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 14px;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #fff;
+      line-height: 1.7;
+      resize: vertical;
+    }
+
+    .feedback-box,
+    .note-box {
+      margin-top: 14px;
+      padding: 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+
+    .feedback-box strong {
+      color: var(--accent-dark);
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .sub-label {
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    @media (max-width: 900px) {
+      .grid-two,
+      .compare-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <a class="back-link" href="writing-studio.html">← Back to Writing Studio</a>
+
+    <header class="topbar">
+      <div>
+        <h1 id="site-title">Writing Studio</h1>
+        <p id="site-subtitle">Unit 1 writing practice</p>
+      </div>
+
+      <div class="lang-switch">
+        <button id="btn-simplified" class="switch-btn active">简体</button>
+        <button id="btn-traditional" class="switch-btn">繁體</button>
+      </div>
+    </header>
+
+    <section class="page-header">
+      <h1 id="unit-title">Unit 1: Chinese Names</h1>
+      <p id="unit-question">Write a short self-introduction using key words and sentence patterns from this unit.</p>
+    </section>
+
+    <section class="panel">
+      <h2 id="task-title">Writing Task</h2>
+      <p id="task-text">
+        Write a short self-introduction in Chinese. Include your name, nationality, languages, friends, and Chinese name if you have one.
+      </p>
+      <div class="note-box" id="task-note">
+        Suggested length: 4–6 sentences.
+      </div>
+    </section>
+
+    <div class="grid-two">
+      <section class="mini-card">
+        <h3 id="wordbank-title">Word Bank</h3>
+        <p id="wordbank-text">Useful words from this unit:</p>
+        <div class="pill-group" id="wordbank-group"></div>
+      </section>
+
+      <section class="mini-card">
+        <h3 id="builder-title">Sentence Builder</h3>
+        <p id="builder-text">Useful sentence patterns:</p>
+        <ul class="sentence-list" id="builder-list"></ul>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2 id="draft-title">Draft Writing</h2>
+      <p id="draft-text">Write your first draft below.</p>
+      <textarea id="draft-input" placeholder="请在这里写你的自我介绍……"></textarea>
+
+      <div class="toolbar">
+        <button class="primary-btn" id="feedback-btn">Get AI Feedback</button>
+        <button class="small-btn" id="clear-btn">Clear</button>
+        <button class="small-btn" id="copy-btn">Copy Draft to Revision Box</button>
+      </div>
+
+      <div class="feedback-box" id="feedback-box">
+        Your feedback will appear here.
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 id="revision-title">Revision</h2>
+      <p id="revision-text">Revise your writing based on the feedback.</p>
+
+      <div class="compare-grid">
+        <div>
+          <span class="sub-label" id="draft1-label">Draft 1</span>
+          <textarea id="draft1-box" readonly></textarea>
+        </div>
+
+        <div>
+          <span class="sub-label" id="draft2-label">Draft 2</span>
+          <textarea id="draft2-box" placeholder="请根据反馈修改你的第二稿……"></textarea>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button class="primary-btn" id="save-revision-btn">Save Revision</button>
+      </div>
+
+      <div class="feedback-box" id="revision-status">
+        Your revision status will appear here.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const content = {
+      simplified: {
+        htmlLang: "zh-Hans",
+        siteTitle: "Writing Studio",
+        siteSubtitle: "Unit 1 writing practice",
+        unitTitle: "Unit 1: Chinese Names",
+        unitQuestion: "Write a short self-introduction using key words and sentence patterns from this unit.",
+        taskTitle: "Writing Task",
+        taskText: "Write a short self-introduction in Chinese. Include your name, nationality, languages, friends, and Chinese name if you have one.",
+        taskNote: "Suggested length: 4–6 sentences.",
+        wordbankTitle: "Word Bank",
+        wordbankText: "Useful words from this unit:",
+        builderTitle: "Sentence Builder",
+        builderText: "Useful sentence patterns:",
+        draftTitle: "Draft Writing",
+        draftText: "Write your first draft below.",
+        draftPlaceholder: "请在这里写你的自我介绍……",
+        feedbackBtn: "Get AI Feedback",
+        clearBtn: "Clear",
+        copyBtn: "Copy Draft to Revision Box",
+        feedbackDefault: "Your feedback will appear here.",
+        revisionTitle: "Revision",
+        revisionText: "Revise your writing based on the feedback.",
+        draft1Label: "Draft 1",
+        draft2Label: "Draft 2",
+        draft2Placeholder: "请根据反馈修改你的第二稿……",
+        saveRevisionBtn: "Save Revision",
+        revisionDefault: "Your revision status will appear here.",
+        revisionSaved: "Revision saved. Nice work revising your writing.",
+        writeFirst: "Please write something first.",
+        copyFirst: "Draft copied. Now revise it in the Draft 2 box.",
+        wordBank: ["我叫……", "我姓……", "名字", "中国", "美国", "英国", "中文", "英文", "朋友", "认识", "很高兴"],
+        sentenceBuilder: [
+          "我叫……",
+          "我是……人。",
+          "我会说……",
+          "我有很多朋友。",
+          "我的中文名字是……",
+          "很高兴认识大家。"
+        ]
+      },
+      traditional: {
+        htmlLang: "zh-Hant",
+        siteTitle: "Writing Studio",
+        siteSubtitle: "Unit 1 writing practice",
+        unitTitle: "Unit 1: Chinese Names",
+        unitQuestion: "Write a short self-introduction using key words and sentence patterns from this unit.",
+        taskTitle: "Writing Task",
+        taskText: "Write a short self-introduction in Chinese. Include your name, nationality, languages, friends, and Chinese name if you have one.",
+        taskNote: "Suggested length: 4–6 sentences.",
+        wordbankTitle: "Word Bank",
+        wordbankText: "Useful words from this unit:",
+        builderTitle: "Sentence Builder",
+        builderText: "Useful sentence patterns:",
+        draftTitle: "Draft Writing",
+        draftText: "Write your first draft below.",
+        draftPlaceholder: "請在這裡寫你的自我介紹……",
+        feedbackBtn: "Get AI Feedback",
+        clearBtn: "Clear",
+        copyBtn: "Copy Draft to Revision Box",
+        feedbackDefault: "Your feedback will appear here.",
+        revisionTitle: "Revision",
+        revisionText: "Revise your writing based on the feedback.",
+        draft1Label: "Draft 1",
+        draft2Label: "Draft 2",
+        draft2Placeholder: "請根據回饋修改你的第二稿……",
+        saveRevisionBtn: "Save Revision",
+        revisionDefault: "Your revision status will appear here.",
+        revisionSaved: "Revision saved. Nice work revising your writing.",
+        writeFirst: "Please write something first.",
+        copyFirst: "Draft copied. Now revise it in the Draft 2 box.",
+        wordBank: ["我叫……", "我姓……", "名字", "中國", "美國", "英國", "中文", "英文", "朋友", "認識", "很高興"],
+        sentenceBuilder: [
+          "我叫……",
+          "我是……人。",
+          "我會說……",
+          "我有很多朋友。",
+          "我的中文名字是……",
+          "很高興認識大家。"
+        ]
+      }
+    };
+
+    function applyLanguage(mode) {
+      const data = content[mode];
+      document.documentElement.lang = data.htmlLang;
+
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("unit-title").textContent = data.unitTitle;
+      document.getElementById("unit-question").textContent = data.unitQuestion;
+      document.getElementById("task-title").textContent = data.taskTitle;
+      document.getElementById("task-text").textContent = data.taskText;
+      document.getElementById("task-note").textContent = data.taskNote;
+      document.getElementById("wordbank-title").textContent = data.wordbankTitle;
+      document.getElementById("wordbank-text").textContent = data.wordbankText;
+      document.getElementById("builder-title").textContent = data.builderTitle;
+      document.getElementById("builder-text").textContent = data.builderText;
+      document.getElementById("draft-title").textContent = data.draftTitle;
+      document.getElementById("draft-text").textContent = data.draftText;
+      document.getElementById("draft-input").placeholder = data.draftPlaceholder;
+      document.getElementById("feedback-btn").textContent = data.feedbackBtn;
+      document.getElementById("clear-btn").textContent = data.clearBtn;
+      document.getElementById("copy-btn").textContent = data.copyBtn;
+      document.getElementById("revision-title").textContent = data.revisionTitle;
+      document.getElementById("revision-text").textContent = data.revisionText;
+      document.getElementById("draft1-label").textContent = data.draft1Label;
+      document.getElementById("draft2-label").textContent = data.draft2Label;
+      document.getElementById("draft2-box").placeholder = data.draft2Placeholder;
+      document.getElementById("save-revision-btn").textContent = data.saveRevisionBtn;
+
+      if (!document.getElementById("feedback-box").dataset.locked) {
+        document.getElementById("feedback-box").textContent = data.feedbackDefault;
+      }
+      if (!document.getElementById("revision-status").dataset.locked) {
+        document.getElementById("revision-status").textContent = data.revisionDefault;
+      }
+
+      const wordbankGroup = document.getElementById("wordbank-group");
+      wordbankGroup.innerHTML = "";
+      data.wordBank.forEach(word => {
+        const span = document.createElement("span");
+        span.className = "pill";
+        span.textContent = word;
+        wordbankGroup.appendChild(span);
+      });
+
+      const builderList = document.getElementById("builder-list");
+      builderList.innerHTML = "";
+      data.sentenceBuilder.forEach(sentence => {
+        const li = document.createElement("li");
+        li.textContent = sentence;
+        builderList.appendChild(li);
+      });
+
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
+
+      localStorage.setItem("scriptMode", mode);
+    }
+
+    function generateDemoFeedback(text, mode) {
+      const hasName = text.includes("我叫") || text.includes("我姓");
+      const hasNationality = text.includes("我是");
+      const hasLanguage = text.includes("会说") || text.includes("會說");
+      const hasFriends = text.includes("朋友");
+      const hasChineseName = text.includes("中文名字");
+
+      let feedback = "<strong>What is clear:</strong><br>";
+      if (hasName) {
+        feedback += "You clearly introduced your name.<br>";
+      } else {
+        feedback += "Your draft needs a clearer opening sentence about your name.<br>";
+      }
+
+      feedback += "<br><strong>What can improve:</strong><br>";
+      if (!hasNationality) {
+        feedback += "Add one sentence about your nationality using “我是……人”。<br>";
+      }
+      if (!hasLanguage) {
+        feedback += "Add one sentence about languages using “我会说……”。<br>";
+      }
+      if (!hasFriends) {
+        feedback += "You can include one sentence about your friends.<br>";
+      }
+
+      feedback += "<br><strong>What to add next:</strong><br>";
+      if (!hasChineseName) {
+        feedback += "Try adding your Chinese name if you have one.<br>";
+      } else {
+        feedback += "Good job including your Chinese name.<br>";
+      }
+
+      feedback += "You may also add a friendly closing sentence.";
+
+      return feedback;
+    }
+
+    document.getElementById("feedback-btn").addEventListener("click", () => {
+      const mode = localStorage.getItem("scriptMode") || "simplified";
+      const text = document.getElementById("draft-input").value.trim();
+      const feedbackBox = document.getElementById("feedback-box");
+
+      if (!text) {
+        feedbackBox.textContent = content[mode].writeFirst;
+        feedbackBox.dataset.locked = "true";
+        return;
+      }
+
+      feedbackBox.innerHTML = generateDemoFeedback(text, mode);
+      feedbackBox.dataset.locked = "true";
+    });
+
+    document.getElementById("clear-btn").addEventListener("click", () => {
+      const mode = localStorage.getItem("scriptMode") || "simplified";
+      document.getElementById("draft-input").value = "";
+      document.getElementById("feedback-box").textContent = content[mode].feedbackDefault;
+      document.getElementById("feedback-box").dataset.locked = "";
+    });
+
+    document.getElementById("copy-btn").addEventListener("click", () => {
+      const mode = localStorage.getItem("scriptMode") || "simplified";
+      const text = document.getElementById("draft-input").value.trim();
+      if (!text) {
+        document.getElementById("feedback-box").textContent = content[mode].writeFirst;
+        document.getElementById("feedback-box").dataset.locked = "true";
+        return;
+      }
+      document.getElementById("draft1-box").value = text;
+      document.getElementById("draft2-box").value = text;
+      document.getElementById("revision-status").textContent = content[mode].copyFirst;
+      document.getElementById("revision-status").dataset.locked = "true";
+    });
+
+    document.getElementById("save-revision-btn").addEventListener("click", () => {
+      const mode = localStorage.getItem("scriptMode") || "simplified";
+      document.getElementById("revision-status").textContent = content[mode].revisionSaved;
+      document.getElementById("revision-status").dataset.locked = "true";
+    });
+
+    document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
+    document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
+
+    const savedMode = localStorage.getItem("scriptMode") || "simplified";
+    applyLanguage(savedMode);
+  </script>
+</body>
+</html>
