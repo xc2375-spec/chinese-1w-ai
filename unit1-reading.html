@@ -16,7 +16,6 @@
 
     .page-header,
     .panel,
-    .detail-panel,
     .question-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -37,10 +36,7 @@
     }
 
     .layout {
-      display: grid;
-      grid-template-columns: 1.45fr 0.9fr;
-      gap: 20px;
-      align-items: start;
+      display: block;
     }
 
     .section-title {
@@ -102,30 +98,6 @@
       background: #efe7dc;
     }
 
-    .detail-panel h2 {
-      margin-top: 0;
-      margin-bottom: 8px;
-      color: var(--accent-dark);
-    }
-
-    .detail-panel p {
-      margin: 8px 0;
-    }
-
-    .detail-label {
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .example-box {
-      margin-top: 14px;
-      background: #fffaf4;
-      border-left: 4px solid var(--accent);
-      padding: 14px;
-      border-radius: 12px;
-      line-height: 1.8;
-    }
-
     .audio-note {
       margin-top: 12px;
       padding: 12px 14px;
@@ -155,9 +127,36 @@
       border-radius: 12px;
     }
 
+    .tooltip-box {
+      position: fixed;
+      z-index: 9999;
+      max-width: 300px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 12px 14px;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      display: none;
+      pointer-events: none;
+    }
+
+    .tooltip-word {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 4px;
+    }
+
+    .tooltip-label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
     @media (max-width: 980px) {
       .layout {
-        grid-template-columns: 1fr;
+        display: block;
       }
     }
   </style>
@@ -184,90 +183,76 @@
     </section>
 
     <div class="layout">
-      <div>
-        <section class="panel">
-          <h2 class="section-title" id="reading-title">Extended Reading 1: 我的朋友</h2>
-          <p class="section-subtitle" id="reading-subtitle">
-            Click highlighted words for pinyin and English support.
-          </p>
+      <section class="panel">
+        <h2 class="section-title" id="reading-title">Extended Reading 1: 我的朋友</h2>
+        <p class="section-subtitle" id="reading-subtitle">
+          Move your mouse over highlighted words for pinyin and English support.
+        </p>
 
-          <div class="toolbar">
-            <button class="small-btn" id="play-audio-btn">Play Reading Audio</button>
-            <button class="small-btn" id="stop-audio-btn">Stop Audio</button>
-          </div>
-<audio id="reading-audio">
-<source src="audio/unit1-reading1.mp3" type="audio/mpeg">
-</audio>
-          <div class="audio-note" id="audio-note">
-            Add your own recorded mp3 later for natural, standard Mandarin reading.
-          </div>
-
-          <audio id="reading-audio" preload="none">
-            <source src="audio/unit1-my-friends.mp3" type="audio/mpeg">
-          </audio>
-
-          <div class="reading-box" id="reading-box"></div>
-        </section>
-
-       <section class="question-card">
-  <h3 id="check-title">Comprehension Exercises</h3>
-
-  <div>
-    <p id="q1-text">1. 王小文是北京大学的什么人？</p>
-    <label><input type="radio" name="q1" value="A"> <span id="q1a">A. 老师</span></label>
-    <label><input type="radio" name="q1" value="B"> <span id="q1b">B. 学生</span></label>
-    <label><input type="radio" name="q1" value="C"> <span id="q1c">C. 朋友的妈妈</span></label>
-  </div>
-
-  <div style="margin-top:18px;">
-    <p id="q2-text">2. 小文会说什么语言？</p>
-    <label><input type="radio" name="q2" value="A"> <span id="q2a">A. 英文和一点儿日文</span></label>
-    <label><input type="radio" name="q2" value="B"> <span id="q2b">B. 法文和日文</span></label>
-    <label><input type="radio" name="q2" value="C"> <span id="q2c">C. 只有中文</span></label>
-  </div>
-
-  <div style="margin-top:18px;">
-    <p id="q3-text">3. 为什么大家叫他“山口先生”？</p>
-    <label><input type="radio" name="q3" value="A"> <span id="q3a">A. 因为“先生”是对男性的礼貌称呼。</span></label>
-    <label><input type="radio" name="q3" value="B"> <span id="q3b">B. 因为他是学生。</span></label>
-    <label><input type="radio" name="q3" value="C"> <span id="q3c">C. 因为他是法国人。</span></label>
-  </div>
-
-  <div style="margin-top:18px;">
-    <p id="q4-text">4. 林欢对什么很有兴趣？</p>
-    <label><input type="radio" name="q4" value="A"> <span id="q4a">A. 中国文化</span></label>
-    <label><input type="radio" name="q4" value="B"> <span id="q4b">B. 日本文化</span></label>
-    <label><input type="radio" name="q4" value="C"> <span id="q4c">C. 中国菜</span></label>
-  </div>
-
-  <div style="margin-top:18px;">
-    <p id="q5-text">5. 在中国，人们先说什么，再说什么？</p>
-    <label><input type="radio" name="q5" value="A"> <span id="q5a">A. 先说名字，再说姓</span></label>
-    <label><input type="radio" name="q5" value="B"> <span id="q5b">B. 先说姓，再说名字</span></label>
-    <label><input type="radio" name="q5" value="C"> <span id="q5c">C. 先说国家，再说名字</span></label>
-  </div>
-
-  <div class="toolbar" style="margin-top:18px;">
-    <button class="small-btn" id="check-btn">Check Answers</button>
-  </div>
-
-  <div class="result-box" id="result-box">Your result will appear here.</div>
-</section>
-      </div>
-
-      <aside class="detail-panel">
-        <h2 id="detail-word">名字</h2>
-        <p><span class="detail-label" id="label-pinyin">Pinyin:</span> <span id="detail-pinyin">míngzi</span></p>
-        <p><span class="detail-label" id="label-meaning">English:</span> <span id="detail-meaning">name</span></p>
-        <p><span class="detail-label" id="label-help">Help:</span> <span id="detail-help">A very common everyday word for name.</span></p>
-
-        <div class="example-box">
-          <div><span class="detail-label" id="label-example">Example:</span></div>
-          <div id="detail-example">你的名字叫什么？</div>
+        <div class="toolbar">
+          <button class="small-btn" id="play-audio-btn">Play Reading Audio</button>
+          <button class="small-btn" id="stop-audio-btn">Stop Audio</button>
         </div>
-      </aside>
+
+        <div class="audio-note" id="audio-note">
+          Add your own recorded mp3 later for natural, standard Mandarin reading.
+        </div>
+
+        <audio id="reading-audio" preload="none">
+          <source src="audio/unit1-reading1.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="reading-box" id="reading-box"></div>
+      </section>
+
+      <section class="question-card">
+        <h3 id="check-title">Comprehension Exercises</h3>
+
+        <div>
+          <p id="q1-text">1. 王小文是北京大学的什么人？</p>
+          <label><input type="radio" name="q1" value="A"> <span id="q1a">A. 老师</span></label>
+          <label><input type="radio" name="q1" value="B"> <span id="q1b">B. 学生</span></label>
+          <label><input type="radio" name="q1" value="C"> <span id="q1c">C. 朋友的妈妈</span></label>
+        </div>
+
+        <div style="margin-top:18px;">
+          <p id="q2-text">2. 小文会说什么语言？</p>
+          <label><input type="radio" name="q2" value="A"> <span id="q2a">A. 英文和一点儿日文</span></label>
+          <label><input type="radio" name="q2" value="B"> <span id="q2b">B. 法文和日文</span></label>
+          <label><input type="radio" name="q2" value="C"> <span id="q2c">C. 只有中文</span></label>
+        </div>
+
+        <div style="margin-top:18px;">
+          <p id="q3-text">3. 为什么大家叫他“山口先生”？</p>
+          <label><input type="radio" name="q3" value="A"> <span id="q3a">A. 因为“先生”是对男性的礼貌称呼。</span></label>
+          <label><input type="radio" name="q3" value="B"> <span id="q3b">B. 因为他是学生。</span></label>
+          <label><input type="radio" name="q3" value="C"> <span id="q3c">C. 因为他是法国人。</span></label>
+        </div>
+
+        <div style="margin-top:18px;">
+          <p id="q4-text">4. 林欢对什么很有兴趣？</p>
+          <label><input type="radio" name="q4" value="A"> <span id="q4a">A. 中国文化</span></label>
+          <label><input type="radio" name="q4" value="B"> <span id="q4b">B. 日本文化</span></label>
+          <label><input type="radio" name="q4" value="C"> <span id="q4c">C. 中国菜</span></label>
+        </div>
+
+        <div style="margin-top:18px;">
+          <p id="q5-text">5. 在中国，人们先说什么，再说什么？</p>
+          <label><input type="radio" name="q5" value="A"> <span id="q5a">A. 先说名字，再说姓</span></label>
+          <label><input type="radio" name="q5" value="B"> <span id="q5b">B. 先说姓，再说名字</span></label>
+          <label><input type="radio" name="q5" value="C"> <span id="q5c">C. 先说国家，再说名字</span></label>
+        </div>
+
+        <div class="toolbar" style="margin-top:18px;">
+          <button class="small-btn" id="check-btn">Check Answers</button>
+        </div>
+
+        <div class="result-box" id="result-box">Your result will appear here.</div>
+      </section>
     </div>
   </div>
+
+  <div id="tooltip-box" class="tooltip-box"></div>
 
   <script>
     const content = {
@@ -278,37 +263,33 @@
         unitTitle: "Unit 1: Chinese Names",
         unitQuestion: "Read the passage, click key words for support, and check your understanding.",
         readingTitle: "Extended Reading 1: 我的朋友",
-        readingSubtitle: "Click highlighted words for pinyin and English support.",
+        readingSubtitle: "Move your mouse over highlighted words for pinyin and English support.",
         playAudio: "Play Reading Audio",
         stopAudio: "Stop Audio",
         audioNote: "Add your own recorded mp3 later for natural, standard Mandarin reading.",
         checkTitle: "Comprehension Exercises",
-q1Text: "1. 王小文是北京大学的什么人？",
-q1a: "A. 老师",
-q1b: "B. 学生",
-q1c: "C. 朋友的妈妈",
-q2Text: "2. 小文会说什么语言？",
-q2a: "A. 英文和一点儿日文",
-q2b: "B. 法文和日文",
-q2c: "C. 只有中文",
-q3Text: "3. 为什么大家叫他“山口先生”？",
-q3a: "A. 因为“先生”是对男性的礼貌称呼。",
-q3b: "B. 因为他是学生。",
-q3c: "C. 因为他是法国人。",
-q4Text: "4. 林欢对什么很有兴趣？",
-q4a: "A. 中国文化",
-q4b: "B. 日本文化",
-q4c: "C. 中国菜",
-q5Text: "5. 在中国，人们先说什么，再说什么？",
-q5a: "A. 先说名字，再说姓",
-q5b: "B. 先说姓，再说名字",
-q5c: "C. 先说国家，再说名字",
-checkBtn: "Check Answers",
-resultDefault: "Your result will appear here.",
-        labelPinyin: "Pinyin:",
-        labelMeaning: "English:",
-        labelHelp: "Help:",
-        labelExample: "Example:"
+        q1Text: "1. 王小文是北京大学的什么人？",
+        q1a: "A. 老师",
+        q1b: "B. 学生",
+        q1c: "C. 朋友的妈妈",
+        q2Text: "2. 小文会说什么语言？",
+        q2a: "A. 英文和一点儿日文",
+        q2b: "B. 法文和日文",
+        q2c: "C. 只有中文",
+        q3Text: "3. 为什么大家叫他“山口先生”？",
+        q3a: "A. 因为“先生”是对男性的礼貌称呼。",
+        q3b: "B. 因为他是学生。",
+        q3c: "C. 因为他是法国人。",
+        q4Text: "4. 林欢对什么很有兴趣？",
+        q4a: "A. 中国文化",
+        q4b: "B. 日本文化",
+        q4c: "C. 中国菜",
+        q5Text: "5. 在中国，人们先说什么，再说什么？",
+        q5a: "A. 先说名字，再说姓",
+        q5b: "B. 先说姓，再说名字",
+        q5c: "C. 先说国家，再说名字",
+        checkBtn: "Check Answers",
+        resultDefault: "Your result will appear here."
       },
       traditional: {
         htmlLang: "zh-Hant",
@@ -317,37 +298,33 @@ resultDefault: "Your result will appear here.",
         unitTitle: "Unit 1: Chinese Names",
         unitQuestion: "Read the passage, click key words for support, and check your understanding.",
         readingTitle: "Extended Reading 1: 我的朋友",
-        readingSubtitle: "Click highlighted words for pinyin and English support.",
+        readingSubtitle: "Move your mouse over highlighted words for pinyin and English support.",
         playAudio: "Play Reading Audio",
         stopAudio: "Stop Audio",
         audioNote: "Add your own recorded mp3 later for natural, standard Mandarin reading.",
         checkTitle: "Comprehension Exercises",
-q1Text: "1. 王小文是北京大學的什麼人？",
-q1a: "A. 老師",
-q1b: "B. 學生",
-q1c: "C. 朋友的媽媽",
-q2Text: "2. 小文會說什麼語言？",
-q2a: "A. 英文和一點兒日文",
-q2b: "B. 法文和日文",
-q2c: "C. 只有中文",
-q3Text: "3. 為什麼大家叫他「山口先生」？",
-q3a: "A. 因為「先生」是對男性的禮貌稱呼。",
-q3b: "B. 因為他是學生。",
-q3c: "C. 因為他是法國人。",
-q4Text: "4. 林歡對什麼很有興趣？",
-q4a: "A. 中國文化",
-q4b: "B. 日本文化",
-q4c: "C. 中國菜",
-q5Text: "5. 在中國，人們先說什麼，再說什麼？",
-q5a: "A. 先說名字，再說姓",
-q5b: "B. 先說姓，再說名字",
-q5c: "C. 先說國家，再說名字",
-checkBtn: "Check Answers",
-resultDefault: "Your result will appear here.",
-        labelPinyin: "Pinyin:",
-        labelMeaning: "English:",
-        labelHelp: "Help:",
-        labelExample: "Example:"
+        q1Text: "1. 王小文是北京大學的什麼人？",
+        q1a: "A. 老師",
+        q1b: "B. 學生",
+        q1c: "C. 朋友的媽媽",
+        q2Text: "2. 小文會說什麼語言？",
+        q2a: "A. 英文和一點兒日文",
+        q2b: "B. 法文和日文",
+        q2c: "C. 只有中文",
+        q3Text: "3. 為什麼大家叫他「山口先生」？",
+        q3a: "A. 因為「先生」是對男性的禮貌稱呼。",
+        q3b: "B. 因為他是學生。",
+        q3c: "C. 因為他是法國人。",
+        q4Text: "4. 林歡對什麼很有興趣？",
+        q4a: "A. 中國文化",
+        q4b: "B. 日本文化",
+        q4c: "C. 中國菜",
+        q5Text: "5. 在中國，人們先說什麼，再說什麼？",
+        q5a: "A. 先說名字，再說姓",
+        q5b: "B. 先說姓，再說名字",
+        q5c: "C. 先說國家，再說名字",
+        checkBtn: "Check Answers",
+        resultDefault: "Your result will appear here."
       }
     };
 
@@ -801,7 +778,6 @@ resultDefault: "Your result will appear here.",
     };
 
     let currentMode = localStorage.getItem("scriptMode") || "simplified";
-    let currentWordKey = "名字";
 
     function applyLanguage(mode) {
       currentMode = mode;
@@ -819,42 +795,32 @@ resultDefault: "Your result will appear here.",
       document.getElementById("audio-note").textContent = data.audioNote;
       document.getElementById("check-title").textContent = data.checkTitle;
       document.getElementById("q1-text").textContent = data.q1Text;
-document.getElementById("q1a").textContent = data.q1a;
-document.getElementById("q1b").textContent = data.q1b;
-document.getElementById("q1c").textContent = data.q1c;
-
-document.getElementById("q2-text").textContent = data.q2Text;
-document.getElementById("q2a").textContent = data.q2a;
-document.getElementById("q2b").textContent = data.q2b;
-document.getElementById("q2c").textContent = data.q2c;
-
-document.getElementById("q3-text").textContent = data.q3Text;
-document.getElementById("q3a").textContent = data.q3a;
-document.getElementById("q3b").textContent = data.q3b;
-document.getElementById("q3c").textContent = data.q3c;
-
-document.getElementById("q4-text").textContent = data.q4Text;
-document.getElementById("q4a").textContent = data.q4a;
-document.getElementById("q4b").textContent = data.q4b;
-document.getElementById("q4c").textContent = data.q4c;
-
-document.getElementById("q5-text").textContent = data.q5Text;
-document.getElementById("q5a").textContent = data.q5a;
-document.getElementById("q5b").textContent = data.q5b;
-document.getElementById("q5c").textContent = data.q5c;
+      document.getElementById("q1a").textContent = data.q1a;
+      document.getElementById("q1b").textContent = data.q1b;
+      document.getElementById("q1c").textContent = data.q1c;
+      document.getElementById("q2-text").textContent = data.q2Text;
+      document.getElementById("q2a").textContent = data.q2a;
+      document.getElementById("q2b").textContent = data.q2b;
+      document.getElementById("q2c").textContent = data.q2c;
+      document.getElementById("q3-text").textContent = data.q3Text;
+      document.getElementById("q3a").textContent = data.q3a;
+      document.getElementById("q3b").textContent = data.q3b;
+      document.getElementById("q3c").textContent = data.q3c;
+      document.getElementById("q4-text").textContent = data.q4Text;
+      document.getElementById("q4a").textContent = data.q4a;
+      document.getElementById("q4b").textContent = data.q4b;
+      document.getElementById("q4c").textContent = data.q4c;
+      document.getElementById("q5-text").textContent = data.q5Text;
+      document.getElementById("q5a").textContent = data.q5a;
+      document.getElementById("q5b").textContent = data.q5b;
+      document.getElementById("q5c").textContent = data.q5c;
       document.getElementById("check-btn").textContent = data.checkBtn;
-      document.getElementById("label-pinyin").textContent = data.labelPinyin;
-      document.getElementById("label-meaning").textContent = data.labelMeaning;
-      document.getElementById("label-help").textContent = data.labelHelp;
-      document.getElementById("label-example").textContent = data.labelExample;
+      document.getElementById("result-box").textContent = data.resultDefault;
 
       document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
       document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
 
       renderReading();
-      showWord(currentWordKey);
-      document.getElementById("result-box").textContent = data.resultDefault;
-
       localStorage.setItem("scriptMode", mode);
     }
 
@@ -876,7 +842,11 @@ document.getElementById("q5c").textContent = data.q5c;
             const wordSpan = document.createElement("span");
             wordSpan.className = "click-word";
             wordSpan.textContent = part.text;
-            wordSpan.addEventListener("click", () => showWord(part.key));
+
+            wordSpan.addEventListener("mouseenter", (e) => showTooltip(part.key, e));
+            wordSpan.addEventListener("mousemove", (e) => showTooltip(part.key, e));
+            wordSpan.addEventListener("mouseleave", hideTooltip);
+
             sentenceDiv.appendChild(wordSpan);
           }
         });
@@ -885,53 +855,82 @@ document.getElementById("q5c").textContent = data.q5c;
       });
     }
 
-    function showWord(wordKey) {
-      currentWordKey = wordKey;
+    function showTooltip(wordKey, event) {
       const item = readingSupport[wordKey];
       if (!item) return;
 
+      const tooltip = document.getElementById("tooltip-box");
       const displayWord = currentMode === "traditional" ? item.traditional : item.simplified;
       const displayExample = currentMode === "traditional" ? item.exampleTraditional : item.exampleSimplified;
 
-      document.getElementById("detail-word").textContent = displayWord;
-      document.getElementById("detail-pinyin").textContent = item.pinyin;
-      document.getElementById("detail-meaning").textContent = item.english;
-      document.getElementById("detail-help").textContent = item.help;
-      document.getElementById("detail-example").textContent = displayExample;
+      tooltip.innerHTML = `
+        <div class="tooltip-word">${displayWord}</div>
+        <div><span class="tooltip-label">Pinyin:</span> ${item.pinyin}</div>
+        <div><span class="tooltip-label">English:</span> ${item.english}</div>
+        <div><span class="tooltip-label">Help:</span> ${item.help}</div>
+        <div style="margin-top:6px;"><span class="tooltip-label">Example:</span> ${displayExample}</div>
+      `;
+
+      const offsetX = 14;
+      const offsetY = 18;
+      let left = event.clientX + offsetX;
+      let top = event.clientY + offsetY;
+
+      tooltip.style.display = "block";
+
+      const rect = tooltip.getBoundingClientRect();
+      if (left + rect.width > window.innerWidth - 12) {
+        left = event.clientX - rect.width - 12;
+      }
+      if (top + rect.height > window.innerHeight - 12) {
+        top = event.clientY - rect.height - 12;
+      }
+
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top = `${top}px`;
+    }
+
+    function hideTooltip() {
+      document.getElementById("tooltip-box").style.display = "none";
     }
 
     function playRecordedAudio() {
-  const audio = document.getElementById("reading-audio");
-  audio.play();
-}
+      const audio = document.getElementById("reading-audio");
+      audio.play().catch(() => {
+        const note = document.getElementById("audio-note");
+        note.textContent = currentMode === "traditional"
+          ? "目前還沒有找到音檔。之後把錄好的 mp3 放到 audio/unit1-reading1.mp3 就可以播放。"
+          : "Audio file not found yet. Later, place your recorded mp3 at audio/unit1-reading1.mp3.";
+      });
+    }
 
-function stopRecordedAudio() {
-  const audio = document.getElementById("reading-audio");
-  audio.pause();
-  audio.currentTime = 0;
-}
+    function stopRecordedAudio() {
+      const audio = document.getElementById("reading-audio");
+      audio.pause();
+      audio.currentTime = 0;
+    }
 
     function checkAnswers() {
-  let score = 0;
-  const q1 = document.querySelector('input[name="q1"]:checked');
-  const q2 = document.querySelector('input[name="q2"]:checked');
-  const q3 = document.querySelector('input[name="q3"]:checked');
-  const q4 = document.querySelector('input[name="q4"]:checked');
-  const q5 = document.querySelector('input[name="q5"]:checked');
+      let score = 0;
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      const q4 = document.querySelector('input[name="q4"]:checked');
+      const q5 = document.querySelector('input[name="q5"]:checked');
 
-  if (q1 && q1.value === "B") score++;
-  if (q2 && q2.value === "A") score++;
-  if (q3 && q3.value === "A") score++;
-  if (q4 && q4.value === "A") score++;
-  if (q5 && q5.value === "B") score++;
+      if (q1 && q1.value === "B") score++;
+      if (q2 && q2.value === "A") score++;
+      if (q3 && q3.value === "A") score++;
+      if (q4 && q4.value === "A") score++;
+      if (q5 && q5.value === "B") score++;
 
-  const resultBox = document.getElementById("result-box");
-  resultBox.innerHTML = `<strong>Score:</strong> ${score}/5<br><br>
-  <strong>Quick feedback:</strong><br>
-  ${score === 5 ? "Excellent. You understood the passage and the key vocabulary very well." :
-  score >= 3 ? "Good job. Review the highlighted words and read the passage one more time." :
-  "Try again. Click the highlighted words while reading, then answer once more."}`;
-}
+      const resultBox = document.getElementById("result-box");
+      resultBox.innerHTML = `<strong>Score:</strong> ${score}/5<br><br>
+      <strong>Quick feedback:</strong><br>
+      ${score === 5 ? "Excellent. You understood the passage and the key vocabulary very well." :
+      score >= 3 ? "Good job. Review the highlighted words and read the passage one more time." :
+      "Try again. Move over the highlighted words while reading, then answer once more."}`;
+    }
 
     document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
     document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
@@ -940,7 +939,6 @@ function stopRecordedAudio() {
     document.getElementById("check-btn").addEventListener("click", checkAnswers);
 
     applyLanguage(currentMode);
-    showWord("名字");
   </script>
 </body>
 </html>
