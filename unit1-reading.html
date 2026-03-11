@@ -98,6 +98,10 @@
       background: #efe7dc;
     }
 
+    .click-word.active-word {
+      background: #efe7dc;
+    }
+
     .audio-note {
       margin-top: 12px;
       padding: 12px 14px;
@@ -139,7 +143,6 @@
       line-height: 1.6;
       font-size: 0.95rem;
       display: none;
-      pointer-events: none;
     }
 
     .tooltip-word {
@@ -157,6 +160,10 @@
     @media (max-width: 980px) {
       .layout {
         display: block;
+      }
+
+      .tooltip-box {
+        max-width: min(320px, calc(100vw - 24px));
       }
     }
   </style>
@@ -186,7 +193,7 @@
       <section class="panel">
         <h2 class="section-title" id="reading-title">Extended Reading 1: 我的朋友</h2>
         <p class="section-subtitle" id="reading-subtitle">
-          Move your mouse over highlighted words for pinyin and English support.
+          Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.
         </p>
 
         <div class="toolbar">
@@ -263,7 +270,7 @@
         unitTitle: "Unit 1: Chinese Names",
         unitQuestion: "Read the passage, click key words for support, and check your understanding.",
         readingTitle: "Extended Reading 1: 我的朋友",
-        readingSubtitle: "Move your mouse over highlighted words for pinyin and English support.",
+        readingSubtitle: "Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.",
         playAudio: "Play Reading Audio",
         stopAudio: "Stop Audio",
         audioNote: "Add your own recorded mp3 later for natural, standard Mandarin reading.",
@@ -298,7 +305,7 @@
         unitTitle: "Unit 1: Chinese Names",
         unitQuestion: "Read the passage, click key words for support, and check your understanding.",
         readingTitle: "Extended Reading 1: 我的朋友",
-        readingSubtitle: "Move your mouse over highlighted words for pinyin and English support.",
+        readingSubtitle: "Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.",
         playAudio: "Play Reading Audio",
         stopAudio: "Stop Audio",
         audioNote: "Add your own recorded mp3 later for natural, standard Mandarin reading.",
@@ -778,6 +785,9 @@
     };
 
     let currentMode = localStorage.getItem("scriptMode") || "simplified";
+    let activeWordKey = null;
+    let activeWordElement = null;
+    const isTouchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
     function applyLanguage(mode) {
       currentMode = mode;
@@ -820,6 +830,8 @@
       document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
       document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
 
+      hideTooltip();
+      clearActiveWord();
       renderReading();
       localStorage.setItem("scriptMode", mode);
     }
@@ -842,10 +854,36 @@
             const wordSpan = document.createElement("span");
             wordSpan.className = "click-word";
             wordSpan.textContent = part.text;
+            wordSpan.dataset.wordKey = part.key;
 
-            wordSpan.addEventListener("mouseenter", (e) => showTooltip(part.key, e));
-            wordSpan.addEventListener("mousemove", (e) => showTooltip(part.key, e));
-            wordSpan.addEventListener("mouseleave", hideTooltip);
+            if (!isTouchDevice) {
+              wordSpan.addEventListener("mouseenter", (e) => {
+                setActiveWord(wordSpan, part.key);
+                showTooltip(part.key, e.clientX, e.clientY);
+              });
+              wordSpan.addEventListener("mousemove", (e) => {
+                showTooltip(part.key, e.clientX, e.clientY);
+              });
+              wordSpan.addEventListener("mouseleave", () => {
+                clearActiveWord();
+                hideTooltip();
+              });
+            }
+
+            wordSpan.addEventListener("click", (e) => {
+              if (!isTouchDevice) return;
+              e.stopPropagation();
+
+              if (activeWordKey === part.key && activeWordElement === wordSpan) {
+                clearActiveWord();
+                hideTooltip();
+                return;
+              }
+
+              setActiveWord(wordSpan, part.key);
+              const rect = wordSpan.getBoundingClientRect();
+              showTooltip(part.key, rect.left + rect.width / 2, rect.bottom);
+            });
 
             sentenceDiv.appendChild(wordSpan);
           }
@@ -855,7 +893,24 @@
       });
     }
 
-    function showTooltip(wordKey, event) {
+    function setActiveWord(element, wordKey) {
+      clearActiveWord();
+      activeWordElement = element;
+      activeWordKey = wordKey;
+      if (activeWordElement) {
+        activeWordElement.classList.add("active-word");
+      }
+    }
+
+    function clearActiveWord() {
+      if (activeWordElement) {
+        activeWordElement.classList.remove("active-word");
+      }
+      activeWordElement = null;
+      activeWordKey = null;
+    }
+
+    function showTooltip(wordKey, anchorX, anchorY) {
       const item = readingSupport[wordKey];
       if (!item) return;
 
@@ -871,20 +926,26 @@
         <div style="margin-top:6px;"><span class="tooltip-label">Example:</span> ${displayExample}</div>
       `;
 
-      const offsetX = 14;
-      const offsetY = 18;
-      let left = event.clientX + offsetX;
-      let top = event.clientY + offsetY;
-
       tooltip.style.display = "block";
 
       const rect = tooltip.getBoundingClientRect();
+      let left = anchorX + 14;
+      let top = anchorY + 14;
+
+      if (isTouchDevice) {
+        left = Math.max(12, Math.min((window.innerWidth - rect.width) / 2, window.innerWidth - rect.width - 12));
+        top = anchorY + 12;
+      }
+
       if (left + rect.width > window.innerWidth - 12) {
-        left = event.clientX - rect.width - 12;
+        left = window.innerWidth - rect.width - 12;
       }
+      if (left < 12) left = 12;
+
       if (top + rect.height > window.innerHeight - 12) {
-        top = event.clientY - rect.height - 12;
+        top = anchorY - rect.height - 12;
       }
+      if (top < 12) top = 12;
 
       tooltip.style.left = `${left}px`;
       tooltip.style.top = `${top}px`;
@@ -929,8 +990,27 @@
       <strong>Quick feedback:</strong><br>
       ${score === 5 ? "Excellent. You understood the passage and the key vocabulary very well." :
       score >= 3 ? "Good job. Review the highlighted words and read the passage one more time." :
-      "Try again. Move over the highlighted words while reading, then answer once more."}`;
+      "Try again. Tap or move over the highlighted words while reading, then answer once more."}`;
     }
+
+    document.addEventListener("click", (e) => {
+      if (!isTouchDevice) return;
+      const tooltip = document.getElementById("tooltip-box");
+      const clickedWord = e.target.closest(".click-word");
+      const clickedTooltip = e.target.closest("#tooltip-box");
+
+      if (!clickedWord && !clickedTooltip) {
+        clearActiveWord();
+        hideTooltip();
+      }
+    });
+
+    document.addEventListener("scroll", () => {
+      if (isTouchDevice) {
+        clearActiveWord();
+        hideTooltip();
+      }
+    }, true);
 
     document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
     document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
