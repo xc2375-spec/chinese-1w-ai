@@ -3,60 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Writing Studio</title>
+  <title>Unit 16 - Writing Studio</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    .page-header,
-    .unit-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: var(--shadow);
-      margin-bottom: 20px;
-    }
-    .unit-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-    .unit-link {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-      background: #fffaf4;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      min-height: 128px;
-    }
-    .unit-link:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
-    }
-    .unit-link h3 {
-      margin: 0 0 8px 0;
-      color: var(--accent-dark);
-      font-size: 1.08rem;
-      line-height: 1.45;
-    }
-    .unit-link p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.65;
-      font-size: 0.96rem;
-    }
-    .status-note {
-      display: inline-block;
-      margin-top: 10px;
-      font-size: 0.88rem;
-      color: var(--accent-dark);
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 6px 10px;
-    }
     .back-link {
       display: inline-block;
       margin-bottom: 18px;
@@ -64,8 +14,197 @@
       color: var(--accent-dark);
       font-weight: 600;
     }
+
+    .page-header,
+    .panel,
+    .mini-card,
+    .student-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .page-header h1,
+    .panel h2,
+    .mini-card h3,
+    .student-card h3 {
+      margin-top: 0;
+      color: var(--accent-dark);
+    }
+
+    .page-header p,
+    .panel p,
+    .mini-card p,
+    .student-card p {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .prompt-card {
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 10px;
+      line-height: 1.8;
+      cursor: pointer;
+    }
+
+    .prompt-card.active-prompt {
+      outline: 2px solid var(--accent);
+      background: #f6efe6;
+    }
+
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .pill {
+      background: #f1ebe3;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.95rem;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .pill:hover {
+      box-shadow: var(--shadow);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .small-btn,
+    .primary-btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .primary-btn {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .small-btn:hover,
+    .primary-btn:hover {
+      box-shadow: var(--shadow);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 190px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 14px;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #fff;
+      line-height: 1.8;
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
+    .text-input {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .field-label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .student-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .feedback-box,
+    .note-box,
+    .status-box {
+      margin-top: 14px;
+      padding: 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+
+    .feedback-box strong {
+      color: var(--accent-dark);
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .sub-label {
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .helper-line {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .loading {
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    .module-link {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
     @media (max-width: 900px) {
-      .unit-grid {
+      .grid-two,
+      .compare-grid,
+      .student-row {
         grid-template-columns: 1fr;
       }
     }
@@ -73,13 +212,14 @@
 </head>
 <body>
   <div class="site-shell">
-    <a class="back-link" href="index.html">← Back to Home</a>
+    <a class="back-link" href="unit16-flow.html">← Back to Today’s Lesson</a>
 
     <header class="topbar">
       <div>
-        <h1 id="page-title">Writing Studio</h1>
-        <p id="page-description">Select a unit to draft, revise, and receive supportive AI feedback.</p>
+        <h1 id="site-title">Writing Studio</h1>
+        <p id="site-subtitle">Unit 16 writing practice</p>
       </div>
+
       <div class="lang-switch">
         <button id="btn-simplified" class="switch-btn active">简体</button>
         <button id="btn-traditional" class="switch-btn">繁體</button>
@@ -87,100 +227,564 @@
     </header>
 
     <section class="page-header">
-      <h2 id="select-title">Select a Unit</h2>
-      <p id="select-description">Choose a lesson below. Chinese and English titles are both shown for easier navigation.</p>
+      <h1 id="unit-title">Unit 16: 孟母三迁与教育环境</h1>
+      <p id="unit-question">Write about environment, education, parental choices, and fairness.</p>
     </section>
 
-    <section class="unit-grid" id="unit-grid"></section>
+    <section class="student-card">
+      <h3 id="student-title">Student Session</h3>
+      <p id="student-text">Enter your student code before writing, so your work can be saved.</p>
+
+      <div class="student-row">
+        <div>
+          <label class="field-label" id="student-code-label" for="student-code">Student Code</label>
+          <input class="text-input" id="student-code" placeholder="e.g. 1w_alvin" />
+        </div>
+        <div>
+          <button class="primary-btn" id="save-session-btn">Save Session</button>
+        </div>
+      </div>
+
+      <div class="status-box" id="session-status">Your session status will appear here.</div>
+    </section>
+
+    <section class="panel">
+      <h2 id="task-title">Writing Prompts</h2>
+      <p id="task-text">Choose one prompt and write a short response in Chinese.</p>
+
+      <div class="prompt-card active-prompt" id="prompt1" data-prompt="1">
+        1. 你觉得环境会改变一个人吗？请结合课文或自己的经验说一说。
+      </div>
+      <div class="prompt-card" id="prompt2" data-prompt="2">
+        2. 如果你是家长，你会不会为了孩子搬家或者买学区房？为什么？
+      </div>
+      <div class="prompt-card" id="prompt3" data-prompt="3">
+        3. 你觉得好的教育应该和房子、地址有关系吗？为什么？
+      </div>
+
+      <div class="note-box" id="task-note">
+        Suggested length: 5–8 sentences. Try to use words and patterns from this unit.
+      </div>
+    </section>
+
+    <div class="grid-two">
+      <section class="mini-card">
+        <h3 id="wordbank-title">Word Bank</h3>
+        <p id="wordbank-text">Tap a word to copy it into your draft.</p>
+        <div class="pill-group" id="wordbank-group"></div>
+      </section>
+
+      <section class="mini-card">
+        <h3 id="builder-title">Sentence Builder</h3>
+        <p id="builder-text">Tap a pattern to copy it into your draft.</p>
+        <div class="pill-group" id="builder-group"></div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2 id="draft-title">Draft 1</h2>
+      <p id="draft-text">Write your first draft below.</p>
+      <textarea id="draft-input" placeholder="请在这里写你的想法……"></textarea>
+
+      <div class="toolbar">
+        <button class="primary-btn" id="feedback-btn">Get AI Feedback</button>
+        <button class="small-btn" id="clear-btn">Clear</button>
+        <button class="small-btn" id="copy-btn">Copy to Revision</button>
+      </div>
+
+      <div class="helper-line" id="draft-help">
+        Tip: Try using words like 环境, 教育, 公平, 压力, 竞争, 未来.
+      </div>
+
+      <div class="feedback-box" id="feedback-box">
+        Your AI feedback will appear here.
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 id="revision-title">Revision</h2>
+      <p id="revision-text">Revise your writing based on the feedback.</p>
+
+      <div class="compare-grid">
+        <div>
+          <span class="sub-label" id="draft1-label">Draft 1</span>
+          <textarea id="draft1-box" readonly></textarea>
+        </div>
+
+        <div>
+          <span class="sub-label" id="draft2-label">Draft 2</span>
+          <textarea id="draft2-box" placeholder="请根据反馈修改你的第二稿……"></textarea>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button class="primary-btn" id="save-revision-btn">Save Revision</button>
+      </div>
+
+      <div class="status-box" id="revision-status">
+        Your revision status will appear here.
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 id="next-title">Next Step</h2>
+      <p id="next-text">
+        After writing, you can return to the lesson flow or review the character and culture page again.
+      </p>
+      <a class="module-link" id="next-link" href="unit16-culture.html">Go to Culture & Characters →</a>
+    </section>
   </div>
 
   <script>
-    const uiText = {
+    const SUPABASE_URL = "https://zulfijuosvgpdzuorikx.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_zp2Nu9zcgV7Qz7IwvA8-Zw_vIxaMx1h";
+    const WORKER_URL = "https://quiet-field-a529.xc2375.workers.dev";
+    const UNIT_NO = 16;
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let currentMode = localStorage.getItem("scriptMode") || "simplified";
+    let selectedPrompt = 1;
+
+    const content = {
       simplified: {
-        title: "Writing Studio",
-        description: "Select a unit to draft, revise, and receive supportive AI feedback.",
-        selectTitle: "选择单元",
-        selectDescription: "请选择下面的一课。每张卡片都显示中文课题和英文主题。",
-        readyNote: "Available now",
-        soonNote: "Content coming soon"
+        htmlLang: "zh-Hans",
+        siteTitle: "Writing Studio",
+        siteSubtitle: "Unit 16 writing practice",
+        unitTitle: "Unit 16: 孟母三迁与教育环境",
+        unitQuestion: "Write about environment, education, parental choices, and fairness.",
+
+        studentTitle: "Student Session",
+        studentText: "Enter your student code before writing, so your work can be saved.",
+        studentCodeLabel: "Student Code",
+        studentPlaceholder: "e.g. 1w_alvin",
+        saveSessionBtn: "Save Session",
+        sessionDefault: "Your session status will appear here.",
+        sessionNeedCode: "Please enter a student code first.",
+        sessionSaved: "Session saved. You can now begin writing.",
+        sessionError: "There was a problem saving the session. Please try again.",
+
+        taskTitle: "Writing Prompts",
+        taskText: "Choose one prompt and write a short response in Chinese.",
+        prompt1: "1. 你觉得环境会改变一个人吗？请结合课文或自己的经验说一说。",
+        prompt2: "2. 如果你是家长，你会不会为了孩子搬家或者买学区房？为什么？",
+        prompt3: "3. 你觉得好的教育应该和房子、地址有关系吗？为什么？",
+        taskNote: "Suggested length: 5–8 sentences. Try to use words and patterns from this unit.",
+
+        wordbankTitle: "Word Bank",
+        wordbankText: "Tap a word to copy it into your draft.",
+        builderTitle: "Sentence Builder",
+        builderText: "Tap a pattern to copy it into your draft.",
+
+        draftTitle: "Draft 1",
+        draftText: "Write your first draft below.",
+        draftPlaceholder: "请在这里写你的想法……",
+        feedbackBtn: "Get AI Feedback",
+        clearBtn: "Clear",
+        copyBtn: "Copy to Revision",
+        draftHelp: "Tip: Try using words like 环境, 教育, 公平, 压力, 竞争, 未来.",
+        feedbackDefault: "Your AI feedback will appear here.",
+        feedbackLoading: "AI is analyzing your writing...",
+
+        revisionTitle: "Revision",
+        revisionText: "Revise your writing based on the feedback.",
+        draft1Label: "Draft 1",
+        draft2Label: "Draft 2",
+        draft2Placeholder: "请根据反馈修改你的第二稿……",
+        saveRevisionBtn: "Save Revision",
+        revisionDefault: "Your revision status will appear here.",
+        revisionSaved: "Revision saved successfully.",
+        revisionNeedDraft: "Please write and copy your first draft before saving revision.",
+        saveWritingFirst: "Please save your student session first.",
+        writeFirst: "Please write a little more first, so the AI can give better feedback.",
+        copyFirst: "Draft copied. Now revise it in the Draft 2 box.",
+        workerError: "There was an error getting AI feedback. Please try again.",
+        writingSaveError: "There was an error saving your writing.",
+        writingSaveSuccess: "Writing and revision saved successfully.",
+
+        nextTitle: "Next Step",
+        nextText: "After writing, you can return to the lesson flow or review the character and culture page again.",
+        nextLink: "Go to Culture & Characters →",
+
+        wordBank: [
+          "环境", "改变", "教育", "父母", "学区房",
+          "房价", "公平", "制度", "投资", "代价",
+          "压力", "竞争", "未来", "重视", "合适"
+        ],
+        sentenceBuilder: [
+          "我觉得……很重要。",
+          "我认为环境会改变……",
+          "有人觉得……，也有人觉得……",
+          "父母这样做是因为……",
+          "这样做的好处是……",
+          "这样做的问题是……",
+          "对我来说，好的教育应该……"
+        ]
       },
+
       traditional: {
-        title: "Writing Studio",
-        description: "Select a unit to draft, revise, and receive supportive AI feedback.",
-        selectTitle: "選擇單元",
-        selectDescription: "請選擇下面的一課。每張卡片都顯示中文課題和英文主題。",
-        readyNote: "Available now",
-        soonNote: "Content coming soon"
+        htmlLang: "zh-Hant",
+        siteTitle: "Writing Studio",
+        siteSubtitle: "Unit 16 writing practice",
+        unitTitle: "Unit 16: 孟母三遷與教育環境",
+        unitQuestion: "Write about environment, education, parental choices, and fairness.",
+
+        studentTitle: "Student Session",
+        studentText: "Enter your student code before writing, so your work can be saved.",
+        studentCodeLabel: "Student Code",
+        studentPlaceholder: "e.g. 1w_alvin",
+        saveSessionBtn: "Save Session",
+        sessionDefault: "Your session status will appear here.",
+        sessionNeedCode: "Please enter a student code first.",
+        sessionSaved: "Session saved. You can now begin writing.",
+        sessionError: "There was a problem saving the session. Please try again.",
+
+        taskTitle: "Writing Prompts",
+        taskText: "Choose one prompt and write a short response in Chinese.",
+        prompt1: "1. 你覺得環境會改變一個人嗎？請結合課文或自己的經驗說一說。",
+        prompt2: "2. 如果你是家長，你會不會為了孩子搬家或者買學區房？為什麼？",
+        prompt3: "3. 你覺得好的教育應該和房子、地址有關係嗎？為什麼？",
+        taskNote: "Suggested length: 5–8 sentences. Try to use words and patterns from this unit.",
+
+        wordbankTitle: "Word Bank",
+        wordbankText: "Tap a word to copy it into your draft.",
+        builderTitle: "Sentence Builder",
+        builderText: "Tap a pattern to copy it into your draft.",
+
+        draftTitle: "Draft 1",
+        draftText: "Write your first draft below.",
+        draftPlaceholder: "請在這裡寫你的想法……",
+        feedbackBtn: "Get AI Feedback",
+        clearBtn: "Clear",
+        copyBtn: "Copy to Revision",
+        draftHelp: "Tip: Try using words like 環境, 教育, 公平, 壓力, 競爭, 未來.",
+        feedbackDefault: "Your AI feedback will appear here.",
+        feedbackLoading: "AI is analyzing your writing...",
+
+        revisionTitle: "Revision",
+        revisionText: "Revise your writing based on the feedback.",
+        draft1Label: "Draft 1",
+        draft2Label: "Draft 2",
+        draft2Placeholder: "請根據回饋修改你的第二稿……",
+        saveRevisionBtn: "Save Revision",
+        revisionDefault: "Your revision status will appear here.",
+        revisionSaved: "Revision saved successfully.",
+        revisionNeedDraft: "Please write and copy your first draft before saving revision.",
+        saveWritingFirst: "Please save your student session first.",
+        writeFirst: "Please write a little more first, so the AI can give better feedback.",
+        copyFirst: "Draft copied. Now revise it in the Draft 2 box.",
+        workerError: "There was an error getting AI feedback. Please try again.",
+        writingSaveError: "There was an error saving your writing.",
+        writingSaveSuccess: "Writing and revision saved successfully.",
+
+        nextTitle: "Next Step",
+        nextText: "After writing, you can return to the lesson flow or review the character and culture page again.",
+        nextLink: "Go to Culture & Characters →",
+
+        wordBank: [
+          "環境", "改變", "教育", "父母", "學區房",
+          "房價", "公平", "制度", "投資", "代價",
+          "壓力", "競爭", "未來", "重視", "合適"
+        ],
+        sentenceBuilder: [
+          "我覺得……很重要。",
+          "我認為環境會改變……",
+          "有人覺得……，也有人覺得……",
+          "父母這樣做是因為……",
+          "這樣做的好處是……",
+          "這樣做的問題是……",
+          "對我來說，好的教育應該……"
+        ]
       }
     };
 
-    const units = [
-      { num: 1, zhHans: "中国人的姓名", zhHant: "中國人的姓名", en: "Chinese Names", status: "ready" },
-      { num: 2, zhHans: "中国人的家庭", zhHant: "中國人的家庭", en: "Chinese Families", status: "soon" },
-      { num: 3, zhHans: "大江南北", zhHant: "大江南北", en: "China: the North and the South", status: "soon" },
-      { num: 4, zhHans: "十个太阳", zhHant: "十個太陽", en: "The Ten Suns", status: "soon" },
-      { num: 5, zhHans: "天与地", zhHant: "天與地", en: "Heaven and Earth", status: "soon" },
-      { num: 6, zhHans: "成语故事", zhHant: "成語故事", en: "The Story of Chinese Idioms", status: "soon" },
-      { num: 7, zhHans: "万里长城", zhHant: "萬里長城", en: "The Great Wall", status: "soon" },
-      { num: 8, zhHans: "李白学习的故事", zhHant: "李白學習的故事", en: "Li Bai Learns a Lesson", status: "soon" },
-      { num: 9, zhHans: "神农与中药", zhHant: "神農與中藥", en: "Shen Nong and Chinese Medicine", status: "soon" },
-      { num: 10, zhHans: "中国菜", zhHant: "中國菜", en: "Chinese Food", status: "soon" },
-      { num: 11, zhHans: "生肖", zhHant: "生肖", en: "The Chinese Zodiac", status: "soon" },
-      { num: 12, zhHans: "过年", zhHant: "過年", en: "Chinese New Year", status: "soon" },
-      { num: 13, zhHans: "红楼梦故事", zhHant: "紅樓夢故事", en: "The Story of the Dream of Red Mansions", status: "soon" },
-      { num: 14, zhHans: "少林功夫", zhHant: "少林功夫", en: "Shaolin Martial Arts", status: "soon" },
-      { num: 15, zhHans: "孔子", zhHant: "孔子", en: "Confucius", status: "soon" },
-      { num: 16, zhHans: "孟母三迁", zhHant: "孟母三遷", en: "The Story of Mencius", status: "ready" },
-      { num: 17, zhHans: "蚕的故事", zhHant: "蠶的故事", en: "The Story of Silkworms", status: "soon" },
-      { num: 18, zhHans: "中国茶", zhHant: "中國茶", en: "Chinese Tea", status: "soon" },
-      { num: 19, zhHans: "中国陶瓷", zhHant: "中國陶瓷", en: "Chinese Porcelain", status: "soon" },
-      { num: 20, zhHans: "竹子的品格", zhHant: "竹子的品格", en: "Virtue as Metaphor: What plant or object would you use to describe your own values?", status: "soon" }
-    ];
-
-    function getHref(unitNum, status) {
-      if (status === "ready") return `unit${unitNum}-writing.html`;
-      return `coming-soon.html?module=writing&unit=${unitNum}`;
+    function insertAtCursor(textarea, text) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+      const before = value.substring(0, start);
+      const after = value.substring(end);
+      const spacer = before && !before.endsWith("\n") && !before.endsWith(" ") ? " " : "";
+      textarea.value = before + spacer + text + after;
+      textarea.focus();
+      const newPos = (before + spacer + text).length;
+      textarea.setSelectionRange(newPos, newPos);
     }
 
-    function renderUnits(mode) {
-      const grid = document.getElementById("unit-grid");
-      const text = uiText[mode];
-      grid.innerHTML = "";
+    function renderPills(mode) {
+      const data = content[mode];
 
-      units.forEach(unit => {
-        const zh = mode === "traditional" ? unit.zhHant : unit.zhHans;
-        const note = unit.status === "ready" ? text.readyNote : text.soonNote;
+      const wordbankGroup = document.getElementById("wordbank-group");
+      wordbankGroup.innerHTML = "";
+      data.wordBank.forEach(word => {
+        const span = document.createElement("span");
+        span.className = "pill";
+        span.textContent = word;
+        span.addEventListener("click", () => {
+          insertAtCursor(document.getElementById("draft-input"), word);
+        });
+        wordbankGroup.appendChild(span);
+      });
 
-        const card = document.createElement("div");
-        card.className = "unit-card";
-        card.innerHTML = `
-          <a class="unit-link" href="${getHref(unit.num, unit.status)}">
-            <h3>Unit ${unit.num}: ${zh}</h3>
-            <p>${unit.en}</p>
-            <div class="status-note">${note}</div>
-          </a>
-        `;
-        grid.appendChild(card);
+      const builderGroup = document.getElementById("builder-group");
+      builderGroup.innerHTML = "";
+      data.sentenceBuilder.forEach(sentence => {
+        const span = document.createElement("span");
+        span.className = "pill";
+        span.textContent = sentence;
+        span.addEventListener("click", () => {
+          insertAtCursor(document.getElementById("draft-input"), sentence);
+        });
+        builderGroup.appendChild(span);
       });
     }
 
+    function setActivePrompt(promptNo) {
+      selectedPrompt = promptNo;
+      document.querySelectorAll(".prompt-card").forEach(card => {
+        card.classList.toggle("active-prompt", Number(card.dataset.prompt) === promptNo);
+      });
+    }
+
+    async function saveSession() {
+      const data = content[currentMode];
+      const studentCode = document.getElementById("student-code").value.trim();
+
+      if (!studentCode) {
+        document.getElementById("session-status").textContent = data.sessionNeedCode;
+        return false;
+      }
+
+      const { error } = await supabaseClient.from("lesson_sessions").insert([
+        {
+          student_code: studentCode,
+          unit_no: UNIT_NO,
+          module_name: "writing"
+        }
+      ]);
+
+      if (error) {
+        document.getElementById("session-status").textContent = data.sessionError;
+        return false;
+      }
+
+      localStorage.setItem("student_code", studentCode);
+      document.getElementById("session-status").textContent = data.sessionSaved;
+      return true;
+    }
+
+    function formatFeedback(text) {
+      const escaped = text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+      return escaped
+        .replace(/\n/g, "<br>")
+        .replace(/What is clear:?/gi, "<strong>What is clear:</strong>")
+        .replace(/What sounds unnatural:?/gi, "<strong>What sounds unnatural:</strong>")
+        .replace(/Better ways to say it:?/gi, "<strong>Better ways to say it:</strong>")
+        .replace(/ACTFL-style next step:?/gi, "<strong>ACTFL-style next step:</strong>")
+        .replace(/Useful lesson words to try:?/gi, "<strong>Useful lesson words to try:</strong>");
+    }
+
+    async function generateFeedback() {
+      const data = content[currentMode];
+      const studentCode = document.getElementById("student-code").value.trim();
+      const text = document.getElementById("draft-input").value.trim();
+      const feedbackBox = document.getElementById("feedback-box");
+
+      if (!studentCode) {
+        feedbackBox.innerHTML = data.saveWritingFirst;
+        feedbackBox.dataset.locked = "true";
+        return;
+      }
+
+      if (text.length < 20) {
+        feedbackBox.innerHTML = data.writeFirst;
+        feedbackBox.dataset.locked = "true";
+        return;
+      }
+
+      feedbackBox.innerHTML = `<span class="loading">${data.feedbackLoading}</span>`;
+      feedbackBox.dataset.locked = "true";
+
+      try {
+        const response = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ text })
+        });
+
+        const result = await response.json();
+
+        if (result.feedback) {
+          feedbackBox.innerHTML = formatFeedback(result.feedback);
+          feedbackBox.dataset.rawFeedback = result.feedback;
+        } else {
+          feedbackBox.innerHTML = `<strong>Error:</strong> ${result.error || data.workerError}<br><br>${result.details || ""}`;
+        }
+      } catch (error) {
+        feedbackBox.innerHTML = data.workerError;
+      }
+    }
+
+    async function saveWritingSubmission() {
+      const data = content[currentMode];
+      const studentCode = document.getElementById("student-code").value.trim();
+      const draft1 = document.getElementById("draft1-box").value.trim();
+      const draft2 = document.getElementById("draft2-box").value.trim();
+      const aiFeedback = document.getElementById("feedback-box").dataset.rawFeedback || "";
+
+      if (!studentCode) {
+        document.getElementById("revision-status").textContent = data.saveWritingFirst;
+        return;
+      }
+
+      if (!draft1) {
+        document.getElementById("revision-status").textContent = data.revisionNeedDraft;
+        return;
+      }
+
+      const { error } = await supabaseClient.from("writing_submissions").insert([
+        {
+          student_code: studentCode,
+          unit_no: UNIT_NO,
+          prompt_no: selectedPrompt,
+          draft_1: draft1,
+          ai_feedback: aiFeedback,
+          draft_2: draft2
+        }
+      ]);
+
+      if (error) {
+        document.getElementById("revision-status").textContent = data.writingSaveError;
+        return;
+      }
+
+      document.getElementById("revision-status").textContent = data.writingSaveSuccess;
+    }
+
     function applyLanguage(mode) {
-      const text = uiText[mode];
-      document.documentElement.lang = mode === "traditional" ? "zh-Hant" : "zh-Hans";
-      document.getElementById("page-title").textContent = text.title;
-      document.getElementById("page-description").textContent = text.description;
-      document.getElementById("select-title").textContent = text.selectTitle;
-      document.getElementById("select-description").textContent = text.selectDescription;
+      currentMode = mode;
+      const data = content[mode];
+      document.documentElement.lang = data.htmlLang;
+
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("unit-title").textContent = data.unitTitle;
+      document.getElementById("unit-question").textContent = data.unitQuestion;
+
+      document.getElementById("student-title").textContent = data.studentTitle;
+      document.getElementById("student-text").textContent = data.studentText;
+      document.getElementById("student-code-label").textContent = data.studentCodeLabel;
+      document.getElementById("student-code").placeholder = data.studentPlaceholder;
+      document.getElementById("save-session-btn").textContent = data.saveSessionBtn;
+
+      if (!document.getElementById("session-status").dataset.locked) {
+        document.getElementById("session-status").textContent = data.sessionDefault;
+      }
+
+      document.getElementById("task-title").textContent = data.taskTitle;
+      document.getElementById("task-text").textContent = data.taskText;
+      document.getElementById("prompt1").textContent = data.prompt1;
+      document.getElementById("prompt2").textContent = data.prompt2;
+      document.getElementById("prompt3").textContent = data.prompt3;
+      document.getElementById("task-note").textContent = data.taskNote;
+
+      document.getElementById("wordbank-title").textContent = data.wordbankTitle;
+      document.getElementById("wordbank-text").textContent = data.wordbankText;
+      document.getElementById("builder-title").textContent = data.builderTitle;
+      document.getElementById("builder-text").textContent = data.builderText;
+
+      document.getElementById("draft-title").textContent = data.draftTitle;
+      document.getElementById("draft-text").textContent = data.draftText;
+      document.getElementById("draft-input").placeholder = data.draftPlaceholder;
+      document.getElementById("feedback-btn").textContent = data.feedbackBtn;
+      document.getElementById("clear-btn").textContent = data.clearBtn;
+      document.getElementById("copy-btn").textContent = data.copyBtn;
+      document.getElementById("draft-help").textContent = data.draftHelp;
+
+      document.getElementById("revision-title").textContent = data.revisionTitle;
+      document.getElementById("revision-text").textContent = data.revisionText;
+      document.getElementById("draft1-label").textContent = data.draft1Label;
+      document.getElementById("draft2-label").textContent = data.draft2Label;
+      document.getElementById("draft2-box").placeholder = data.draft2Placeholder;
+      document.getElementById("save-revision-btn").textContent = data.saveRevisionBtn;
+
+      if (!document.getElementById("feedback-box").dataset.locked) {
+        document.getElementById("feedback-box").innerHTML = data.feedbackDefault;
+      }
+      if (!document.getElementById("revision-status").dataset.locked) {
+        document.getElementById("revision-status").textContent = data.revisionDefault;
+      }
+
+      document.getElementById("next-title").textContent = data.nextTitle;
+      document.getElementById("next-text").textContent = data.nextText;
+      document.getElementById("next-link").textContent = data.nextLink;
+
+      renderPills(mode);
+
       document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
       document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
-      renderUnits(mode);
+
       localStorage.setItem("scriptMode", mode);
     }
+
+    document.querySelectorAll(".prompt-card").forEach(card => {
+      card.addEventListener("click", () => {
+        setActivePrompt(Number(card.dataset.prompt));
+      });
+    });
+
+    document.getElementById("save-session-btn").addEventListener("click", async () => {
+      document.getElementById("session-status").dataset.locked = "true";
+      await saveSession();
+    });
+
+    document.getElementById("feedback-btn").addEventListener("click", generateFeedback);
+
+    document.getElementById("clear-btn").addEventListener("click", () => {
+      const data = content[currentMode];
+      document.getElementById("draft-input").value = "";
+      document.getElementById("feedback-box").innerHTML = data.feedbackDefault;
+      document.getElementById("feedback-box").dataset.locked = "";
+      document.getElementById("feedback-box").dataset.rawFeedback = "";
+    });
+
+    document.getElementById("copy-btn").addEventListener("click", () => {
+      const data = content[currentMode];
+      const text = document.getElementById("draft-input").value.trim();
+
+      if (!text) {
+        document.getElementById("feedback-box").innerHTML = data.writeFirst;
+        document.getElementById("feedback-box").dataset.locked = "true";
+        return;
+      }
+
+      document.getElementById("draft1-box").value = text;
+      document.getElementById("draft2-box").value = text;
+      document.getElementById("revision-status").textContent = data.copyFirst;
+      document.getElementById("revision-status").dataset.locked = "true";
+    });
+
+    document.getElementById("save-revision-btn").addEventListener("click", async () => {
+      document.getElementById("revision-status").dataset.locked = "true";
+      await saveWritingSubmission();
+    });
 
     document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
     document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
 
-    applyLanguage(localStorage.getItem("scriptMode") || "simplified");
+    const savedStudentCode = localStorage.getItem("student_code");
+    if (savedStudentCode) {
+      document.getElementById("student-code").value = savedStudentCode;
+    }
+
+    applyLanguage(currentMode);
+    setActivePrompt(1);
   </script>
 </body>
 </html>
