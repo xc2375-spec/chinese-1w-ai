@@ -42,10 +42,6 @@
       line-height: 1.8;
     }
 
-    .layout {
-      display: block;
-    }
-
     .section-title {
       margin-top: 0;
       margin-bottom: 14px;
@@ -175,6 +171,14 @@
       margin-top: 6px;
     }
 
+    .module-link {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
     @media (max-width: 980px) {
       .tooltip-box {
         max-width: min(330px, calc(100vw - 24px));
@@ -184,7 +188,7 @@
 </head>
 <body>
   <div class="site-shell">
-    <a class="back-link" href="smart-reading.html">← Back to Smart Reading</a>
+    <a class="back-link" href="unit16-flow.html">← Back to Today’s Lesson</a>
 
     <header class="topbar">
       <div>
@@ -203,83 +207,89 @@
       <p id="unit-question">Read about school district housing in China and think about education, fairness, and parental sacrifice.</p>
     </section>
 
-    <div class="layout">
-      <section class="panel">
-        <h2 class="section-title" id="reading-title">Smart Reading: 中国的学区房</h2>
-        <p class="section-subtitle" id="reading-subtitle">
-          Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.
-        </p>
+    <section class="panel">
+      <h2 class="section-title" id="reading-title">Smart Reading: 中国的学区房</h2>
+      <p class="section-subtitle" id="reading-subtitle">
+        Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.
+      </p>
 
-        <div class="toolbar">
-          <button class="small-btn" id="play-audio-btn">Play Reading Audio</button>
-          <button class="small-btn" id="stop-audio-btn">Stop Audio</button>
-        </div>
+      <div class="toolbar">
+        <button class="small-btn" id="play-audio-btn">Play Reading Audio</button>
+        <button class="small-btn" id="stop-audio-btn">Stop Audio</button>
+      </div>
 
-        <div class="audio-note" id="audio-note">
-          Add your own recorded mp3 later for natural, standard Mandarin reading.
-        </div>
+      <div class="audio-note" id="audio-note">
+        Tap Play Reading Audio to listen to the full Unit 16 passage.
+      </div>
 
-        <audio id="reading-audio" preload="none">
-          <source src="audio/unit16-reading1.mp3" type="audio/mpeg">
-        </audio>
+      <audio id="reading-audio" preload="none">
+        <source src="audio/unit16-reading1.mp3" type="audio/mpeg">
+      </audio>
 
-        <div class="reading-note" id="reading-note">
-          This article connects the old story of 孟母三迁 with a modern social issue in China.
-        </div>
+      <div class="reading-note" id="reading-note">
+        This article connects the old story of 孟母三迁 with a modern social issue in China.
+      </div>
 
-        <div class="reading-box" id="reading-box"></div>
-      </section>
+      <div class="reading-box" id="reading-box"></div>
+    </section>
 
-      <section class="question-card">
-        <h3 id="check-title">Reading Check</h3>
+    <section class="question-card">
+      <h3 id="check-title">Reading Check</h3>
 
-        <div>
-          <p id="q1-text">1. 什么是“学区房”？</p>
-          <label><input type="radio" name="q1" value="A"> <span id="q1a">A. 学校里的宿舍</span></label>
-          <label><input type="radio" name="q1" value="B"> <span id="q1b">B. 为了上某所学校而买的房子</span></label>
-          <label><input type="radio" name="q1" value="C"> <span id="q1c">C. 很便宜的小房子</span></label>
-        </div>
+      <div>
+        <p id="q1-text">1. 什么是“学区房”？</p>
+        <label><input type="radio" name="q1" value="A"> <span id="q1a">A. 学校里的宿舍</span></label>
+        <label><input type="radio" name="q1" value="B"> <span id="q1b">B. 为了上某所学校而买的房子</span></label>
+        <label><input type="radio" name="q1" value="C"> <span id="q1c">C. 很便宜的小房子</span></label>
+      </div>
 
-        <div style="margin-top:18px;">
-          <p id="q2-text">2. 为什么有的父母要买学区房？</p>
-          <label><input type="radio" name="q2" value="A"> <span id="q2a">A. 因为房子更大</span></label>
-          <label><input type="radio" name="q2" value="B"> <span id="q2b">B. 因为孩子可以上附近的好学校</span></label>
-          <label><input type="radio" name="q2" value="C"> <span id="q2c">C. 因为离工作近</span></label>
-        </div>
+      <div style="margin-top:18px;">
+        <p id="q2-text">2. 为什么有的父母要买学区房？</p>
+        <label><input type="radio" name="q2" value="A"> <span id="q2a">A. 因为房子更大</span></label>
+        <label><input type="radio" name="q2" value="B"> <span id="q2b">B. 因为孩子可以上附近的好学校</span></label>
+        <label><input type="radio" name="q2" value="C"> <span id="q2c">C. 因为离工作近</span></label>
+      </div>
 
-        <div style="margin-top:18px;">
-          <p id="q3-text">3. 有的学区房为什么“更有意思”？</p>
-          <label><input type="radio" name="q3" value="A"> <span id="q3a">A. 因为房子很漂亮</span></label>
-          <label><input type="radio" name="q3" value="B"> <span id="q3b">B. 因为房子很便宜</span></label>
-          <label><input type="radio" name="q3" value="C"> <span id="q3c">C. 因为房子很小，甚至不能住，只是为了地址</span></label>
-        </div>
+      <div style="margin-top:18px;">
+        <p id="q3-text">3. 有的学区房为什么“更有意思”？</p>
+        <label><input type="radio" name="q3" value="A"> <span id="q3a">A. 因为房子很漂亮</span></label>
+        <label><input type="radio" name="q3" value="B"> <span id="q3b">B. 因为房子很便宜</span></label>
+        <label><input type="radio" name="q3" value="C"> <span id="q3c">C. 因为房子很小，甚至不能住，只是为了地址</span></label>
+      </div>
 
-        <div style="margin-top:18px;">
-          <p id="q4-text">4. 为什么有人觉得学区房制度不公平？</p>
-          <label><input type="radio" name="q4" value="A"> <span id="q4a">A. 因为教育变成了可以用钱买的商品</span></label>
-          <label><input type="radio" name="q4" value="B"> <span id="q4b">B. 因为孩子不喜欢上学</span></label>
-          <label><input type="radio" name="q4" value="C"> <span id="q4c">C. 因为房子都太新了</span></label>
-        </div>
+      <div style="margin-top:18px;">
+        <p id="q4-text">4. 为什么有人觉得学区房制度不公平？</p>
+        <label><input type="radio" name="q4" value="A"> <span id="q4a">A. 因为教育变成了可以用钱买的商品</span></label>
+        <label><input type="radio" name="q4" value="B"> <span id="q4b">B. 因为孩子不喜欢上学</span></label>
+        <label><input type="radio" name="q4" value="C"> <span id="q4c">C. 因为房子都太新了</span></label>
+      </div>
 
-        <div style="margin-top:18px;">
-          <p id="q5-text">5. 今天的学区房现象和“孟母三迁”有什么关系？</p>
-          <label><input type="radio" name="q5" value="A"> <span id="q5a">A. 都说明中国父母很重视教育</span></label>
-          <label><input type="radio" name="q5" value="B"> <span id="q5b">B. 都和搬到美国有关</span></label>
-          <label><input type="radio" name="q5" value="C"> <span id="q5c">C. 都是关于买房赚钱</span></label>
-        </div>
+      <div style="margin-top:18px;">
+        <p id="q5-text">5. 今天的学区房现象和“孟母三迁”有什么关系？</p>
+        <label><input type="radio" name="q5" value="A"> <span id="q5a">A. 都说明中国父母很重视教育</span></label>
+        <label><input type="radio" name="q5" value="B"> <span id="q5b">B. 都和搬到美国有关</span></label>
+        <label><input type="radio" name="q5" value="C"> <span id="q5c">C. 都是关于买房赚钱</span></label>
+      </div>
 
-        <div class="toolbar" style="margin-top:18px;">
-          <button class="small-btn" id="check-btn">Check Answers</button>
-        </div>
+      <div class="toolbar" style="margin-top:18px;">
+        <button class="small-btn" id="check-btn">Check Answers</button>
+      </div>
 
-        <div class="result-box" id="result-box">Your result will appear here.</div>
-      </section>
+      <div class="result-box" id="result-box">Your result will appear here.</div>
+    </section>
 
-      <section class="discussion-card">
-        <h3 id="discussion-title">Think More</h3>
-        <ul class="discussion-list" id="discussion-list"></ul>
-      </section>
-    </div>
+    <section class="discussion-card">
+      <h3 id="discussion-title">Think More</h3>
+      <ul class="discussion-list" id="discussion-list"></ul>
+    </section>
+
+    <section class="panel">
+      <h2 id="next-title">Next Step</h2>
+      <p id="next-text">
+        Practice reading the key sentences aloud to improve fluency.
+      </p>
+      <a class="module-link" id="next-link" href="unit16-fluency.html">Go to Fluency Practice →</a>
+    </section>
   </div>
 
   <div id="tooltip-box" class="tooltip-box"></div>
@@ -296,7 +306,7 @@
         readingSubtitle: "Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.",
         playAudio: "Play Reading Audio",
         stopAudio: "Stop Audio",
-        audioNote: "Add your own recorded mp3 later for natural, standard Mandarin reading.",
+        audioNote: "Tap Play Reading Audio to listen to the full Unit 16 passage.",
         readingNote: "This article connects the old story of 孟母三迁 with a modern social issue in China.",
         checkTitle: "Reading Check",
         q1Text: "1. 什么是“学区房”？",
@@ -326,7 +336,10 @@
           "你觉得学区房公平吗？为什么？",
           "父母为了孩子的教育付出很多钱，这是一种爱吗？还是一种压力？",
           "好的教育应该和房子、地址有关系吗？"
-        ]
+        ],
+        nextTitle: "Next Step",
+        nextText: "Practice reading the key sentences aloud to improve fluency.",
+        nextLink: "Go to Fluency Practice →"
       },
       traditional: {
         htmlLang: "zh-Hant",
@@ -338,7 +351,7 @@
         readingSubtitle: "Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.",
         playAudio: "Play Reading Audio",
         stopAudio: "Stop Audio",
-        audioNote: "Add your own recorded mp3 later for natural, standard Mandarin reading.",
+        audioNote: "Tap Play Reading Audio to listen to the full Unit 16 passage.",
         readingNote: "This article connects the old story of 孟母三遷 with a modern social issue in China.",
         checkTitle: "Reading Check",
         q1Text: "1. 什麼是「學區房」？",
@@ -368,7 +381,10 @@
           "你覺得學區房公平嗎？為什麼？",
           "父母為了孩子的教育付出很多錢，這是一種愛嗎？還是一種壓力？",
           "好的教育應該和房子、地址有關係嗎？"
-        ]
+        ],
+        nextTitle: "Next Step",
+        nextText: "Practice reading the key sentences aloud to improve fluency.",
+        nextLink: "Go to Fluency Practice →"
       }
     };
 
@@ -399,7 +415,7 @@
         pinyin: "fāngshì",
         english: "way; method",
         help: "the way something is done",
-        remember: "a formal written word for “how” or “method”",
+        remember: "a formal written word for how something is done",
         exampleSimplified: "方式不一样了。",
         exampleTraditional: "方式不一樣了。"
       },
@@ -1106,14 +1122,13 @@
       ]
     };
 
-    let currentMode = localStorage.getItem("scriptMode") || "simplified";
     let activeWordKey = null;
     let activeWordElement = null;
     const isTouchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
     function applyLanguage(mode) {
-      currentMode = mode;
       const data = content[mode];
+      currentMode = mode;
       document.documentElement.lang = data.htmlLang;
 
       document.getElementById("site-title").textContent = data.siteTitle;
@@ -1160,6 +1175,10 @@
         discussionList.appendChild(li);
       });
 
+      document.getElementById("next-title").textContent = data.nextTitle;
+      document.getElementById("next-text").textContent = data.nextText;
+      document.getElementById("next-link").textContent = data.nextLink;
+
       document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
       document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
 
@@ -1172,8 +1191,8 @@
     function renderReading() {
       const box = document.getElementById("reading-box");
       box.innerHTML = "";
-
       const data = passages[currentMode];
+
       data.forEach(sentenceParts => {
         const sentenceDiv = document.createElement("div");
         sentenceDiv.className = "reading-sentence";
@@ -1267,14 +1286,9 @@
         top = anchorY + 12;
       }
 
-      if (left + rect.width > window.innerWidth - 12) {
-        left = window.innerWidth - rect.width - 12;
-      }
+      if (left + rect.width > window.innerWidth - 12) left = window.innerWidth - rect.width - 12;
       if (left < 12) left = 12;
-
-      if (top + rect.height > window.innerHeight - 12) {
-        top = anchorY - rect.height - 12;
-      }
+      if (top + rect.height > window.innerHeight - 12) top = anchorY - rect.height - 12;
       if (top < 12) top = 12;
 
       tooltip.style.left = `${left}px`;
@@ -1288,10 +1302,10 @@
     function playRecordedAudio() {
       const audio = document.getElementById("reading-audio");
       audio.play().catch(() => {
-        const note = document.getElementById("audio-note");
-        note.textContent = currentMode === "traditional"
-          ? "目前還沒有找到音檔。之後把錄好的 mp3 放到 audio/unit16-reading1.mp3 就可以播放。"
-          : "Audio file not found yet. Later, place your recorded mp3 at audio/unit16-reading1.mp3.";
+        document.getElementById("audio-note").textContent =
+          currentMode === "traditional"
+            ? "找不到音檔，請確認 audio/unit16-reading1.mp3 已經上傳。"
+            : "Audio file not found. Please make sure audio/unit16-reading1.mp3 has been uploaded.";
       });
     }
 
@@ -1347,19 +1361,8 @@
     document.getElementById("stop-audio-btn").addEventListener("click", stopRecordedAudio);
     document.getElementById("check-btn").addEventListener("click", checkAnswers);
 
+    let currentMode = localStorage.getItem("scriptMode") || "simplified";
     applyLanguage(currentMode);
   </script>
-  <section class="panel">
-  <h2>Next Step</h2>
-
-  <p>
-  Practice reading the key sentences aloud. This will help improve your
-  pronunciation, rhythm, and confidence when speaking Chinese.
-  </p>
-
-  <a class="module-link" href="unit16-fluency.html">
-  Go to Fluency Practice →
-  </a>
-</section>
 </body>
 </html>
