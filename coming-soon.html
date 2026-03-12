@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coming Soon</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px 24px;
+      box-shadow: var(--shadow);
+      max-width: 760px;
+      margin: 40px auto;
+    }
+
+    .page-card h1 {
+      margin-top: 0;
+      color: var(--accent-dark);
+    }
+
+    .page-card p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <a class="back-link" href="index.html">← Back to Home</a>
+
+    <div class="page-card">
+      <h1 id="title">This unit is coming soon</h1>
+      <p id="line1">
+        This lesson button is already available because the full course structure is being built.
+      </p>
+      <p id="line2">
+        The content for this unit will be added very soon. Your instructor is actively developing the lesson materials.
+      </p>
+      <div class="tag" id="unit-tag">Unit</div>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const unit = params.get("unit") || "";
+    const module = params.get("module") || "";
+
+    const moduleNames = {
+      word: "Word Explorer",
+      reading: "Smart Reading",
+      fluency: "Reading Fluency",
+      writing: "Writing Studio",
+      culture: "Culture & Characters"
+    };
+
+    const unitNames = {
+      "1": { zhHans: "中国人的姓名", zhHant: "中國人的姓名", en: "Chinese Names" },
+      "2": { zhHans: "中国人的家庭", zhHant: "中國人的家庭", en: "Chinese Families" },
+      "3": { zhHans: "大江南北", zhHant: "大江南北", en: "China: the North and the South" },
+      "4": { zhHans: "十个太阳", zhHant: "十個太陽", en: "The Ten Suns" },
+      "5": { zhHans: "天与地", zhHant: "天與地", en: "Heaven and Earth" },
+      "6": { zhHans: "成语故事", zhHant: "成語故事", en: "The Story of Chinese Idioms" },
+      "7": { zhHans: "万里长城", zhHant: "萬里長城", en: "The Great Wall" },
+      "8": { zhHans: "李白学习的故事", zhHant: "李白學習的故事", en: "Li Bai Learns a Lesson" },
+      "9": { zhHans: "神农与中药", zhHant: "神農與中藥", en: "Shen Nong and Chinese Medicine" },
+      "10": { zhHans: "中国菜", zhHant: "中國菜", en: "Chinese Food" },
+      "11": { zhHans: "生肖", zhHant: "生肖", en: "The Chinese Zodiac" },
+      "12": { zhHans: "过年", zhHant: "過年", en: "Chinese New Year" },
+      "13": { zhHans: "红楼梦故事", zhHant: "紅樓夢故事", en: "The Story of the Dream of Red Mansions" },
+      "14": { zhHans: "少林功夫", zhHant: "少林功夫", en: "Shaolin Martial Arts" },
+      "15": { zhHans: "孔子", zhHant: "孔子", en: "Confucius" },
+      "16": { zhHans: "孟母三迁", zhHant: "孟母三遷", en: "The Story of Mencius" },
+      "17": { zhHans: "蚕的故事", zhHant: "蠶的故事", en: "The Story of Silkworms" },
+      "18": { zhHans: "中国茶", zhHant: "中國茶", en: "Chinese Tea" },
+      "19": { zhHans: "中国陶瓷", zhHant: "中國陶瓷", en: "Chinese Porcelain" },
+      "20": { zhHans: "竹子的品格", zhHant: "竹子的品格", en: "Virtue as Metaphor" }
+    };
+
+    const savedMode = localStorage.getItem("scriptMode") || "simplified";
+    const unitData = unitNames[unit];
+
+    if (unitData) {
+      const zhTitle = savedMode === "traditional" ? unitData.zhHant : unitData.zhHans;
+      const moduleTitle = moduleNames[module] || "This module";
+      document.getElementById("title").textContent = `${moduleTitle}: Unit ${unit}`;
+      document.getElementById("unit-tag").textContent = `${zhTitle} · ${unitData.en}`;
+    }
+  </script>
+</body>
+</html>
