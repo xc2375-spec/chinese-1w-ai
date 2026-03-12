@@ -3,15 +3,180 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chinese 1W AI Learning Companion</title>
+  <title>1W Chinese AI Learning Studio</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .hero,
+    .today-card,
+    .intro-card,
+    .module-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 32px 28px;
+      margin-bottom: 22px;
+      background: linear-gradient(180deg, #fffaf4 0%, #fff 100%);
+    }
+
+    .hero h1 {
+      margin: 0 0 10px 0;
+      color: var(--accent-dark);
+      font-size: 2rem;
+      line-height: 1.25;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .intro-card {
+      padding: 20px 22px;
+      margin-bottom: 22px;
+    }
+
+    .intro-card h2 {
+      margin: 0 0 10px 0;
+      color: var(--accent-dark);
+      font-size: 1.2rem;
+    }
+
+    .intro-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .today-card {
+      padding: 24px;
+      margin-bottom: 24px;
+      background: #fffaf4;
+    }
+
+    .today-card h2 {
+      margin: 0 0 10px 0;
+      color: var(--accent-dark);
+      font-size: 1.25rem;
+    }
+
+    .today-card p {
+      margin: 0 0 14px 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .today-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .today-tag {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: white;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.92rem;
+    }
+
+    .today-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--accent);
+      color: white;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 600;
+      border: 1px solid var(--accent);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .today-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      margin: 0 0 14px 0;
+      color: var(--accent-dark);
+      font-size: 1.2rem;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 12px;
+    }
+
+    .module-card {
+      padding: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .module-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .module-card h3 {
+      margin: 0 0 8px 0;
+      color: var(--accent-dark);
+      font-size: 1.08rem;
+      line-height: 1.45;
+    }
+
+    .module-card p {
+      margin: 0 0 14px 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.96rem;
+    }
+
+    .module-link {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    .footer-note {
+      margin-top: 10px;
+      padding: 14px 16px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 900px) {
+      .module-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 26px 20px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="site-shell">
     <header class="topbar">
       <div>
-        <h1 id="site-title">Chinese 1W AI Learning Companion</h1>
-        <p id="site-subtitle">AI-assisted learning platform for heritage Chinese learners.</p>
+        <h1 id="site-title">1W Chinese AI Learning Studio</h1>
+        <p id="site-subtitle">Columbia heritage / background learners</p>
       </div>
 
       <div class="lang-switch">
@@ -20,48 +185,210 @@
       </div>
     </header>
 
-    <main>
-      <section class="hero-card">
-        <h2 id="welcome-title">Welcome</h2>
-        <p id="welcome-text">
-          Explore pronunciation, vocabulary, reading, writing, and Chinese character stories in a supportive learning space.
-        </p>
-      </section>
+    <section class="hero">
+      <h1 id="hero-title">Learn Chinese with reading, writing, speaking, and character support</h1>
+      <p id="hero-text">
+        This platform is designed for 1W learners who already have some listening and speaking ability, but want more support with reading, writing, vocabulary growth, and academic Chinese.
+      </p>
+    </section>
 
-      <section class="nav-grid">
-        <a class="nav-card" href="sound-lab.html">
-  <h3 id="nav-sound">Sound Lab</h3>
-  <p id="nav-sound-desc">Build pronunciation confidence with guided listening and speaking practice.</p>
-</a>
+    <section class="intro-card">
+      <h2 id="intro-title">How to use this site</h2>
+      <p id="intro-text">
+        You can follow today’s lesson flow, or enter any module directly. Each module supports a different part of your Chinese learning: pronunciation, vocabulary, reading, fluency, writing, and character understanding.
+      </p>
+    </section>
 
-<a class="nav-card" href="word-explorer.html">
-  <h3 id="nav-word">Word Explorer</h3>
-  <p id="nav-word-desc">Learn vocabulary through themes, context, and character families.</p>
-</a>
+    <section class="today-card">
+      <h2 id="today-title">Today’s Lesson</h2>
+      <p id="today-text">
+        Start here for today’s class pathway. This button will guide students step by step through the selected lesson activities.
+      </p>
 
-<a class="nav-card" href="smart-reading.html">
-  <h3 id="nav-reading">Smart Reading</h3>
-  <p id="nav-reading-desc">Read with click-to-see support, glosses, and guided comprehension.</p>
-</a>
+      <div class="today-meta">
+        <span class="today-tag" id="today-tag-1">Unit 16</span>
+        <span class="today-tag" id="today-tag-2">孟母三迁 / 孟母三遷</span>
+        <span class="today-tag" id="today-tag-3">Class Practice Flow</span>
+      </div>
 
-<a class="nav-card" href="reading-fluency.html">
-  <h3 id="nav-fluency">Reading Fluency</h3>
-  <p id="nav-fluency-desc">Practice listening, following, and reading aloud at your own pace.</p>
-</a>
+      <a class="today-btn" id="today-btn" href="unit16-flow.html">Go to Today’s Lesson</a>
+    </section>
 
-<a class="nav-card" href="writing-studio.html">
-  <h3 id="nav-writing">Writing Studio</h3>
-  <p id="nav-writing-desc">Draft, revise, and receive supportive AI feedback on your writing.</p>
-</a>
+    <section>
+      <h2 class="section-title" id="modules-title">Learning Modules</h2>
 
-<a class="nav-card" href="culture-characters.html">
-  <h3 id="nav-culture">Culture & Characters</h3>
-  <p id="nav-culture-desc">Discover cultural notes, radicals, and character stories.</p>
-</a>
-      </section>
-    </main>
+      <div class="module-grid">
+        <div class="module-card">
+          <h3 id="mod1-title">Sound Lab</h3>
+          <p id="mod1-text">Practice pronunciation, tones, sound awareness, and oral repetition with guided support.</p>
+          <a class="module-link" href="sound-lab.html" id="mod1-link">Open module →</a>
+        </div>
+
+        <div class="module-card">
+          <h3 id="mod2-title">Word Explorer</h3>
+          <p id="mod2-text">Explore lesson vocabulary through themes, context, collocations, and character families.</p>
+          <a class="module-link" href="word-explorer.html" id="mod2-link">Open module →</a>
+        </div>
+
+        <div class="module-card">
+          <h3 id="mod3-title">Smart Reading</h3>
+          <p id="mod3-text">Read with click-to-see support, glosses, and guided comprehension questions.</p>
+          <a class="module-link" href="smart-reading.html" id="mod3-link">Open module →</a>
+        </div>
+
+        <div class="module-card">
+          <h3 id="mod4-title">Reading Fluency</h3>
+          <p id="mod4-text">Practice listening, shadowing, reading aloud, and building sentence-level fluency.</p>
+          <a class="module-link" href="reading-fluency.html" id="mod4-link">Open module →</a>
+        </div>
+
+        <div class="module-card">
+          <h3 id="mod5-title">Writing Studio</h3>
+          <p id="mod5-text">Draft, revise, and receive AI-supported feedback on sentence-building and short writing tasks.</p>
+          <a class="module-link" href="writing-studio.html" id="mod5-link">Open module →</a>
+        </div>
+
+        <div class="module-card">
+          <h3 id="mod6-title">Culture & Characters</h3>
+          <p id="mod6-text">Understand characters through radicals, structure, cultural notes, and word expansion.</p>
+          <a class="module-link" href="culture-characters.html" id="mod6-link">Open module →</a>
+        </div>
+      </div>
+
+      <div class="footer-note" id="footer-note">
+        Later, teachers will be able to set Today’s Lesson from the teacher layer, so students and teachers can follow the same class pathway more easily.
+      </div>
+    </section>
   </div>
 
-  <script src="app.js"></script>
+  <script>
+    const content = {
+      simplified: {
+        htmlLang: "zh-Hans",
+        siteTitle: "1W Chinese AI Learning Studio",
+        siteSubtitle: "Columbia heritage / background learners",
+        heroTitle: "Learn Chinese with reading, writing, speaking, and character support",
+        heroText: "This platform is designed for 1W learners who already have some listening and speaking ability, but want more support with reading, writing, vocabulary growth, and academic Chinese.",
+        introTitle: "How to use this site",
+        introText: "You can follow today’s lesson flow, or enter any module directly. Each module supports a different part of your Chinese learning: pronunciation, vocabulary, reading, fluency, writing, and character understanding.",
+        todayTitle: "Today’s Lesson",
+        todayText: "Start here for today’s class pathway. This button will guide students step by step through the selected lesson activities.",
+        todayTag1: "Unit 16",
+        todayTag2: "孟母三迁",
+        todayTag3: "Class Practice Flow",
+        todayBtn: "Go to Today’s Lesson",
+        modulesTitle: "Learning Modules",
+        mod1Title: "Sound Lab",
+        mod1Text: "Practice pronunciation, tones, sound awareness, and oral repetition with guided support.",
+        mod1Link: "Open module →",
+        mod2Title: "Word Explorer",
+        mod2Text: "Explore lesson vocabulary through themes, context, collocations, and character families.",
+        mod2Link: "Open module →",
+        mod3Title: "Smart Reading",
+        mod3Text: "Read with click-to-see support, glosses, and guided comprehension questions.",
+        mod3Link: "Open module →",
+        mod4Title: "Reading Fluency",
+        mod4Text: "Practice listening, shadowing, reading aloud, and building sentence-level fluency.",
+        mod4Link: "Open module →",
+        mod5Title: "Writing Studio",
+        mod5Text: "Draft, revise, and receive AI-supported feedback on sentence-building and short writing tasks.",
+        mod5Link: "Open module →",
+        mod6Title: "Culture & Characters",
+        mod6Text: "Understand characters through radicals, structure, cultural notes, and word expansion.",
+        mod6Link: "Open module →",
+        footerNote: "Later, teachers will be able to set Today’s Lesson from the teacher layer, so students and teachers can follow the same class pathway more easily."
+      },
+      traditional: {
+        htmlLang: "zh-Hant",
+        siteTitle: "1W Chinese AI Learning Studio",
+        siteSubtitle: "Columbia heritage / background learners",
+        heroTitle: "Learn Chinese with reading, writing, speaking, and character support",
+        heroText: "This platform is designed for 1W learners who already have some listening and speaking ability, but want more support with reading, writing, vocabulary growth, and academic Chinese.",
+        introTitle: "How to use this site",
+        introText: "You can follow today’s lesson flow, or enter any module directly. Each module supports a different part of your Chinese learning: pronunciation, vocabulary, reading, fluency, writing, and character understanding.",
+        todayTitle: "Today’s Lesson",
+        todayText: "Start here for today’s class pathway. This button will guide students step by step through the selected lesson activities.",
+        todayTag1: "Unit 16",
+        todayTag2: "孟母三遷",
+        todayTag3: "Class Practice Flow",
+        todayBtn: "Go to Today’s Lesson",
+        modulesTitle: "Learning Modules",
+        mod1Title: "Sound Lab",
+        mod1Text: "Practice pronunciation, tones, sound awareness, and oral repetition with guided support.",
+        mod1Link: "Open module →",
+        mod2Title: "Word Explorer",
+        mod2Text: "Explore lesson vocabulary through themes, context, collocations, and character families.",
+        mod2Link: "Open module →",
+        mod3Title: "Smart Reading",
+        mod3Text: "Read with click-to-see support, glosses, and guided comprehension questions.",
+        mod3Link: "Open module →",
+        mod4Title: "Reading Fluency",
+        mod4Text: "Practice listening, shadowing, reading aloud, and building sentence-level fluency.",
+        mod4Link: "Open module →",
+        mod5Title: "Writing Studio",
+        mod5Text: "Draft, revise, and receive AI-supported feedback on sentence-building and short writing tasks.",
+        mod5Link: "Open module →",
+        mod6Title: "Culture & Characters",
+        mod6Text: "Understand characters through radicals, structure, cultural notes, and word expansion.",
+        mod6Link: "Open module →",
+        footerNote: "Later, teachers will be able to set Today’s Lesson from the teacher layer, so students and teachers can follow the same class pathway more easily."
+      }
+    };
+
+    function applyLanguage(mode) {
+      const data = content[mode];
+      document.documentElement.lang = data.htmlLang;
+
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("hero-title").textContent = data.heroTitle;
+      document.getElementById("hero-text").textContent = data.heroText;
+      document.getElementById("intro-title").textContent = data.introTitle;
+      document.getElementById("intro-text").textContent = data.introText;
+      document.getElementById("today-title").textContent = data.todayTitle;
+      document.getElementById("today-text").textContent = data.todayText;
+      document.getElementById("today-tag-1").textContent = data.todayTag1;
+      document.getElementById("today-tag-2").textContent = data.todayTag2;
+      document.getElementById("today-tag-3").textContent = data.todayTag3;
+      document.getElementById("today-btn").textContent = data.todayBtn;
+      document.getElementById("modules-title").textContent = data.modulesTitle;
+
+      document.getElementById("mod1-title").textContent = data.mod1Title;
+      document.getElementById("mod1-text").textContent = data.mod1Text;
+      document.getElementById("mod1-link").textContent = data.mod1Link;
+
+      document.getElementById("mod2-title").textContent = data.mod2Title;
+      document.getElementById("mod2-text").textContent = data.mod2Text;
+      document.getElementById("mod2-link").textContent = data.mod2Link;
+
+      document.getElementById("mod3-title").textContent = data.mod3Title;
+      document.getElementById("mod3-text").textContent = data.mod3Text;
+      document.getElementById("mod3-link").textContent = data.mod3Link;
+
+      document.getElementById("mod4-title").textContent = data.mod4Title;
+      document.getElementById("mod4-text").textContent = data.mod4Text;
+      document.getElementById("mod4-link").textContent = data.mod4Link;
+
+      document.getElementById("mod5-title").textContent = data.mod5Title;
+      document.getElementById("mod5-text").textContent = data.mod5Text;
+      document.getElementById("mod5-link").textContent = data.mod5Link;
+
+      document.getElementById("mod6-title").textContent = data.mod6Title;
+      document.getElementById("mod6-text").textContent = data.mod6Text;
+      document.getElementById("mod6-link").textContent = data.mod6Link;
+
+      document.getElementById("footer-note").textContent = data.footerNote;
+
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
+
+      localStorage.setItem("scriptMode", mode);
+    }
+
+    document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
+    document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
+
+    applyLanguage(localStorage.getItem("scriptMode") || "simplified");
+  </script>
 </body>
 </html>
