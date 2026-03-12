@@ -15,13 +15,11 @@
       box-shadow: var(--shadow);
       margin-bottom: 20px;
     }
-
     .unit-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
-
     .unit-link {
       text-decoration: none;
       color: inherit;
@@ -31,13 +29,34 @@
       border-radius: 16px;
       padding: 18px;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      min-height: 128px;
     }
-
     .unit-link:hover {
       transform: translateY(-3px);
       box-shadow: var(--shadow);
     }
-
+    .unit-link h3 {
+      margin: 0 0 8px 0;
+      color: var(--accent-dark);
+      font-size: 1.08rem;
+      line-height: 1.45;
+    }
+    .unit-link p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.96rem;
+    }
+    .status-note {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.88rem;
+      color: var(--accent-dark);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
     .back-link {
       display: inline-block;
       margin-bottom: 18px;
@@ -45,8 +64,7 @@
       color: var(--accent-dark);
       font-weight: 600;
     }
-
-    @media (max-width: 780px) {
+    @media (max-width: 900px) {
       .unit-grid {
         grid-template-columns: 1fr;
       }
@@ -57,26 +75,112 @@
   <div class="site-shell">
     <a class="back-link" href="index.html">← Back to Home</a>
 
+    <header class="topbar">
+      <div>
+        <h1 id="page-title">Writing Studio</h1>
+        <p id="page-description">Select a unit to draft, revise, and receive supportive AI feedback.</p>
+      </div>
+      <div class="lang-switch">
+        <button id="btn-simplified" class="switch-btn active">简体</button>
+        <button id="btn-traditional" class="switch-btn">繁體</button>
+      </div>
+    </header>
+
     <section class="page-header">
-      <h1>Writing Studio</h1>
-      <p>Select a unit to draft, revise, and receive supportive AI feedback.</p>
+      <h2 id="select-title">Select a Unit</h2>
+      <p id="select-description">Choose a lesson below. Chinese and English titles are both shown for easier navigation.</p>
     </section>
 
-    <section class="unit-grid">
-      <div class="unit-card">
-        <a class="unit-link" href="unit1-writing.html">
-          <h3>Unit 1: Chinese Names</h3>
-          <p>Write a short self-introduction with vocabulary support and revision guidance.</p>
-        </a>
-      </div>
-
-      <div class="unit-card">
-        <a class="unit-link" href="#">
-          <h3>Unit 2: Chinese Family</h3>
-          <p>Coming soon</p>
-        </a>
-      </div>
-    </section>
+    <section class="unit-grid" id="unit-grid"></section>
   </div>
+
+  <script>
+    const uiText = {
+      simplified: {
+        title: "Writing Studio",
+        description: "Select a unit to draft, revise, and receive supportive AI feedback.",
+        selectTitle: "选择单元",
+        selectDescription: "请选择下面的一课。每张卡片都显示中文课题和英文主题。",
+        readyNote: "Available now",
+        soonNote: "Content coming soon"
+      },
+      traditional: {
+        title: "Writing Studio",
+        description: "Select a unit to draft, revise, and receive supportive AI feedback.",
+        selectTitle: "選擇單元",
+        selectDescription: "請選擇下面的一課。每張卡片都顯示中文課題和英文主題。",
+        readyNote: "Available now",
+        soonNote: "Content coming soon"
+      }
+    };
+
+    const units = [
+      { num: 1, zhHans: "中国人的姓名", zhHant: "中國人的姓名", en: "Chinese Names", status: "ready" },
+      { num: 2, zhHans: "中国人的家庭", zhHant: "中國人的家庭", en: "Chinese Families", status: "soon" },
+      { num: 3, zhHans: "大江南北", zhHant: "大江南北", en: "China: the North and the South", status: "soon" },
+      { num: 4, zhHans: "十个太阳", zhHant: "十個太陽", en: "The Ten Suns", status: "soon" },
+      { num: 5, zhHans: "天与地", zhHant: "天與地", en: "Heaven and Earth", status: "soon" },
+      { num: 6, zhHans: "成语故事", zhHant: "成語故事", en: "The Story of Chinese Idioms", status: "soon" },
+      { num: 7, zhHans: "万里长城", zhHant: "萬里長城", en: "The Great Wall", status: "soon" },
+      { num: 8, zhHans: "李白学习的故事", zhHant: "李白學習的故事", en: "Li Bai Learns a Lesson", status: "soon" },
+      { num: 9, zhHans: "神农与中药", zhHant: "神農與中藥", en: "Shen Nong and Chinese Medicine", status: "soon" },
+      { num: 10, zhHans: "中国菜", zhHant: "中國菜", en: "Chinese Food", status: "soon" },
+      { num: 11, zhHans: "生肖", zhHant: "生肖", en: "The Chinese Zodiac", status: "soon" },
+      { num: 12, zhHans: "过年", zhHant: "過年", en: "Chinese New Year", status: "soon" },
+      { num: 13, zhHans: "红楼梦故事", zhHant: "紅樓夢故事", en: "The Story of the Dream of Red Mansions", status: "soon" },
+      { num: 14, zhHans: "少林功夫", zhHant: "少林功夫", en: "Shaolin Martial Arts", status: "soon" },
+      { num: 15, zhHans: "孔子", zhHant: "孔子", en: "Confucius", status: "soon" },
+      { num: 16, zhHans: "孟母三迁", zhHant: "孟母三遷", en: "The Story of Mencius", status: "ready" },
+      { num: 17, zhHans: "蚕的故事", zhHant: "蠶的故事", en: "The Story of Silkworms", status: "soon" },
+      { num: 18, zhHans: "中国茶", zhHant: "中國茶", en: "Chinese Tea", status: "soon" },
+      { num: 19, zhHans: "中国陶瓷", zhHant: "中國陶瓷", en: "Chinese Porcelain", status: "soon" },
+      { num: 20, zhHans: "竹子的品格", zhHant: "竹子的品格", en: "Virtue as Metaphor: What plant or object would you use to describe your own values?", status: "soon" }
+    ];
+
+    function getHref(unitNum, status) {
+      if (status === "ready") return `unit${unitNum}-writing.html`;
+      return `coming-soon.html?module=writing&unit=${unitNum}`;
+    }
+
+    function renderUnits(mode) {
+      const grid = document.getElementById("unit-grid");
+      const text = uiText[mode];
+      grid.innerHTML = "";
+
+      units.forEach(unit => {
+        const zh = mode === "traditional" ? unit.zhHant : unit.zhHans;
+        const note = unit.status === "ready" ? text.readyNote : text.soonNote;
+
+        const card = document.createElement("div");
+        card.className = "unit-card";
+        card.innerHTML = `
+          <a class="unit-link" href="${getHref(unit.num, unit.status)}">
+            <h3>Unit ${unit.num}: ${zh}</h3>
+            <p>${unit.en}</p>
+            <div class="status-note">${note}</div>
+          </a>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function applyLanguage(mode) {
+      const text = uiText[mode];
+      document.documentElement.lang = mode === "traditional" ? "zh-Hant" : "zh-Hans";
+      document.getElementById("page-title").textContent = text.title;
+      document.getElementById("page-description").textContent = text.description;
+      document.getElementById("select-title").textContent = text.selectTitle;
+      document.getElementById("select-description").textContent = text.selectDescription;
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
+      renderUnits(mode);
+      localStorage.setItem("scriptMode", mode);
+    }
+
+    document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
+    document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
+
+    applyLanguage(localStorage.getItem("scriptMode") || "simplified");
+  </script>
 </body>
 </html>
