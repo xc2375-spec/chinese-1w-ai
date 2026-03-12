@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Writing Studio — Unit 16</title>
+
+<style>
+
+body{
+font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+background:#f6f6f6;
+margin:0;
+padding:0;
+}
+
+.site-shell{
+max-width:900px;
+margin:auto;
+padding:30px;
+background:white;
+}
+
+.back-link{
+text-decoration:none;
+color:#888;
+}
+
+.page-header{
+margin-bottom:30px;
+}
+
+h1{
+font-size:32px;
+}
+
+.section{
+margin-bottom:35px;
+}
+
+.prompt{
+background:#f2f5ff;
+padding:18px;
+border-radius:8px;
+margin-bottom:12px;
+}
+
+.wordbank span{
+display:inline-block;
+background:#f0f0f0;
+padding:6px 10px;
+margin:4px;
+border-radius:6px;
+}
+
+.sentence{
+background:#f9f9f9;
+padding:10px;
+margin:6px 0;
+border-radius:6px;
+}
+
+textarea{
+width:100%;
+height:180px;
+padding:12px;
+font-size:16px;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+button{
+margin-top:10px;
+padding:10px 16px;
+border:none;
+border-radius:6px;
+background:#3a7afe;
+color:white;
+cursor:pointer;
+}
+
+.feedback{
+background:#f7f7f7;
+padding:15px;
+border-radius:8px;
+margin-top:15px;
+}
+
+.lang-switch{
+float:right;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="site-shell">
+
+<a class="back-link" href="writing-studio.html">← Back</a>
+
+<div class="lang-switch">
+<button onclick="toggleLang()">简 / 繁</button>
+</div>
+
+<section class="page-header">
+<h1>Writing Studio</h1>
+<p>Unit 16 — 孟母三迁与中国的学区房</p>
+</section>
+
+<section class="section">
+
+<h2>Writing Prompts</h2>
+
+<div class="prompt">
+1️⃣ 你觉得环境会改变一个人吗？请结合课文或自己的经验说一说。
+</div>
+
+<div class="prompt">
+2️⃣ 如果你是家长，你会不会为了孩子搬家或者买学区房？为什么？
+</div>
+
+<div class="prompt">
+3️⃣ 你觉得好的教育应该和房子、地址有关系吗？为什么？
+</div>
+
+</section>
+
+<section class="section">
+
+<h2>Word Bank</h2>
+
+<div class="wordbank">
+
+<span>环境</span>
+<span>改变</span>
+<span>教育</span>
+<span>父母</span>
+<span>学区房</span>
+<span>房价</span>
+<span>公平</span>
+<span>制度</span>
+<span>投资</span>
+<span>代价</span>
+<span>压力</span>
+<span>竞争</span>
+<span>未来</span>
+<span>重视</span>
+<span>合适</span>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2>Sentence Builder</h2>
+
+<div class="sentence">我觉得……很重要。</div>
+<div class="sentence">我认为环境会改变……</div>
+<div class="sentence">有人觉得……也有人觉得……</div>
+<div class="sentence">父母这样做是因为……</div>
+<div class="sentence">这样做的好处是……</div>
+<div class="sentence">这样做的问题是……</div>
+<div class="sentence">对我来说，好的教育应该……</div>
+
+</section>
+
+<section class="section">
+
+<h2>Your Draft</h2>
+
+<textarea id="draft" placeholder="在这里写你的想法…"></textarea>
+
+<button onclick="generateFeedback()">Get Feedback</button>
+
+</section>
+
+<section class="section">
+
+<h2>AI Feedback</h2>
+
+<div id="feedback" class="feedback">
+
+<p><b>What is clear:</b> Your main idea will appear here.</p>
+
+<p><b>What can improve:</b> Try adding examples or reasons.</p>
+
+<p><b>What to add next:</b> Use sentence patterns from Sentence Builder.</p>
+
+</div>
+
+</section>
+
+<section class="section">
+
+<h2>Revision</h2>
+
+<textarea placeholder="根据反馈修改你的作文…"></textarea>
+
+</section>
+
+</div>
+
+<script>
+
+function generateFeedback(){
+
+let text=document.getElementById("draft").value;
+
+if(text.length<20){
+
+document.getElementById("feedback").innerHTML=
+"<p>Please write a little more so the system can give better feedback.</p>";
+
+return;
+
+}
+
+document.getElementById("feedback").innerHTML=
+
+"<p><b>What is clear:</b> You are discussing education and environment.</p>"+
+"<p><b>What can improve:</b> Try explaining your reasons more clearly.</p>"+
+"<p><b>What to add next:</b> You can use patterns like “有人觉得……也有人觉得……”</p>";
+
+}
+
+function toggleLang(){
+
+alert("繁体版本稍后加入");
+
+}
+
+</script>
+
+</body>
+</html>
