@@ -1,238 +1,564 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-Hans">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 16 - Writing Studio</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
 
-<title>Writing Studio — Unit 16</title>
+    .page-header,
+    .panel,
+    .mini-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
 
-<style>
+    .page-header h1,
+    .panel h2,
+    .mini-card h3 {
+      margin-top: 0;
+      color: var(--accent-dark);
+    }
 
-body{
-font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-background:#f6f6f6;
-margin:0;
-padding:0;
-}
+    .page-header p,
+    .panel p,
+    .mini-card p {
+      color: var(--muted);
+      line-height: 1.75;
+    }
 
-.site-shell{
-max-width:900px;
-margin:auto;
-padding:30px;
-background:white;
-}
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
 
-.back-link{
-text-decoration:none;
-color:#888;
-}
+    .prompt-card {
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-top: 10px;
+      line-height: 1.8;
+    }
 
-.page-header{
-margin-bottom:30px;
-}
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
 
-h1{
-font-size:32px;
-}
+    .pill {
+      background: #f1ebe3;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.95rem;
+      color: var(--text);
+      cursor: pointer;
+      user-select: none;
+    }
 
-.section{
-margin-bottom:35px;
-}
+    .pill:hover {
+      box-shadow: var(--shadow);
+    }
 
-.prompt{
-background:#f2f5ff;
-padding:18px;
-border-radius:8px;
-margin-bottom:12px;
-}
+    .sentence-list {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.9;
+    }
 
-.wordbank span{
-display:inline-block;
-background:#f0f0f0;
-padding:6px 10px;
-margin:4px;
-border-radius:6px;
-}
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
 
-.sentence{
-background:#f9f9f9;
-padding:10px;
-margin:6px 0;
-border-radius:6px;
-}
+    .small-btn,
+    .primary-btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
 
-textarea{
-width:100%;
-height:180px;
-padding:12px;
-font-size:16px;
-border-radius:8px;
-border:1px solid #ddd;
-}
+    .primary-btn {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
 
-button{
-margin-top:10px;
-padding:10px 16px;
-border:none;
-border-radius:6px;
-background:#3a7afe;
-color:white;
-cursor:pointer;
-}
+    .small-btn:hover,
+    .primary-btn:hover {
+      box-shadow: var(--shadow);
+    }
 
-.feedback{
-background:#f7f7f7;
-padding:15px;
-border-radius:8px;
-margin-top:15px;
-}
+    textarea {
+      width: 100%;
+      min-height: 190px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 14px;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #fff;
+      line-height: 1.8;
+      resize: vertical;
+      box-sizing: border-box;
+    }
 
-.lang-switch{
-float:right;
-}
+    .feedback-box,
+    .note-box,
+    .status-box {
+      margin-top: 14px;
+      padding: 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      line-height: 1.8;
+    }
 
-</style>
+    .feedback-box strong {
+      color: var(--accent-dark);
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .sub-label {
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .helper-line {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .loading {
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    @media (max-width: 900px) {
+      .grid-two,
+      .compare-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="site-shell">
+    <a class="back-link" href="writing-studio.html">← Back to Writing Studio</a>
 
-<div class="site-shell">
+    <header class="topbar">
+      <div>
+        <h1 id="site-title">Writing Studio</h1>
+        <p id="site-subtitle">Unit 16 writing practice</p>
+      </div>
 
-<a class="back-link" href="writing-studio.html">← Back</a>
+      <div class="lang-switch">
+        <button id="btn-simplified" class="switch-btn active">简体</button>
+        <button id="btn-traditional" class="switch-btn">繁體</button>
+      </div>
+    </header>
 
-<div class="lang-switch">
-<button onclick="toggleLang()">简 / 繁</button>
-</div>
+    <section class="page-header">
+      <h1 id="unit-title">Unit 16: 孟母三迁与教育环境</h1>
+      <p id="unit-question">Write about environment, education, parental choices, and fairness.</p>
+    </section>
 
-<section class="page-header">
-<h1>Writing Studio</h1>
-<p>Unit 16 — 孟母三迁与中国的学区房</p>
-</section>
+    <section class="panel">
+      <h2 id="task-title">Writing Prompts</h2>
+      <p id="task-text">Choose one prompt and write a short response in Chinese.</p>
 
-<section class="section">
+      <div class="prompt-card" id="prompt1">
+        1. 你觉得环境会改变一个人吗？请结合课文或自己的经验说一说。
+      </div>
+      <div class="prompt-card" id="prompt2">
+        2. 如果你是家长，你会不会为了孩子搬家或者买学区房？为什么？
+      </div>
+      <div class="prompt-card" id="prompt3">
+        3. 你觉得好的教育应该和房子、地址有关系吗？为什么？
+      </div>
 
-<h2>Writing Prompts</h2>
+      <div class="note-box" id="task-note">
+        Suggested length: 5–8 sentences. Try to use words and patterns from this unit.
+      </div>
+    </section>
 
-<div class="prompt">
-1️⃣ 你觉得环境会改变一个人吗？请结合课文或自己的经验说一说。
-</div>
+    <div class="grid-two">
+      <section class="mini-card">
+        <h3 id="wordbank-title">Word Bank</h3>
+        <p id="wordbank-text">Tap a word to copy it into your draft.</p>
+        <div class="pill-group" id="wordbank-group"></div>
+      </section>
 
-<div class="prompt">
-2️⃣ 如果你是家长，你会不会为了孩子搬家或者买学区房？为什么？
-</div>
+      <section class="mini-card">
+        <h3 id="builder-title">Sentence Builder</h3>
+        <p id="builder-text">Tap a pattern to copy it into your draft.</p>
+        <div class="pill-group" id="builder-group"></div>
+      </section>
+    </div>
 
-<div class="prompt">
-3️⃣ 你觉得好的教育应该和房子、地址有关系吗？为什么？
-</div>
+    <section class="panel">
+      <h2 id="draft-title">Draft 1</h2>
+      <p id="draft-text">Write your first draft below.</p>
+      <textarea id="draft-input" placeholder="请在这里写你的想法……"></textarea>
 
-</section>
+      <div class="toolbar">
+        <button class="primary-btn" id="feedback-btn">Get AI Feedback</button>
+        <button class="small-btn" id="clear-btn">Clear</button>
+        <button class="small-btn" id="copy-btn">Copy to Revision</button>
+      </div>
 
-<section class="section">
+      <div class="helper-line" id="draft-help">
+        Tip: Try using words like 环境, 教育, 公平, 压力, 竞争, 未来.
+      </div>
 
-<h2>Word Bank</h2>
+      <div class="feedback-box" id="feedback-box">
+        Your AI feedback will appear here.
+      </div>
+    </section>
 
-<div class="wordbank">
+    <section class="panel">
+      <h2 id="revision-title">Revision</h2>
+      <p id="revision-text">Revise your writing based on the feedback.</p>
 
-<span>环境</span>
-<span>改变</span>
-<span>教育</span>
-<span>父母</span>
-<span>学区房</span>
-<span>房价</span>
-<span>公平</span>
-<span>制度</span>
-<span>投资</span>
-<span>代价</span>
-<span>压力</span>
-<span>竞争</span>
-<span>未来</span>
-<span>重视</span>
-<span>合适</span>
+      <div class="compare-grid">
+        <div>
+          <span class="sub-label" id="draft1-label">Draft 1</span>
+          <textarea id="draft1-box" readonly></textarea>
+        </div>
 
-</div>
+        <div>
+          <span class="sub-label" id="draft2-label">Draft 2</span>
+          <textarea id="draft2-box" placeholder="请根据反馈修改你的第二稿……"></textarea>
+        </div>
+      </div>
 
-</section>
+      <div class="toolbar">
+        <button class="primary-btn" id="save-revision-btn">Save Revision</button>
+      </div>
 
-<section class="section">
+      <div class="status-box" id="revision-status">
+        Your revision status will appear here.
+      </div>
+    </section>
+  </div>
 
-<h2>Sentence Builder</h2>
+  <script>
+    const WORKER_URL = "https://YOUR-WORKER-URL.workers.dev";
 
-<div class="sentence">我觉得……很重要。</div>
-<div class="sentence">我认为环境会改变……</div>
-<div class="sentence">有人觉得……也有人觉得……</div>
-<div class="sentence">父母这样做是因为……</div>
-<div class="sentence">这样做的好处是……</div>
-<div class="sentence">这样做的问题是……</div>
-<div class="sentence">对我来说，好的教育应该……</div>
+    const content = {
+      simplified: {
+        htmlLang: "zh-Hans",
+        siteTitle: "Writing Studio",
+        siteSubtitle: "Unit 16 writing practice",
+        unitTitle: "Unit 16: 孟母三迁与教育环境",
+        unitQuestion: "Write about environment, education, parental choices, and fairness.",
+        taskTitle: "Writing Prompts",
+        taskText: "Choose one prompt and write a short response in Chinese.",
+        prompt1: "1. 你觉得环境会改变一个人吗？请结合课文或自己的经验说一说。",
+        prompt2: "2. 如果你是家长，你会不会为了孩子搬家或者买学区房？为什么？",
+        prompt3: "3. 你觉得好的教育应该和房子、地址有关系吗？为什么？",
+        taskNote: "Suggested length: 5–8 sentences. Try to use words and patterns from this unit.",
+        wordbankTitle: "Word Bank",
+        wordbankText: "Tap a word to copy it into your draft.",
+        builderTitle: "Sentence Builder",
+        builderText: "Tap a pattern to copy it into your draft.",
+        draftTitle: "Draft 1",
+        draftText: "Write your first draft below.",
+        draftPlaceholder: "请在这里写你的想法……",
+        feedbackBtn: "Get AI Feedback",
+        clearBtn: "Clear",
+        copyBtn: "Copy to Revision",
+        draftHelp: "Tip: Try using words like 环境, 教育, 公平, 压力, 竞争, 未来.",
+        feedbackDefault: "Your AI feedback will appear here.",
+        feedbackLoading: "AI is analyzing your writing...",
+        revisionTitle: "Revision",
+        revisionText: "Revise your writing based on the feedback.",
+        draft1Label: "Draft 1",
+        draft2Label: "Draft 2",
+        draft2Placeholder: "请根据反馈修改你的第二稿……",
+        saveRevisionBtn: "Save Revision",
+        revisionDefault: "Your revision status will appear here.",
+        revisionSaved: "Revision saved. Nice work revising your writing.",
+        writeFirst: "Please write a little more first, so the AI can give better feedback.",
+        copyFirst: "Draft copied. Now revise it in the Draft 2 box.",
+        workerError: "There was an error getting AI feedback. Please try again.",
+        wordBank: [
+          "环境", "改变", "教育", "父母", "学区房",
+          "房价", "公平", "制度", "投资", "代价",
+          "压力", "竞争", "未来", "重视", "合适"
+        ],
+        sentenceBuilder: [
+          "我觉得……很重要。",
+          "我认为环境会改变……",
+          "有人觉得……，也有人觉得……",
+          "父母这样做是因为……",
+          "这样做的好处是……",
+          "这样做的问题是……",
+          "对我来说，好的教育应该……"
+        ]
+      },
+      traditional: {
+        htmlLang: "zh-Hant",
+        siteTitle: "Writing Studio",
+        siteSubtitle: "Unit 16 writing practice",
+        unitTitle: "Unit 16: 孟母三遷與教育環境",
+        unitQuestion: "Write about environment, education, parental choices, and fairness.",
+        taskTitle: "Writing Prompts",
+        taskText: "Choose one prompt and write a short response in Chinese.",
+        prompt1: "1. 你覺得環境會改變一個人嗎？請結合課文或自己的經驗說一說。",
+        prompt2: "2. 如果你是家長，你會不會為了孩子搬家或者買學區房？為什麼？",
+        prompt3: "3. 你覺得好的教育應該和房子、地址有關係嗎？為什麼？",
+        taskNote: "Suggested length: 5–8 sentences. Try to use words and patterns from this unit.",
+        wordbankTitle: "Word Bank",
+        wordbankText: "Tap a word to copy it into your draft.",
+        builderTitle: "Sentence Builder",
+        builderText: "Tap a pattern to copy it into your draft.",
+        draftTitle: "Draft 1",
+        draftText: "Write your first draft below.",
+        draftPlaceholder: "請在這裡寫你的想法……",
+        feedbackBtn: "Get AI Feedback",
+        clearBtn: "Clear",
+        copyBtn: "Copy to Revision",
+        draftHelp: "Tip: Try using words like 環境, 教育, 公平, 壓力, 競爭, 未來.",
+        feedbackDefault: "Your AI feedback will appear here.",
+        feedbackLoading: "AI is analyzing your writing...",
+        revisionTitle: "Revision",
+        revisionText: "Revise your writing based on the feedback.",
+        draft1Label: "Draft 1",
+        draft2Label: "Draft 2",
+        draft2Placeholder: "請根據回饋修改你的第二稿……",
+        saveRevisionBtn: "Save Revision",
+        revisionDefault: "Your revision status will appear here.",
+        revisionSaved: "Revision saved. Nice work revising your writing.",
+        writeFirst: "Please write a little more first, so the AI can give better feedback.",
+        copyFirst: "Draft copied. Now revise it in the Draft 2 box.",
+        workerError: "There was an error getting AI feedback. Please try again.",
+        wordBank: [
+          "環境", "改變", "教育", "父母", "學區房",
+          "房價", "公平", "制度", "投資", "代價",
+          "壓力", "競爭", "未來", "重視", "合適"
+        ],
+        sentenceBuilder: [
+          "我覺得……很重要。",
+          "我認為環境會改變……",
+          "有人覺得……，也有人覺得……",
+          "父母這樣做是因為……",
+          "這樣做的好處是……",
+          "這樣做的問題是……",
+          "對我來說，好的教育應該……"
+        ]
+      }
+    };
 
-</section>
+    function insertAtCursor(textarea, text) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+      const before = value.substring(0, start);
+      const after = value.substring(end);
+      const spacer = before && !before.endsWith("\n") && !before.endsWith(" ") ? " " : "";
+      textarea.value = before + spacer + text + after;
+      textarea.focus();
+      const newPos = (before + spacer + text).length;
+      textarea.setSelectionRange(newPos, newPos);
+    }
 
-<section class="section">
+    function renderPills(mode) {
+      const data = content[mode];
 
-<h2>Your Draft</h2>
+      const wordbankGroup = document.getElementById("wordbank-group");
+      wordbankGroup.innerHTML = "";
+      data.wordBank.forEach(word => {
+        const span = document.createElement("span");
+        span.className = "pill";
+        span.textContent = word;
+        span.addEventListener("click", () => {
+          insertAtCursor(document.getElementById("draft-input"), word);
+        });
+        wordbankGroup.appendChild(span);
+      });
 
-<textarea id="draft" placeholder="在这里写你的想法…"></textarea>
+      const builderGroup = document.getElementById("builder-group");
+      builderGroup.innerHTML = "";
+      data.sentenceBuilder.forEach(sentence => {
+        const span = document.createElement("span");
+        span.className = "pill";
+        span.textContent = sentence;
+        span.addEventListener("click", () => {
+          insertAtCursor(document.getElementById("draft-input"), sentence);
+        });
+        builderGroup.appendChild(span);
+      });
+    }
 
-<button onclick="generateFeedback()">Get Feedback</button>
+    function applyLanguage(mode) {
+      const data = content[mode];
+      document.documentElement.lang = data.htmlLang;
 
-</section>
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("unit-title").textContent = data.unitTitle;
+      document.getElementById("unit-question").textContent = data.unitQuestion;
 
-<section class="section">
+      document.getElementById("task-title").textContent = data.taskTitle;
+      document.getElementById("task-text").textContent = data.taskText;
+      document.getElementById("prompt1").textContent = data.prompt1;
+      document.getElementById("prompt2").textContent = data.prompt2;
+      document.getElementById("prompt3").textContent = data.prompt3;
+      document.getElementById("task-note").textContent = data.taskNote;
 
-<h2>AI Feedback</h2>
+      document.getElementById("wordbank-title").textContent = data.wordbankTitle;
+      document.getElementById("wordbank-text").textContent = data.wordbankText;
+      document.getElementById("builder-title").textContent = data.builderTitle;
+      document.getElementById("builder-text").textContent = data.builderText;
 
-<div id="feedback" class="feedback">
+      document.getElementById("draft-title").textContent = data.draftTitle;
+      document.getElementById("draft-text").textContent = data.draftText;
+      document.getElementById("draft-input").placeholder = data.draftPlaceholder;
+      document.getElementById("feedback-btn").textContent = data.feedbackBtn;
+      document.getElementById("clear-btn").textContent = data.clearBtn;
+      document.getElementById("copy-btn").textContent = data.copyBtn;
+      document.getElementById("draft-help").textContent = data.draftHelp;
 
-<p><b>What is clear:</b> Your main idea will appear here.</p>
+      document.getElementById("revision-title").textContent = data.revisionTitle;
+      document.getElementById("revision-text").textContent = data.revisionText;
+      document.getElementById("draft1-label").textContent = data.draft1Label;
+      document.getElementById("draft2-label").textContent = data.draft2Label;
+      document.getElementById("draft2-box").placeholder = data.draft2Placeholder;
+      document.getElementById("save-revision-btn").textContent = data.saveRevisionBtn;
 
-<p><b>What can improve:</b> Try adding examples or reasons.</p>
+      if (!document.getElementById("feedback-box").dataset.locked) {
+        document.getElementById("feedback-box").innerHTML = data.feedbackDefault;
+      }
+      if (!document.getElementById("revision-status").dataset.locked) {
+        document.getElementById("revision-status").textContent = data.revisionDefault;
+      }
 
-<p><b>What to add next:</b> Use sentence patterns from Sentence Builder.</p>
+      renderPills(mode);
 
-</div>
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
 
-</section>
+      localStorage.setItem("scriptMode", mode);
+    }
 
-<section class="section">
+    async function generateFeedback() {
+      const mode = localStorage.getItem("scriptMode") || "simplified";
+      const data = content[mode];
+      const text = document.getElementById("draft-input").value.trim();
+      const feedbackBox = document.getElementById("feedback-box");
 
-<h2>Revision</h2>
+      if (text.length < 20) {
+        feedbackBox.innerHTML = data.writeFirst;
+        feedbackBox.dataset.locked = "true";
+        return;
+      }
 
-<textarea placeholder="根据反馈修改你的作文…"></textarea>
+      feedbackBox.innerHTML = `<span class="loading">${data.feedbackLoading}</span>`;
+      feedbackBox.dataset.locked = "true";
 
-</section>
+      try {
+        const response = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ text })
+        });
 
-</div>
+        const result = await response.json();
 
-<script>
+        if (result.feedback) {
+          feedbackBox.innerHTML = formatFeedback(result.feedback);
+        } else {
+          feedbackBox.innerHTML = data.workerError;
+        }
+      } catch (error) {
+        feedbackBox.innerHTML = data.workerError;
+      }
+    }
 
-function generateFeedback(){
+    function formatFeedback(text) {
+      const escaped = text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 
-let text=document.getElementById("draft").value;
+      return escaped
+        .replace(/\n/g, "<br>")
+        .replace(/What is clear:?/gi, "<strong>What is clear:</strong>")
+        .replace(/What can improve:?/gi, "<strong>What can improve:</strong>")
+        .replace(/What to add next:?/gi, "<strong>What to add next:</strong>");
+    }
 
-if(text.length<20){
+    document.getElementById("feedback-btn").addEventListener("click", generateFeedback);
 
-document.getElementById("feedback").innerHTML=
-"<p>Please write a little more so the system can give better feedback.</p>";
+    document.getElementById("clear-btn").addEventListener("click", () => {
+      const mode = localStorage.getItem("scriptMode") || "simplified";
+      document.getElementById("draft-input").value = "";
+      document.getElementById("feedback-box").innerHTML = content[mode].feedbackDefault;
+      document.getElementById("feedback-box").dataset.locked = "";
+    });
 
-return;
+    document.getElementById("copy-btn").addEventListener("click", () => {
+      const mode = localStorage.getItem("scriptMode") || "simplified";
+      const text = document.getElementById("draft-input").value.trim();
 
-}
+      if (!text) {
+        document.getElementById("feedback-box").innerHTML = content[mode].writeFirst;
+        document.getElementById("feedback-box").dataset.locked = "true";
+        return;
+      }
 
-document.getElementById("feedback").innerHTML=
+      document.getElementById("draft1-box").value = text;
+      document.getElementById("draft2-box").value = text;
+      document.getElementById("revision-status").textContent = content[mode].copyFirst;
+      document.getElementById("revision-status").dataset.locked = "true";
+    });
 
-"<p><b>What is clear:</b> You are discussing education and environment.</p>"+
-"<p><b>What can improve:</b> Try explaining your reasons more clearly.</p>"+
-"<p><b>What to add next:</b> You can use patterns like “有人觉得……也有人觉得……”</p>";
+    document.getElementById("save-revision-btn").addEventListener("click", () => {
+      const mode = localStorage.getItem("scriptMode") || "simplified";
+      document.getElementById("revision-status").textContent = content[mode].revisionSaved;
+      document.getElementById("revision-status").dataset.locked = "true";
+    });
 
-}
+    document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
+    document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
 
-function toggleLang(){
-
-alert("繁体版本稍后加入");
-
-}
-
-</script>
-
+    const savedMode = localStorage.getItem("scriptMode") || "simplified";
+    applyLanguage(savedMode);
+  </script>
 </body>
 </html>
