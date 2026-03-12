@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 16 - Word Explorer</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    .page-header,
+    .panel,
+    .word-card,
+    .focus-card,
+    .exercise-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .page-header h1,
+    .panel h2,
+    .word-card h3,
+    .focus-card h3,
+    .exercise-card h3 {
+      margin-top: 0;
+      color: var(--accent-dark);
+    }
+
+    .page-header p,
+    .panel p,
+    .word-card p,
+    .focus-card p,
+    .exercise-card p {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .grid-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .grid-three {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .word-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .word-item {
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      line-height: 1.65;
+    }
+
+    .word-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .word-zh {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+
+    .word-pinyin {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .word-en {
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .focus-main {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 6px;
+    }
+
+    .focus-meta {
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .focus-example {
+      display: inline-block;
+      margin: 6px 8px 0 0;
+      padding: 8px 12px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .exercise-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .option-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: white;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .option-btn:hover {
+      box-shadow: var(--shadow);
+    }
+
+    .result {
+      margin-top: 12px;
+      color: var(--accent-dark);
+      font-weight: 600;
+      line-height: 1.7;
+    }
+
+    .note-box {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 980px) {
+      .grid-two,
+      .grid-three {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <a class="back-link" href="word-explorer.html">← Back to Word Explorer</a>
+
+    <header class="topbar">
+      <div>
+        <h1 id="site-title">Word Explorer</h1>
+        <p id="site-subtitle">Unit 16 vocabulary support</p>
+      </div>
+
+      <div class="lang-switch">
+        <button id="btn-simplified" class="switch-btn active">简体</button>
+        <button id="btn-traditional" class="switch-btn">繁體</button>
+      </div>
+    </header>
+
+    <section class="page-header">
+      <h1 id="unit-title">Unit 16: 孟母三迁</h1>
+      <p id="unit-desc">
+        Explore the key vocabulary for this lesson and notice how radicals can help you remember characters.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2 id="overview-title">Word Explorer Overview</h2>
+      <p id="overview-text">
+        This unit combines story words, environment and education words, and daily-life extension words. Pay special attention to the 車 / 车 family and the 耳 family.
+      </p>
+      <div class="note-box" id="overview-note">
+        These words can support Smart Reading, discussion, and later writing tasks.
+      </div>
+    </section>
+
+    <div class="grid-three">
+      <section class="word-card">
+        <h3 id="group1-title">Story & History Words</h3>
+        <div class="word-list" id="group1-list"></div>
+      </section>
+
+      <section class="word-card">
+        <h3 id="group2-title">Environment & Education</h3>
+        <div class="word-list" id="group2-list"></div>
+      </section>
+
+      <section class="word-card">
+        <h3 id="group3-title">Daily Life Extensions</h3>
+        <div class="word-list" id="group3-list"></div>
+      </section>
+    </div>
+
+    <div class="grid-two">
+      <section class="focus-card">
+        <h3 id="focus1-title">Radical Focus: 車 / 车</h3>
+        <div class="focus-main" id="focus1-main">車 / 车</div>
+        <div class="focus-meta" id="focus1-meta">chē · vehicle / movement</div>
+        <p id="focus1-text">
+          This radical often appears in characters related to vehicles, movement, wheels, carrying, or transportation. In this lesson, 孟轲 / 孟軻 gives you one useful example.
+        </p>
+        <div id="focus1-examples"></div>
+      </section>
+
+      <section class="focus-card">
+        <h3 id="focus2-title">Radical Focus: 耳</h3>
+        <div class="focus-main" id="focus2-main">耳</div>
+        <div class="focus-meta" id="focus2-meta">ěr · ear / hearing / listening</div>
+        <p id="focus2-text">
+          This radical often appears in characters related to hearing, listening, communication, or social connection.
+        </p>
+        <div id="focus2-examples"></div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <h2 id="practice-title">Try It Out</h2>
+
+      <div class="exercise-card">
+        <h3 id="ex1-title">Exercise 1: Which one belongs to the 車 / 车 family?</h3>
+        <div class="exercise-options">
+          <button class="option-btn" onclick="checkAnswer('wrong1')">聊 / 聊</button>
+          <button class="option-btn" onclick="checkAnswer('correct1')">轲 / 軻</button>
+          <button class="option-btn" onclick="checkAnswer('wrong1')">聯 / 联</button>
+        </div>
+        <div id="result1" class="result"></div>
+      </div>
+
+      <div class="exercise-card">
+        <h3 id="ex2-title">Exercise 2: Which one is related to hearing or communication?</h3>
+        <div class="exercise-options">
+          <button class="option-btn" onclick="checkAnswer('correct2')">聞 / 闻</button>
+          <button class="option-btn" onclick="checkAnswer('wrong2')">輕 / 轻</button>
+          <button class="option-btn" onclick="checkAnswer('wrong2')">轉 / 转</button>
+        </div>
+        <div id="result2" class="result"></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const content = {
+      simplified: {
+        htmlLang: "zh-Hans",
+        siteTitle: "Word Explorer",
+        siteSubtitle: "Unit 16 vocabulary support",
+        unitTitle: "Unit 16: 孟母三迁",
+        unitDesc: "Explore the key vocabulary for this lesson and notice how radicals can help you remember characters.",
+        overviewTitle: "Word Explorer Overview",
+        overviewText: "This unit combines story words, environment and education words, and daily-life extension words. Pay special attention to the 車 / 车 family and the 耳 family.",
+        overviewNote: "These words can support Smart Reading, discussion, and later writing tasks.",
+        group1Title: "Story & History Words",
+        group2Title: "Environment & Education",
+        group3Title: "Daily Life Extensions",
+        focus1Title: "Radical Focus: 車 / 车",
+        focus1Main: "車 / 车",
+        focus1Meta: "chē · vehicle / movement",
+        focus1Text: "This radical often appears in characters related to vehicles, movement, wheels, carrying, or transportation. In this lesson, 孟轲 gives you one useful example.",
+        focus2Title: "Radical Focus: 耳",
+        focus2Main: "耳",
+        focus2Meta: "ěr · ear / hearing / listening",
+        focus2Text: "This radical often appears in characters related to hearing, listening, communication, or social connection.",
+        practiceTitle: "Try It Out",
+        ex1Title: "Exercise 1: Which one belongs to the 車 / 车 family?",
+        ex2Title: "Exercise 2: Which one is related to hearing or communication?",
+        result1Correct: "Correct! 轲 belongs to the 車 / 车 family.",
+        result1Wrong: "Try again.",
+        result2Correct: "Correct! 闻 is related to hearing.",
+        result2Wrong: "Try again."
+      },
+      traditional: {
+        htmlLang: "zh-Hant",
+        siteTitle: "Word Explorer",
+        siteSubtitle: "Unit 16 vocabulary support",
+        unitTitle: "Unit 16: 孟母三遷",
+        unitDesc: "Explore the key vocabulary for this lesson and notice how radicals can help you remember characters.",
+        overviewTitle: "Word Explorer Overview",
+        overviewText: "This unit combines story words, environment and education words, and daily-life extension words. Pay special attention to the 車 / 車 family and the 耳 family.",
+        overviewNote: "These words can support Smart Reading, discussion, and later writing tasks.",
+        group1Title: "Story & History Words",
+        group2Title: "Environment & Education",
+        group3Title: "Daily Life Extensions",
+        focus1Title: "Radical Focus: 車 / 車",
+        focus1Main: "車 / 車",
+        focus1Meta: "chē · vehicle / movement",
+        focus1Text: "This radical often appears in characters related to vehicles, movement, wheels, carrying, or transportation. In this lesson, 孟軻 gives you one useful example.",
+        focus2Title: "Radical Focus: 耳",
+        focus2Main: "耳",
+        focus2Meta: "ěr · ear / hearing / listening",
+        focus2Text: "This radical often appears in characters related to hearing, listening, communication, or social connection.",
+        practiceTitle: "Try It Out",
+        ex1Title: "Exercise 1: Which one belongs to the 車 / 車 family?",
+        ex2Title: "Exercise 2: Which one is related to hearing or communication?",
+        result1Correct: "Correct! 軻 belongs to the 車 / 車 family.",
+        result1Wrong: "Try again.",
+        result2Correct: "Correct! 聞 is related to hearing.",
+        result2Wrong: "Try again."
+      }
+    };
+
+    const vocabGroups = {
+      group1: [
+        { s: "孟", t: "孟", p: "Mèng", e: "Mencius / surname Meng" },
+        { s: "迁", t: "遷", p: "qiān", e: "to move; to relocate" },
+        { s: "孟轲", t: "孟軻", p: "Mèng Kē", e: "Mencius' personal name" },
+        { s: "公元前", t: "公元前", p: "gōngyuánqián", e: "B.C.; before the Common Era" },
+        { s: "墓地", t: "墓地", p: "mùdì", e: "graveyard; cemetery" },
+        { s: "举行", t: "舉行", p: "jǔxíng", e: "to hold; to carry out" },
+        { s: "葬礼", t: "葬禮", p: "zànglǐ", e: "funeral" },
+        { s: "每当", t: "每當", p: "měidāng", e: "whenever" },
+        { s: "仪式", t: "儀式", p: "yíshì", e: "ceremony; ritual" },
+        { s: "模仿", t: "模仿", p: "mófǎng", e: "to imitate" },
+        { s: "后人", t: "後人", p: "hòurén", e: "later generations" },
+        { s: "典范", t: "典範", p: "diǎnfàn", e: "model; example" }
+      ],
+      group2: [
+        { s: "环境", t: "環境", p: "huánjìng", e: "environment" },
+        { s: "附近", t: "附近", p: "fùjìn", e: "nearby" },
+        { s: "市场", t: "市場", p: "shìchǎng", e: "market" },
+        { s: "来来往往", t: "來來往往", p: "láiláiwǎngwǎng", e: "coming and going" },
+        { s: "自从", t: "自從", p: "zìcóng", e: "since" },
+        { s: "尤其", t: "尤其", p: "yóuqí", e: "especially" },
+        { s: "商人", t: "商人", p: "shāngrén", e: "merchant; businessman" },
+        { s: "叫卖", t: "叫賣", p: "jiàomài", e: "to hawk; to shout out goods for sale" },
+        { s: "礼仪", t: "禮儀", p: "lǐyí", e: "etiquette; ritual behavior" },
+        { s: "静", t: "靜", p: "jìng", e: "quiet; still" },
+        { s: "跟……有关", t: "跟……有關", p: "gēn...yǒuguān", e: "to be related to..." },
+        { s: "合适", t: "合適", p: "héshì", e: "suitable; appropriate" }
+      ],
+      group3: [
+        { s: "麻烦", t: "麻煩", p: "máfan", e: "trouble; inconvenient" },
+        { s: "生意", t: "生意", p: "shēngyi", e: "business" },
+        { s: "上班", t: "上班", p: "shàngbān", e: "to go to work" },
+        { s: "好久不见", t: "好久不見", p: "hǎojiǔbújiàn", e: "long time no see" },
+        { s: "关心", t: "關心", p: "guānxīn", e: "to care about" },
+        { s: "收拾", t: "收拾", p: "shōushi", e: "to tidy up; to put in order" },
+        { s: "酒吧", t: "酒吧", p: "jiǔbā", e: "bar; pub" },
+        { s: "游戏机", t: "遊戲機", p: "yóuxìjī", e: "game machine; video game console" },
+        { s: "卡拉OK", t: "卡拉OK", p: "kǎlā OK", e: "karaoke" },
+        { s: "高中", t: "高中", p: "gāozhōng", e: "high school" },
+        { s: "换", t: "換", p: "huàn", e: "to change; to switch" },
+        { s: "用功", t: "用功", p: "yònggōng", e: "to study hard" },
+        { s: "商业区", t: "商業區", p: "shāngyèqū", e: "business district" },
+        { s: "花心思", t: "花心思", p: "huā xīnsī", e: "to put thought and effort into" },
+        { s: "白费", t: "白費", p: "báifèi", e: "to waste; to be in vain" }
+      ]
+    };
+
+    const radicalData = {
+      car: [
+        { s: "车", t: "車", p: "chē", e: "vehicle" },
+        { s: "轲", t: "軻", p: "kē", e: "part of 孟轲 / 孟軻" },
+        { s: "轻", t: "輕", p: "qīng", e: "light" },
+        { s: "转", t: "轉", p: "zhuǎn / zhuàn", e: "to turn" },
+        { s: "轮", t: "輪", p: "lún", e: "wheel" }
+      ],
+      ear: [
+        { s: "耳", t: "耳", p: "ěr", e: "ear" },
+        { s: "闻", t: "聞", p: "wén", e: "to hear; news" },
+        { s: "联", t: "聯", p: "lián", e: "to connect; join" },
+        { s: "聊", t: "聊", p: "liáo", e: "to chat" },
+        { s: "聪", t: "聰", p: "cōng", e: "clever; sharp-hearing" }
+      ]
+    };
+
+    let currentMode = localStorage.getItem("scriptMode") || "simplified";
+
+    function renderWordGroup(groupKey, containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      vocabGroups[groupKey].forEach(item => {
+        const zh = currentMode === "traditional" ? item.t : item.s;
+        const div = document.createElement("div");
+        div.className = "word-item";
+        div.innerHTML = `
+          <div class="word-head">
+            <span class="word-zh">${zh}</span>
+            <span class="word-pinyin">${item.p}</span>
+          </div>
+          <div class="word-en">${item.e}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function renderFocusExamples(groupKey, containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+
+      radicalData[groupKey].forEach(item => {
+        const zh = currentMode === "traditional" ? item.t : item.s;
+        const span = document.createElement("span");
+        span.className = "focus-example";
+        span.textContent = `${zh} · ${item.p} · ${item.e}`;
+        container.appendChild(span);
+      });
+    }
+
+    function applyLanguage(mode) {
+      currentMode = mode;
+      const data = content[mode];
+      document.documentElement.lang = data.htmlLang;
+
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("unit-title").textContent = data.unitTitle;
+      document.getElementById("unit-desc").textContent = data.unitDesc;
+      document.getElementById("overview-title").textContent = data.overviewTitle;
+      document.getElementById("overview-text").textContent = data.overviewText;
+      document.getElementById("overview-note").textContent = data.overviewNote;
+
+      document.getElementById("group1-title").textContent = data.group1Title;
+      document.getElementById("group2-title").textContent = data.group2Title;
+      document.getElementById("group3-title").textContent = data.group3Title;
+
+      document.getElementById("focus1-title").textContent = data.focus1Title;
+      document.getElementById("focus1-main").textContent = data.focus1Main;
+      document.getElementById("focus1-meta").textContent = data.focus1Meta;
+      document.getElementById("focus1-text").textContent = data.focus1Text;
+
+      document.getElementById("focus2-title").textContent = data.focus2Title;
+      document.getElementById("focus2-main").textContent = data.focus2Main;
+      document.getElementById("focus2-meta").textContent = data.focus2Meta;
+      document.getElementById("focus2-text").textContent = data.focus2Text;
+
+      document.getElementById("practice-title").textContent = data.practiceTitle;
+      document.getElementById("ex1-title").textContent = data.ex1Title;
+      document.getElementById("ex2-title").textContent = data.ex2Title;
+
+      renderWordGroup("group1", "group1-list");
+      renderWordGroup("group2", "group2-list");
+      renderWordGroup("group3", "group3-list");
+      renderFocusExamples("car", "focus1-examples");
+      renderFocusExamples("ear", "focus2-examples");
+
+      document.getElementById("result1").textContent = "";
+      document.getElementById("result2").textContent = "";
+
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
+
+      localStorage.setItem("scriptMode", mode);
+    }
+
+    function checkAnswer(type) {
+      const data = content[currentMode];
+      if (type === "correct1") document.getElementById("result1").textContent = data.result1Correct;
+      if (type === "wrong1") document.getElementById("result1").textContent = data.result1Wrong;
+      if (type === "correct2") document.getElementById("result2").textContent = data.result2Correct;
+      if (type === "wrong2") document.getElementById("result2").textContent = data.result2Wrong;
+    }
+
+    document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
+    document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
+
+    applyLanguage(currentMode);
+  </script>
+</body>
+</html>
