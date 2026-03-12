@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 16 - Smart Reading</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    .page-header,
+    .panel,
+    .question-card,
+    .discussion-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .page-header h1,
+    .panel h2,
+    .question-card h3,
+    .discussion-card h3 {
+      margin-top: 0;
+      color: var(--accent-dark);
+    }
+
+    .page-header p,
+    .panel p,
+    .question-card p,
+    .discussion-card p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .layout {
+      display: block;
+    }
+
+    .section-title {
+      margin-top: 0;
+      margin-bottom: 14px;
+      color: var(--accent-dark);
+    }
+
+    .section-subtitle {
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-size: 0.96rem;
+      line-height: 1.75;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .small-btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 14px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .small-btn:hover {
+      box-shadow: var(--shadow);
+    }
+
+    .reading-box {
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      line-height: 2.12;
+      font-size: 1.05rem;
+    }
+
+    .reading-sentence {
+      margin-bottom: 14px;
+    }
+
+    .click-word {
+      display: inline-block;
+      padding: 0 2px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border-bottom: 1px dashed rgba(86, 112, 91, 0.35);
+    }
+
+    .click-word:hover {
+      background: #efe7dc;
+    }
+
+    .click-word.active-word {
+      background: #efe7dc;
+    }
+
+    .audio-note,
+    .reading-note {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+
+    .question-card label {
+      display: block;
+      margin: 8px 0;
+      cursor: pointer;
+      line-height: 1.7;
+    }
+
+    .result-box {
+      margin-top: 14px;
+      padding: 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+
+    .discussion-list {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.9;
+      color: var(--text);
+    }
+
+    .tooltip-box {
+      position: fixed;
+      z-index: 9999;
+      max-width: 320px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 12px 14px;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .tooltip-word {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 4px;
+    }
+
+    .tooltip-label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .tooltip-block {
+      margin-top: 6px;
+    }
+
+    @media (max-width: 980px) {
+      .tooltip-box {
+        max-width: min(330px, calc(100vw - 24px));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <a class="back-link" href="smart-reading.html">← Back to Smart Reading</a>
+
+    <header class="topbar">
+      <div>
+        <h1 id="site-title">Smart Reading</h1>
+        <p id="site-subtitle">Unit 16 reading support</p>
+      </div>
+
+      <div class="lang-switch">
+        <button id="btn-simplified" class="switch-btn active">简体</button>
+        <button id="btn-traditional" class="switch-btn">繁體</button>
+      </div>
+    </header>
+
+    <section class="page-header">
+      <h1 id="unit-title">Unit 16: 中国的学区房</h1>
+      <p id="unit-question">Read about school district housing in China and think about education, fairness, and parental sacrifice.</p>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <h2 class="section-title" id="reading-title">Smart Reading: 中国的学区房</h2>
+        <p class="section-subtitle" id="reading-subtitle">
+          Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.
+        </p>
+
+        <div class="toolbar">
+          <button class="small-btn" id="play-audio-btn">Play Reading Audio</button>
+          <button class="small-btn" id="stop-audio-btn">Stop Audio</button>
+        </div>
+
+        <div class="audio-note" id="audio-note">
+          Add your own recorded mp3 later for natural, standard Mandarin reading.
+        </div>
+
+        <audio id="reading-audio" preload="none">
+          <source src="audio/unit16-reading1.mp3" type="audio/mpeg">
+        </audio>
+
+        <div class="reading-note" id="reading-note">
+          This article connects the old story of 孟母三迁 with a modern social issue in China.
+        </div>
+
+        <div class="reading-box" id="reading-box"></div>
+      </section>
+
+      <section class="question-card">
+        <h3 id="check-title">Reading Check</h3>
+
+        <div>
+          <p id="q1-text">1. 什么是“学区房”？</p>
+          <label><input type="radio" name="q1" value="A"> <span id="q1a">A. 学校里的宿舍</span></label>
+          <label><input type="radio" name="q1" value="B"> <span id="q1b">B. 为了上某所学校而买的房子</span></label>
+          <label><input type="radio" name="q1" value="C"> <span id="q1c">C. 很便宜的小房子</span></label>
+        </div>
+
+        <div style="margin-top:18px;">
+          <p id="q2-text">2. 为什么有的父母要买学区房？</p>
+          <label><input type="radio" name="q2" value="A"> <span id="q2a">A. 因为房子更大</span></label>
+          <label><input type="radio" name="q2" value="B"> <span id="q2b">B. 因为孩子可以上附近的好学校</span></label>
+          <label><input type="radio" name="q2" value="C"> <span id="q2c">C. 因为离工作近</span></label>
+        </div>
+
+        <div style="margin-top:18px;">
+          <p id="q3-text">3. 有的学区房为什么“更有意思”？</p>
+          <label><input type="radio" name="q3" value="A"> <span id="q3a">A. 因为房子很漂亮</span></label>
+          <label><input type="radio" name="q3" value="B"> <span id="q3b">B. 因为房子很便宜</span></label>
+          <label><input type="radio" name="q3" value="C"> <span id="q3c">C. 因为房子很小，甚至不能住，只是为了地址</span></label>
+        </div>
+
+        <div style="margin-top:18px;">
+          <p id="q4-text">4. 为什么有人觉得学区房制度不公平？</p>
+          <label><input type="radio" name="q4" value="A"> <span id="q4a">A. 因为教育变成了可以用钱买的商品</span></label>
+          <label><input type="radio" name="q4" value="B"> <span id="q4b">B. 因为孩子不喜欢上学</span></label>
+          <label><input type="radio" name="q4" value="C"> <span id="q4c">C. 因为房子都太新了</span></label>
+        </div>
+
+        <div style="margin-top:18px;">
+          <p id="q5-text">5. 今天的学区房现象和“孟母三迁”有什么关系？</p>
+          <label><input type="radio" name="q5" value="A"> <span id="q5a">A. 都说明中国父母很重视教育</span></label>
+          <label><input type="radio" name="q5" value="B"> <span id="q5b">B. 都和搬到美国有关</span></label>
+          <label><input type="radio" name="q5" value="C"> <span id="q5c">C. 都是关于买房赚钱</span></label>
+        </div>
+
+        <div class="toolbar" style="margin-top:18px;">
+          <button class="small-btn" id="check-btn">Check Answers</button>
+        </div>
+
+        <div class="result-box" id="result-box">Your result will appear here.</div>
+      </section>
+
+      <section class="discussion-card">
+        <h3 id="discussion-title">Think More</h3>
+        <ul class="discussion-list" id="discussion-list"></ul>
+      </section>
+    </div>
+  </div>
+
+  <div id="tooltip-box" class="tooltip-box"></div>
+
+  <script>
+    const content = {
+      simplified: {
+        htmlLang: "zh-Hans",
+        siteTitle: "Smart Reading",
+        siteSubtitle: "Unit 16 reading support",
+        unitTitle: "Unit 16: 中国的学区房",
+        unitQuestion: "Read about school district housing in China and think about education, fairness, and parental sacrifice.",
+        readingTitle: "Smart Reading: 中国的学区房",
+        readingSubtitle: "Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.",
+        playAudio: "Play Reading Audio",
+        stopAudio: "Stop Audio",
+        audioNote: "Add your own recorded mp3 later for natural, standard Mandarin reading.",
+        readingNote: "This article connects the old story of 孟母三迁 with a modern social issue in China.",
+        checkTitle: "Reading Check",
+        q1Text: "1. 什么是“学区房”？",
+        q1a: "A. 学校里的宿舍",
+        q1b: "B. 为了上某所学校而买的房子",
+        q1c: "C. 很便宜的小房子",
+        q2Text: "2. 为什么有的父母要买学区房？",
+        q2a: "A. 因为房子更大",
+        q2b: "B. 因为孩子可以上附近的好学校",
+        q2c: "C. 因为离工作近",
+        q3Text: "3. 有的学区房为什么“更有意思”？",
+        q3a: "A. 因为房子很漂亮",
+        q3b: "B. 因为房子很便宜",
+        q3c: "C. 因为房子很小，甚至不能住，只是为了地址",
+        q4Text: "4. 为什么有人觉得学区房制度不公平？",
+        q4a: "A. 因为教育变成了可以用钱买的商品",
+        q4b: "B. 因为孩子不喜欢上学",
+        q4c: "C. 因为房子都太新了",
+        q5Text: "5. 今天的学区房现象和“孟母三迁”有什么关系？",
+        q5a: "A. 都说明中国父母很重视教育",
+        q5b: "B. 都和搬到美国有关",
+        q5c: "C. 都是关于买房赚钱",
+        checkBtn: "Check Answers",
+        resultDefault: "Your result will appear here.",
+        discussionTitle: "Think More",
+        discussionQuestions: [
+          "你觉得学区房公平吗？为什么？",
+          "父母为了孩子的教育付出很多钱，这是一种爱吗？还是一种压力？",
+          "好的教育应该和房子、地址有关系吗？"
+        ]
+      },
+      traditional: {
+        htmlLang: "zh-Hant",
+        siteTitle: "Smart Reading",
+        siteSubtitle: "Unit 16 reading support",
+        unitTitle: "Unit 16: 中國的學區房",
+        unitQuestion: "Read about school district housing in China and think about education, fairness, and parental sacrifice.",
+        readingTitle: "Smart Reading: 中國的學區房",
+        readingSubtitle: "Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.",
+        playAudio: "Play Reading Audio",
+        stopAudio: "Stop Audio",
+        audioNote: "Add your own recorded mp3 later for natural, standard Mandarin reading.",
+        readingNote: "This article connects the old story of 孟母三遷 with a modern social issue in China.",
+        checkTitle: "Reading Check",
+        q1Text: "1. 什麼是「學區房」？",
+        q1a: "A. 學校裡的宿舍",
+        q1b: "B. 為了上某所學校而買的房子",
+        q1c: "C. 很便宜的小房子",
+        q2Text: "2. 為什麼有的父母要買學區房？",
+        q2a: "A. 因為房子更大",
+        q2b: "B. 因為孩子可以上附近的好學校",
+        q2c: "C. 因為離工作近",
+        q3Text: "3. 有的學區房為什麼「更有意思」？",
+        q3a: "A. 因為房子很漂亮",
+        q3b: "B. 因為房子很便宜",
+        q3c: "C. 因為房子很小，甚至不能住，只是為了地址",
+        q4Text: "4. 為什麼有人覺得學區房制度不公平？",
+        q4a: "A. 因為教育變成了可以用錢買的商品",
+        q4b: "B. 因為孩子不喜歡上學",
+        q4c: "C. 因為房子都太新了",
+        q5Text: "5. 今天的學區房現象和「孟母三遷」有什麼關係？",
+        q5a: "A. 都說明中國父母很重視教育",
+        q5b: "B. 都和搬到美國有關",
+        q5c: "C. 都是關於買房賺錢",
+        checkBtn: "Check Answers",
+        resultDefault: "Your result will appear here.",
+        discussionTitle: "Think More",
+        discussionQuestions: [
+          "你覺得學區房公平嗎？為什麼？",
+          "父母為了孩子的教育付出很多錢，這是一種愛嗎？還是一種壓力？",
+          "好的教育應該和房子、地址有關係嗎？"
+        ]
+      }
+    };
+
+    const readingSupport = {
+      "环境": {
+        simplified: "环境",
+        traditional: "環境",
+        pinyin: "huánjìng",
+        english: "environment",
+        help: "the surroundings and conditions that influence a person",
+        remember: "environment can shape how people grow and learn",
+        exampleSimplified: "环境会改变一个人。",
+        exampleTraditional: "環境會改變一個人。"
+      },
+      "改变": {
+        simplified: "改变",
+        traditional: "改變",
+        pinyin: "gǎibiàn",
+        english: "to change",
+        help: "to make something become different",
+        remember: "environment can 改变 a person",
+        exampleSimplified: "环境会改变一个人。",
+        exampleTraditional: "環境會改變一個人。"
+      },
+      "方式": {
+        simplified: "方式",
+        traditional: "方式",
+        pinyin: "fāngshì",
+        english: "way; method",
+        help: "the way something is done",
+        remember: "a formal written word for “how” or “method”",
+        exampleSimplified: "方式不一样了。",
+        exampleTraditional: "方式不一樣了。"
+      },
+      "学区房": {
+        simplified: "学区房",
+        traditional: "學區房",
+        pinyin: "xuéqūfáng",
+        english: "school district housing",
+        help: "a house or apartment people buy so their child can go to a certain school",
+        remember: "the value comes from school access, not only the house itself",
+        exampleSimplified: "这种房子叫学区房。",
+        exampleTraditional: "這種房子叫學區房。"
+      },
+      "房产": {
+        simplified: "房产",
+        traditional: "房產",
+        pinyin: "fángchǎn",
+        english: "real estate; property",
+        help: "houses or apartments that someone owns",
+        remember: "a more formal word than 房子",
+        exampleSimplified: "你必须拥有那所学校附近的房产。",
+        exampleTraditional: "你必須擁有那所學校附近的房產。"
+      },
+      "住址": {
+        simplified: "住址",
+        traditional: "住址",
+        pinyin: "zhùzhǐ",
+        english: "home address",
+        help: "the official place where a family lives",
+        remember: "your school may depend on your 住址",
+        exampleSimplified: "孩子上哪所学校，是由家庭住址决定的。",
+        exampleTraditional: "孩子上哪所學校，是由家庭住址決定的。"
+      },
+      "就近入学": {
+        simplified: "就近入学",
+        traditional: "就近入學",
+        pinyin: "jiùjìn rùxué",
+        english: "attend a nearby school",
+        help: "students go to a school near their home address",
+        remember: "近 = near, 入学 = enter school",
+        exampleSimplified: "这叫就近入学。",
+        exampleTraditional: "這叫就近入學。"
+      },
+      "必须": {
+        simplified: "必须",
+        traditional: "必須",
+        pinyin: "bìxū",
+        english: "must; have to",
+        help: "something is necessary and not optional",
+        remember: "a stronger word than 要",
+        exampleSimplified: "你必须拥有那所学校附近的房产。",
+        exampleTraditional: "你必須擁有那所學校附近的房產。"
+      },
+      "拥有": {
+        simplified: "拥有",
+        traditional: "擁有",
+        pinyin: "yōngyǒu",
+        english: "to own",
+        help: "to possess something officially",
+        remember: "often used in formal written Chinese",
+        exampleSimplified: "你必须拥有那所学校附近的房产。",
+        exampleTraditional: "你必須擁有那所學校附近的房產。"
+      },
+      "房价": {
+        simplified: "房价",
+        traditional: "房價",
+        pinyin: "fángjià",
+        english: "housing price",
+        help: "the price of a house or apartment",
+        remember: "房 + 价 = house + price",
+        exampleSimplified: "好学校附近的房价非常高。",
+        exampleTraditional: "好學校附近的房價非常高。"
+      },
+      "平方米": {
+        simplified: "平方米",
+        traditional: "平方米",
+        pinyin: "píngfāngmǐ",
+        english: "square meter",
+        help: "a unit of area used for houses and apartments",
+        remember: "used when talking about house size and price",
+        exampleSimplified: "一平方米要二十万元人民币。",
+        exampleTraditional: "一平方米要二十萬元人民幣。"
+      },
+      "人民币": {
+        simplified: "人民币",
+        traditional: "人民幣",
+        pinyin: "rénmínbì",
+        english: "RMB; Chinese currency",
+        help: "the money used in China",
+        remember: "often shortened as RMB",
+        exampleSimplified: "一平方米要二十万元人民币。",
+        exampleTraditional: "一平方米要二十萬元人民幣。"
+      },
+      "积蓄": {
+        simplified: "积蓄",
+        traditional: "積蓄",
+        pinyin: "jīxù",
+        english: "savings",
+        help: "money saved over a long period of time",
+        remember: "often family savings, not just one day’s money",
+        exampleSimplified: "很多家庭需要用两三代人的积蓄才能买到。",
+        exampleTraditional: "很多家庭需要用兩三代人的積蓄才能買到。"
+      },
+      "仅仅": {
+        simplified: "仅仅",
+        traditional: "僅僅",
+        pinyin: "jǐnjǐn",
+        english: "only; merely",
+        help: "used to emphasize that something is just one thing and nothing more",
+        remember: "a written word stronger than 只",
+        exampleSimplified: "父母买它，仅仅是为了那个地址。",
+        exampleTraditional: "父母買它，僅僅是為了那個地址。"
+      },
+      "地址": {
+        simplified: "地址",
+        traditional: "地址",
+        pinyin: "dìzhǐ",
+        english: "address",
+        help: "the location written for a home or place",
+        remember: "in this article, the address gives school access",
+        exampleSimplified: "父母买它，仅仅是为了那个地址。",
+        exampleTraditional: "父母買它，僅僅是為了那個地址。"
+      },
+      "制度": {
+        simplified: "制度",
+        traditional: "制度",
+        pinyin: "zhìdù",
+        english: "system; institution",
+        help: "an official social or administrative system",
+        remember: "often used in formal discussions",
+        exampleSimplified: "学区房制度引发了讨论。",
+        exampleTraditional: "學區房制度引發了討論。"
+      },
+      "引发": {
+        simplified: "引发",
+        traditional: "引發",
+        pinyin: "yǐnfā",
+        english: "to trigger; to cause",
+        help: "to cause a reaction, discussion, or problem",
+        remember: "often used with discussion or debate",
+        exampleSimplified: "学区房制度引发了关于教育公平的激烈讨论。",
+        exampleTraditional: "學區房制度引發了關於教育公平的激烈討論。"
+      },
+      "关于": {
+        simplified: "关于",
+        traditional: "關於",
+        pinyin: "guānyú",
+        english: "about; concerning",
+        help: "used before a topic or subject",
+        remember: "a formal written connector",
+        exampleSimplified: "关于教育公平的讨论。",
+        exampleTraditional: "關於教育公平的討論。"
+      },
+      "公平": {
+        simplified: "公平",
+        traditional: "公平",
+        pinyin: "gōngpíng",
+        english: "fairness",
+        help: "when people are treated in an equal and just way",
+        remember: "often appears in education and social issues",
+        exampleSimplified: "这不公平。",
+        exampleTraditional: "這不公平。"
+      },
+      "激烈": {
+        simplified: "激烈",
+        traditional: "激烈",
+        pinyin: "jīliè",
+        english: "intense; heated",
+        help: "very strong, serious, or emotional",
+        remember: "often used with discussion, competition, debate",
+        exampleSimplified: "引发了激烈讨论。",
+        exampleTraditional: "引發了激烈討論。"
+      },
+      "讨论": {
+        simplified: "讨论",
+        traditional: "討論",
+        pinyin: "tǎolùn",
+        english: "discussion; to discuss",
+        help: "talking seriously about an issue or topic",
+        remember: "a common academic and classroom word",
+        exampleSimplified: "引发了关于教育公平的激烈讨论。",
+        exampleTraditional: "引發了關於教育公平的激烈討論。"
+      },
+      "商品": {
+        simplified: "商品",
+        traditional: "商品",
+        pinyin: "shāngpǐn",
+        english: "commodity; product",
+        help: "something that can be bought and sold",
+        remember: "the article asks whether education should become a 商品",
+        exampleSimplified: "教育不应该成为一种可以用钱买到的商品。",
+        exampleTraditional: "教育不應該成為一種可以用錢買到的商品。"
+      },
+      "穷人": {
+        simplified: "穷人",
+        traditional: "窮人",
+        pinyin: "qióngrén",
+        english: "poor people",
+        help: "people who do not have much money",
+        remember: "used here in contrast with rich families",
+        exampleSimplified: "有钱人的孩子和穷人的孩子会走上不同的路。",
+        exampleTraditional: "有錢人的孩子和窮人的孩子會走上不同的路。"
+      },
+      "起跑点": {
+        simplified: "起跑点",
+        traditional: "起跑點",
+        pinyin: "qǐpǎodiǎn",
+        english: "starting point",
+        help: "where someone begins, especially in life or competition",
+        remember: "a metaphor from running",
+        exampleSimplified: "从起跑点开始就走上了不同的路。",
+        exampleTraditional: "從起跑點開始就走上了不同的路。"
+      },
+      "节省": {
+        simplified: "节省",
+        traditional: "節省",
+        pinyin: "jiéshěng",
+        english: "to save; to cut spending",
+        help: "to use less money or resources",
+        remember: "often used with money or time",
+        exampleSimplified: "父母努力工作、节省其他开支。",
+        exampleTraditional: "父母努力工作、節省其他開支。"
+      },
+      "开支": {
+        simplified: "开支",
+        traditional: "開支",
+        pinyin: "kāizhī",
+        english: "expenses",
+        help: "money that a person or family has to spend",
+        remember: "a formal written noun",
+        exampleSimplified: "节省其他开支。",
+        exampleTraditional: "節省其他開支。"
+      },
+      "表现": {
+        simplified: "表现",
+        traditional: "表現",
+        pinyin: "biǎoxiàn",
+        english: "expression; to show",
+        help: "the way something is shown or expressed",
+        remember: "here it means a visible sign of love",
+        exampleSimplified: "这是爱的表现。",
+        exampleTraditional: "這是愛的表現。"
+      },
+      "投资": {
+        simplified: "投资",
+        traditional: "投資",
+        pinyin: "tóuzī",
+        english: "to invest",
+        help: "to put in money, time, or effort now for a better future",
+        remember: "here it is about a child’s future",
+        exampleSimplified: "为了给孩子更好的未来而投资。",
+        exampleTraditional: "為了給孩子更好的未來而投資。"
+      },
+      "付出": {
+        simplified: "付出",
+        traditional: "付出",
+        pinyin: "fùchū",
+        english: "to pay; to give; to put in",
+        help: "to give money, effort, time, or emotion",
+        remember: "often used with sacrifice or effort",
+        exampleSimplified: "当父母付出了如此巨大的经济代价。",
+        exampleTraditional: "當父母付出了如此巨大的經濟代價。"
+      },
+      "巨大": {
+        simplified: "巨大",
+        traditional: "巨大",
+        pinyin: "jùdà",
+        english: "huge; enormous",
+        help: "very large in size, amount, or effect",
+        remember: "a formal written adjective",
+        exampleSimplified: "如此巨大的经济代价。",
+        exampleTraditional: "如此巨大的經濟代價。"
+      },
+      "经济": {
+        simplified: "经济",
+        traditional: "經濟",
+        pinyin: "jīngjì",
+        english: "economic; financial",
+        help: "related to money, finance, or the economy",
+        remember: "very common in news and formal texts",
+        exampleSimplified: "经济代价。",
+        exampleTraditional: "經濟代價。"
+      },
+      "代价": {
+        simplified: "代价",
+        traditional: "代價",
+        pinyin: "dàijià",
+        english: "cost; sacrifice",
+        help: "what people must give up or suffer to get something",
+        remember: "not only money—also time, pressure, and emotion",
+        exampleSimplified: "父母付出了巨大的经济代价。",
+        exampleTraditional: "父母付出了巨大的經濟代價。"
+      },
+      "压力": {
+        simplified: "压力",
+        traditional: "壓力",
+        pinyin: "yālì",
+        english: "pressure",
+        help: "stress caused by expectations or difficulty",
+        remember: "parents feel pressure, and children do too",
+        exampleSimplified: "孩子的压力也随之而来。",
+        exampleTraditional: "孩子的壓力也隨之而來。"
+      },
+      "随之而来": {
+        simplified: "随之而来",
+        traditional: "隨之而來",
+        pinyin: "suízhī'érlái",
+        english: "to come as a result; to follow",
+        help: "something comes after something else happens",
+        remember: "first A happens, then B follows",
+        exampleSimplified: "压力也随之而来。",
+        exampleTraditional: "壓力也隨之而來。"
+      },
+      "不容易": {
+        simplified: "不容易",
+        traditional: "不容易",
+        pinyin: "bù róngyì",
+        english: "not easy; difficult",
+        help: "something requires a lot of effort and sacrifice",
+        remember: "often used with sympathy or appreciation",
+        exampleSimplified: "他们知道父母不容易。",
+        exampleTraditional: "他們知道父母不容易。"
+      },
+      "失望": {
+        simplified: "失望",
+        traditional: "失望",
+        pinyin: "shīwàng",
+        english: "to disappoint; disappointment",
+        help: "to let someone down or make them lose hope",
+        remember: "common in emotional and family contexts",
+        exampleSimplified: "不能让父母失望。",
+        exampleTraditional: "不能讓父母失望。"
+      },
+      "课外活动": {
+        simplified: "课外活动",
+        traditional: "課外活動",
+        pinyin: "kèwài huódòng",
+        english: "extracurricular activities",
+        help: "activities students do outside regular class time",
+        remember: "课外 = outside class",
+        exampleSimplified: "很多孩子要参加大量的课外活动。",
+        exampleTraditional: "很多孩子要參加大量的課外活動。"
+      },
+      "补习班": {
+        simplified: "补习班",
+        traditional: "補習班",
+        pinyin: "bǔxíbān",
+        english: "cram school; extra tutoring class",
+        help: "extra classes students take outside regular school",
+        remember: "common in competitive education systems",
+        exampleSimplified: "很多孩子要参加补习班。",
+        exampleTraditional: "很多孩子要參加補習班。"
+      },
+      "童年": {
+        simplified: "童年",
+        traditional: "童年",
+        pinyin: "tóngnián",
+        english: "childhood",
+        help: "the years when a person is a child",
+        remember: "often used when talking about growing up",
+        exampleSimplified: "他们的童年大多在竞争中度过。",
+        exampleTraditional: "他們的童年大多在競爭中度過。"
+      },
+      "竞争": {
+        simplified: "竞争",
+        traditional: "競爭",
+        pinyin: "jìngzhēng",
+        english: "competition",
+        help: "trying to do better than others",
+        remember: "common in school, job, and social contexts",
+        exampleSimplified: "他们的童年大多在竞争中度过。",
+        exampleTraditional: "他們的童年大多在競爭中度過。"
+      },
+      "度过": {
+        simplified: "度过",
+        traditional: "度過",
+        pinyin: "dùguò",
+        english: "to spend; to pass through",
+        help: "to spend a period of time",
+        remember: "often used with childhood, life, holiday, hard times",
+        exampleSimplified: "他们的童年大多在竞争中度过。",
+        exampleTraditional: "他們的童年大多在競爭中度過。"
+      },
+      "重视": {
+        simplified: "重视",
+        traditional: "重視",
+        pinyin: "zhòngshì",
+        english: "to value; to attach importance to",
+        help: "to think something is very important",
+        remember: "a formal written verb",
+        exampleSimplified: "中国父母对教育的重视有着悠久的历史。",
+        exampleTraditional: "中國父母對教育的重視有著悠久的歷史。"
+      },
+      "悠久": {
+        simplified: "悠久",
+        traditional: "悠久",
+        pinyin: "yōujiǔ",
+        english: "long-standing; long in history",
+        help: "something that has existed for a long time",
+        remember: "often used for tradition, history, and culture",
+        exampleSimplified: "有着悠久的历史。",
+        exampleTraditional: "有著悠久的歷史。"
+      },
+      "现代": {
+        simplified: "现代",
+        traditional: "現代",
+        pinyin: "xiàndài",
+        english: "modern",
+        help: "related to the present time, not ancient times",
+        remember: "opposite of ancient or traditional in time",
+        exampleSimplified: "这个古老故事的现代版本。",
+        exampleTraditional: "這個古老故事的現代版本。"
+      },
+      "版本": {
+        simplified: "版本",
+        traditional: "版本",
+        pinyin: "bǎnběn",
+        english: "version",
+        help: "a form or type of something",
+        remember: "used when one old idea appears again in a new form",
+        exampleSimplified: "这是这个古老故事的现代版本。",
+        exampleTraditional: "這是這個古老故事的現代版本。"
+      }
+    };
+
+    const passages = {
+      simplified: [
+        [
+          { text: "两千年前，孟子的妈妈为了儿子的教育，搬了三次家。她相信，" },
+          { text: "环境", key: "环境" },
+          { text: "会" },
+          { text: "改变", key: "改变" },
+          { text: "一个人。住在好的地方，孩子才能受到好的教育。" }
+        ],
+        [
+          { text: "今天，中国的父母还在做同样的事——但" },
+          { text: "方式", key: "方式" },
+          { text: "不一样了。他们不再只是“搬家”，而是要花很多的钱去买一个" },
+          { text: "房产", key: "房产" },
+          { text: "。这种房子叫“" },
+          { text: "学区房", key: "学区房" },
+          { text: "”。" }
+        ],
+        [
+          { text: "什么是“" },
+          { text: "学区房", key: "学区房" },
+          { text: "”？" }
+        ],
+        [
+          { text: "在中国，孩子上哪所小学或中学，是由家庭" },
+          { text: "住址", key: "住址" },
+          { text: "决定的。这叫“" },
+          { text: "就近入学", key: "就近入学" },
+          { text: "”。如果你想让孩子上好学校，你" },
+          { text: "必须", key: "必须" },
+          { text: "" },
+          { text: "拥有", key: "拥有" },
+          { text: "那所学校附近的" },
+          { text: "房产", key: "房产" },
+          { text: "。" }
+        ],
+        [
+          { text: "因此，好学校附近的" },
+          { text: "房价", key: "房价" },
+          { text: "非常高。在北京或上海，有的学区房一" },
+          { text: "平方米", key: "平方米" },
+          { text: "要二十万元" },
+          { text: "人民币", key: "人民币" },
+          { text: "。很多家庭需要用两三代人的" },
+          { text: "积蓄", key: "积蓄" },
+          { text: "才能买到。" }
+        ],
+        [
+          { text: "更有意思的是，有的学区房小到无法住人，甚至只有几平方米——父母买它，" },
+          { text: "仅仅", key: "仅仅" },
+          { text: "是为了那个“" },
+          { text: "地址", key: "地址" },
+          { text: "”。" }
+        ],
+        [
+          { text: "学区房" },
+          { text: "制度", key: "制度" },
+          { text: "" },
+          { text: "引发", key: "引发" },
+          { text: "了" },
+          { text: "关于", key: "关于" },
+          { text: "“教育" },
+          { text: "公平", key: "公平" },
+          { text: "”的" },
+          { text: "激烈", key: "激烈" },
+          { text: "" },
+          { text: "讨论", key: "讨论" },
+          { text: "：" }
+        ],
+        [
+          { text: "有人说：这不" },
+          { text: "公平", key: "公平" },
+          { text: "。教育不应该成为一种可以用钱买到的“" },
+          { text: "商品", key: "商品" },
+          { text: "”。这样一来，有钱人的孩子和" },
+          { text: "穷人", key: "穷人" },
+          { text: "的孩子，从" },
+          { text: "起跑点", key: "起跑点" },
+          { text: "开始就走上了不同的路。" }
+        ],
+        [
+          { text: "有人说：父母为孩子努力工作、" },
+          { text: "节省", key: "节省" },
+          { text: "其他" },
+          { text: "开支", key: "开支" },
+          { text: "，这是爱的" },
+          { text: "表现", key: "表现" },
+          { text: "。为了给孩子更好的未来而" },
+          { text: "投资", key: "投资" },
+          { text: "，这没有错。" }
+        ],
+        [
+          { text: "当父母" },
+          { text: "付出", key: "付出" },
+          { text: "了如此" },
+          { text: "巨大", key: "巨大" },
+          { text: "的" },
+          { text: "经济", key: "经济" },
+          { text: "" },
+          { text: "代价", key: "代价" },
+          { text: "，孩子的" },
+          { text: "压力", key: "压力" },
+          { text: "也" },
+          { text: "随之而来", key: "随之而来" },
+          { text: "。" }
+        ],
+        [
+          { text: "他们知道父母" },
+          { text: "不容易", key: "不容易" },
+          { text: "，因此感到" },
+          { text: "必须", key: "必须" },
+          { text: "积极学习，不能让父母" },
+          { text: "失望", key: "失望" },
+          { text: "。" }
+        ],
+        [
+          { text: "在中国，很多孩子要参加大量的" },
+          { text: "课外活动", key: "课外活动" },
+          { text: "和" },
+          { text: "补习班", key: "补习班" },
+          { text: "，他们的" },
+          { text: "童年", key: "童年" },
+          { text: "大多在" },
+          { text: "竞争", key: "竞争" },
+          { text: "中" },
+          { text: "度过", key: "度过" },
+          { text: "。" }
+        ],
+        [
+          { text: "孟母三迁的故事告诉我们，中国父母对教育的" },
+          { text: "重视", key: "重视" },
+          { text: "有着" },
+          { text: "悠久", key: "悠久" },
+          { text: "的历史。今天的“学区房”现象，其实是这个古老故事的" },
+          { text: "现代", key: "现代" },
+          { text: "" },
+          { text: "版本", key: "版本" },
+          { text: "。" }
+        ]
+      ],
+      traditional: [
+        [
+          { text: "兩千年前，孟子的媽媽為了兒子的教育，搬了三次家。她相信，" },
+          { text: "環境", key: "环境" },
+          { text: "會" },
+          { text: "改變", key: "改变" },
+          { text: "一個人。住在好的地方，孩子才能受到好的教育。" }
+        ],
+        [
+          { text: "今天，中國的父母還在做同樣的事——但" },
+          { text: "方式", key: "方式" },
+          { text: "不一樣了。他們不再只是「搬家」，而是要花很多的錢去買一個" },
+          { text: "房產", key: "房产" },
+          { text: "。這種房子叫「" },
+          { text: "學區房", key: "学区房" },
+          { text: "」。" }
+        ],
+        [
+          { text: "什麼是「" },
+          { text: "學區房", key: "学区房" },
+          { text: "」？" }
+        ],
+        [
+          { text: "在中國，孩子上哪所小學或中學，是由家庭" },
+          { text: "住址", key: "住址" },
+          { text: "決定的。這叫「" },
+          { text: "就近入學", key: "就近入学" },
+          { text: "」。如果你想讓孩子上好學校，你" },
+          { text: "必須", key: "必须" },
+          { text: "" },
+          { text: "擁有", key: "拥有" },
+          { text: "那所學校附近的" },
+          { text: "房產", key: "房产" },
+          { text: "。" }
+        ],
+        [
+          { text: "因此，好學校附近的" },
+          { text: "房價", key: "房价" },
+          { text: "非常高。在北京或上海，有的學區房一" },
+          { text: "平方米", key: "平方米" },
+          { text: "要二十萬元" },
+          { text: "人民幣", key: "人民币" },
+          { text: "。很多家庭需要用兩三代人的" },
+          { text: "積蓄", key: "积蓄" },
+          { text: "才能買到。" }
+        ],
+        [
+          { text: "更有意思的是，有的學區房小到無法住人，甚至只有幾平方米——父母買它，" },
+          { text: "僅僅", key: "仅仅" },
+          { text: "是為了那個「" },
+          { text: "地址", key: "地址" },
+          { text: "」。" }
+        ],
+        [
+          { text: "學區房" },
+          { text: "制度", key: "制度" },
+          { text: "" },
+          { text: "引發", key: "引发" },
+          { text: "了" },
+          { text: "關於", key: "关于" },
+          { text: "「教育" },
+          { text: "公平", key: "公平" },
+          { text: "」的" },
+          { text: "激烈", key: "激烈" },
+          { text: "" },
+          { text: "討論", key: "讨论" },
+          { text: "：" }
+        ],
+        [
+          { text: "有人說：這不" },
+          { text: "公平", key: "公平" },
+          { text: "。教育不應該成為一種可以用錢買到的「" },
+          { text: "商品", key: "商品" },
+          { text: "」。這樣一來，有錢人的孩子和" },
+          { text: "窮人", key: "穷人" },
+          { text: "的孩子，從" },
+          { text: "起跑點", key: "起跑点" },
+          { text: "開始就走上了不同的路。" }
+        ],
+        [
+          { text: "有人說：父母為孩子努力工作、" },
+          { text: "節省", key: "节省" },
+          { text: "其他" },
+          { text: "開支", key: "开支" },
+          { text: "，這是愛的" },
+          { text: "表現", key: "表现" },
+          { text: "。為了給孩子更好的未來而" },
+          { text: "投資", key: "投资" },
+          { text: "，這沒有錯。" }
+        ],
+        [
+          { text: "當父母" },
+          { text: "付出", key: "付出" },
+          { text: "了如此" },
+          { text: "巨大", key: "巨大" },
+          { text: "的" },
+          { text: "經濟", key: "经济" },
+          { text: "" },
+          { text: "代價", key: "代价" },
+          { text: "，孩子的" },
+          { text: "壓力", key: "压力" },
+          { text: "也" },
+          { text: "隨之而來", key: "随之而来" },
+          { text: "。" }
+        ],
+        [
+          { text: "他們知道父母" },
+          { text: "不容易", key: "不容易" },
+          { text: "，因此感到" },
+          { text: "必須", key: "必须" },
+          { text: "積極學習，不能讓父母" },
+          { text: "失望", key: "失望" },
+          { text: "。" }
+        ],
+        [
+          { text: "在中國，很多孩子要參加大量的" },
+          { text: "課外活動", key: "课外活动" },
+          { text: "和" },
+          { text: "補習班", key: "补习班" },
+          { text: "，他們的" },
+          { text: "童年", key: "童年" },
+          { text: "大多在" },
+          { text: "競爭", key: "竞争" },
+          { text: "中" },
+          { text: "度過", key: "度过" },
+          { text: "。" }
+        ],
+        [
+          { text: "孟母三遷的故事告訴我們，中國父母對教育的" },
+          { text: "重視", key: "重视" },
+          { text: "有著" },
+          { text: "悠久", key: "悠久" },
+          { text: "的歷史。今天的「學區房」現象，其實是這個古老故事的" },
+          { text: "現代", key: "现代" },
+          { text: "" },
+          { text: "版本", key: "版本" },
+          { text: "。" }
+        ]
+      ]
+    };
+
+    let currentMode = localStorage.getItem("scriptMode") || "simplified";
+    let activeWordKey = null;
+    let activeWordElement = null;
+    const isTouchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+    function applyLanguage(mode) {
+      currentMode = mode;
+      const data = content[mode];
+      document.documentElement.lang = data.htmlLang;
+
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("unit-title").textContent = data.unitTitle;
+      document.getElementById("unit-question").textContent = data.unitQuestion;
+      document.getElementById("reading-title").textContent = data.readingTitle;
+      document.getElementById("reading-subtitle").textContent = data.readingSubtitle;
+      document.getElementById("play-audio-btn").textContent = data.playAudio;
+      document.getElementById("stop-audio-btn").textContent = data.stopAudio;
+      document.getElementById("audio-note").textContent = data.audioNote;
+      document.getElementById("reading-note").textContent = data.readingNote;
+
+      document.getElementById("check-title").textContent = data.checkTitle;
+      document.getElementById("q1-text").textContent = data.q1Text;
+      document.getElementById("q1a").textContent = data.q1a;
+      document.getElementById("q1b").textContent = data.q1b;
+      document.getElementById("q1c").textContent = data.q1c;
+      document.getElementById("q2-text").textContent = data.q2Text;
+      document.getElementById("q2a").textContent = data.q2a;
+      document.getElementById("q2b").textContent = data.q2b;
+      document.getElementById("q2c").textContent = data.q2c;
+      document.getElementById("q3-text").textContent = data.q3Text;
+      document.getElementById("q3a").textContent = data.q3a;
+      document.getElementById("q3b").textContent = data.q3b;
+      document.getElementById("q3c").textContent = data.q3c;
+      document.getElementById("q4-text").textContent = data.q4Text;
+      document.getElementById("q4a").textContent = data.q4a;
+      document.getElementById("q4b").textContent = data.q4b;
+      document.getElementById("q4c").textContent = data.q4c;
+      document.getElementById("q5-text").textContent = data.q5Text;
+      document.getElementById("q5a").textContent = data.q5a;
+      document.getElementById("q5b").textContent = data.q5b;
+      document.getElementById("q5c").textContent = data.q5c;
+      document.getElementById("check-btn").textContent = data.checkBtn;
+      document.getElementById("result-box").textContent = data.resultDefault;
+
+      document.getElementById("discussion-title").textContent = data.discussionTitle;
+      const discussionList = document.getElementById("discussion-list");
+      discussionList.innerHTML = "";
+      data.discussionQuestions.forEach(q => {
+        const li = document.createElement("li");
+        li.textContent = q;
+        discussionList.appendChild(li);
+      });
+
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
+
+      hideTooltip();
+      clearActiveWord();
+      renderReading();
+      localStorage.setItem("scriptMode", mode);
+    }
+
+    function renderReading() {
+      const box = document.getElementById("reading-box");
+      box.innerHTML = "";
+
+      const data = passages[currentMode];
+      data.forEach(sentenceParts => {
+        const sentenceDiv = document.createElement("div");
+        sentenceDiv.className = "reading-sentence";
+
+        sentenceParts.forEach(part => {
+          if (!part.key) {
+            const span = document.createElement("span");
+            span.textContent = part.text;
+            sentenceDiv.appendChild(span);
+          } else {
+            const wordSpan = document.createElement("span");
+            wordSpan.className = "click-word";
+            wordSpan.textContent = part.text;
+            wordSpan.dataset.wordKey = part.key;
+
+            if (!isTouchDevice) {
+              wordSpan.addEventListener("mouseenter", (e) => {
+                setActiveWord(wordSpan, part.key);
+                showTooltip(part.key, e.clientX, e.clientY);
+              });
+              wordSpan.addEventListener("mousemove", (e) => {
+                showTooltip(part.key, e.clientX, e.clientY);
+              });
+              wordSpan.addEventListener("mouseleave", () => {
+                clearActiveWord();
+                hideTooltip();
+              });
+            }
+
+            wordSpan.addEventListener("click", (e) => {
+              if (!isTouchDevice) return;
+              e.stopPropagation();
+
+              if (activeWordKey === part.key && activeWordElement === wordSpan) {
+                clearActiveWord();
+                hideTooltip();
+                return;
+              }
+
+              setActiveWord(wordSpan, part.key);
+              const rect = wordSpan.getBoundingClientRect();
+              showTooltip(part.key, rect.left + rect.width / 2, rect.bottom);
+            });
+
+            sentenceDiv.appendChild(wordSpan);
+          }
+        });
+
+        box.appendChild(sentenceDiv);
+      });
+    }
+
+    function setActiveWord(element, wordKey) {
+      clearActiveWord();
+      activeWordElement = element;
+      activeWordKey = wordKey;
+      if (activeWordElement) activeWordElement.classList.add("active-word");
+    }
+
+    function clearActiveWord() {
+      if (activeWordElement) activeWordElement.classList.remove("active-word");
+      activeWordElement = null;
+      activeWordKey = null;
+    }
+
+    function showTooltip(wordKey, anchorX, anchorY) {
+      const item = readingSupport[wordKey];
+      if (!item) return;
+
+      const tooltip = document.getElementById("tooltip-box");
+      const displayWord = currentMode === "traditional" ? item.traditional : item.simplified;
+      const displayExample = currentMode === "traditional" ? item.exampleTraditional : item.exampleSimplified;
+
+      tooltip.innerHTML = `
+        <div class="tooltip-word">${displayWord}</div>
+        <div><span class="tooltip-label">Pinyin:</span> ${item.pinyin}</div>
+        <div><span class="tooltip-label">English:</span> ${item.english}</div>
+        <div class="tooltip-block"><span class="tooltip-label">Help:</span> ${item.help}</div>
+        <div class="tooltip-block"><span class="tooltip-label">Remember:</span> ${item.remember}</div>
+        <div class="tooltip-block"><span class="tooltip-label">Example:</span> ${displayExample}</div>
+      `;
+
+      tooltip.style.display = "block";
+
+      const rect = tooltip.getBoundingClientRect();
+      let left = anchorX + 14;
+      let top = anchorY + 14;
+
+      if (isTouchDevice) {
+        left = Math.max(12, Math.min((window.innerWidth - rect.width) / 2, window.innerWidth - rect.width - 12));
+        top = anchorY + 12;
+      }
+
+      if (left + rect.width > window.innerWidth - 12) {
+        left = window.innerWidth - rect.width - 12;
+      }
+      if (left < 12) left = 12;
+
+      if (top + rect.height > window.innerHeight - 12) {
+        top = anchorY - rect.height - 12;
+      }
+      if (top < 12) top = 12;
+
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top = `${top}px`;
+    }
+
+    function hideTooltip() {
+      document.getElementById("tooltip-box").style.display = "none";
+    }
+
+    function playRecordedAudio() {
+      const audio = document.getElementById("reading-audio");
+      audio.play().catch(() => {
+        const note = document.getElementById("audio-note");
+        note.textContent = currentMode === "traditional"
+          ? "目前還沒有找到音檔。之後把錄好的 mp3 放到 audio/unit16-reading1.mp3 就可以播放。"
+          : "Audio file not found yet. Later, place your recorded mp3 at audio/unit16-reading1.mp3.";
+      });
+    }
+
+    function stopRecordedAudio() {
+      const audio = document.getElementById("reading-audio");
+      audio.pause();
+      audio.currentTime = 0;
+    }
+
+    function checkAnswers() {
+      let score = 0;
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+      const q4 = document.querySelector('input[name="q4"]:checked');
+      const q5 = document.querySelector('input[name="q5"]:checked');
+
+      if (q1 && q1.value === "B") score++;
+      if (q2 && q2.value === "B") score++;
+      if (q3 && q3.value === "C") score++;
+      if (q4 && q4.value === "A") score++;
+      if (q5 && q5.value === "A") score++;
+
+      const resultBox = document.getElementById("result-box");
+      resultBox.innerHTML = `<strong>Score:</strong> ${score}/5<br><br>
+      <strong>Quick feedback:</strong><br>
+      ${score === 5 ? "Excellent. You understood both the social issue and the main argument very well." :
+      score >= 3 ? "Good job. Review the highlighted words and read the article one more time." :
+      "Try again. Use the highlighted vocabulary support while reading, then answer once more."}`;
+    }
+
+    document.addEventListener("click", (e) => {
+      if (!isTouchDevice) return;
+      const clickedWord = e.target.closest(".click-word");
+      const clickedTooltip = e.target.closest("#tooltip-box");
+
+      if (!clickedWord && !clickedTooltip) {
+        clearActiveWord();
+        hideTooltip();
+      }
+    });
+
+    document.addEventListener("scroll", () => {
+      if (isTouchDevice) {
+        clearActiveWord();
+        hideTooltip();
+      }
+    }, true);
+
+    document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
+    document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
+    document.getElementById("play-audio-btn").addEventListener("click", playRecordedAudio);
+    document.getElementById("stop-audio-btn").addEventListener("click", stopRecordedAudio);
+    document.getElementById("check-btn").addEventListener("click", checkAnswers);
+
+    applyLanguage(currentMode);
+  </script>
+</body>
+</html>
