@@ -16,9 +16,9 @@
 
     .page-header,
     .panel,
-    .word-card,
-    .focus-card,
-    .exercise-card {
+    .mini-card,
+    .vocab-card,
+    .practice-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -29,20 +29,20 @@
 
     .page-header h1,
     .panel h2,
-    .word-card h3,
-    .focus-card h3,
-    .exercise-card h3 {
+    .mini-card h3,
+    .vocab-card h3,
+    .practice-card h3 {
       margin-top: 0;
       color: var(--accent-dark);
     }
 
     .page-header p,
     .panel p,
-    .word-card p,
-    .focus-card p,
-    .exercise-card p {
+    .mini-card p,
+    .vocab-card p,
+    .practice-card p {
       color: var(--muted);
-      line-height: 1.75;
+      line-height: 1.8;
     }
 
     .grid-two {
@@ -59,66 +59,99 @@
       margin-bottom: 20px;
     }
 
-    .word-list {
+    .vocab-list {
       display: grid;
-      gap: 10px;
+      gap: 12px;
       margin-top: 12px;
     }
 
-    .word-item {
+    .vocab-item {
       background: #fffaf4;
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 12px 14px;
-      line-height: 1.65;
     }
 
-    .word-head {
+    .vocab-head {
       display: flex;
       flex-wrap: wrap;
-      align-items: baseline;
       gap: 10px;
-      margin-bottom: 4px;
+      align-items: baseline;
+      margin-bottom: 5px;
     }
 
-    .word-zh {
-      font-size: 1.1rem;
+    .vocab-zh {
+      font-size: 1.12rem;
       font-weight: 700;
       color: var(--accent-dark);
     }
 
-    .word-pinyin {
-      color: var(--muted);
+    .vocab-pinyin {
       font-size: 0.95rem;
+      color: var(--muted);
     }
 
-    .word-en {
+    .vocab-en {
       color: var(--text);
       font-size: 0.95rem;
+      margin-bottom: 4px;
     }
 
-    .focus-main {
-      font-size: 2rem;
+    .vocab-help {
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.7;
+    }
+
+    .collocation-box {
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 12px;
+      line-height: 1.8;
+    }
+
+    .collocation-title {
       font-weight: 700;
       color: var(--accent-dark);
       margin-bottom: 6px;
     }
 
-    .focus-meta {
-      color: var(--text);
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .focus-example {
-      display: inline-block;
-      margin: 6px 8px 0 0;
-      padding: 8px 12px;
+    .family-box {
       background: #fffaf4;
       border: 1px solid var(--border);
-      border-radius: 999px;
+      border-radius: 14px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    .family-head {
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 8px;
+    }
+
+    .family-item {
+      margin-bottom: 6px;
+      line-height: 1.7;
       color: var(--text);
-      font-size: 0.95rem;
+    }
+
+    .tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      background: #f1ebe3;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 7px 12px;
+      color: var(--text);
+      font-size: 0.93rem;
     }
 
     .exercise-options {
@@ -133,8 +166,8 @@
       border-radius: 999px;
       border: 1px solid var(--border);
       background: white;
-      cursor: pointer;
       color: var(--text);
+      cursor: pointer;
       font-size: 0.95rem;
     }
 
@@ -156,7 +189,7 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       color: var(--muted);
-      line-height: 1.75;
+      line-height: 1.8;
       font-size: 0.95rem;
     }
 
@@ -170,7 +203,7 @@
 </head>
 <body>
   <div class="site-shell">
-    <a class="back-link" href="word-explorer.html">← Back to Word Explorer</a>
+    <a class="back-link" href="unit16-flow.html">← Back to Today’s Lesson</a>
 
     <header class="topbar">
       <div>
@@ -187,81 +220,129 @@
     <section class="page-header">
       <h1 id="unit-title">Unit 16: 孟母三迁</h1>
       <p id="unit-desc">
-        Explore the key vocabulary for this lesson and notice how radicals can help you remember characters.
+        Explore the lesson vocabulary through theme, context, collocations, and word families. This page helps you understand how the words work in the lesson and how you can use them in discussion and writing.
       </p>
     </section>
 
     <section class="panel">
-      <h2 id="overview-title">Word Explorer Overview</h2>
+      <h2 id="overview-title">How this page works</h2>
       <p id="overview-text">
-        This unit combines story words, environment and education words, and daily-life extension words. Pay special attention to the 車 / 车 family and the 耳 family.
+        This page focuses on how words are used in the lesson. You will see key lesson words, useful collocations, and small word families that can help you read, discuss, and write more confidently.
       </p>
       <div class="note-box" id="overview-note">
-        These words can support Smart Reading, discussion, and later writing tasks.
+        Word Explorer focuses on meaning and usage. Culture & Characters will focus more on radicals, character structure, and cultural meaning.
       </div>
     </section>
 
     <div class="grid-three">
-      <section class="word-card">
-        <h3 id="group1-title">Story & History Words</h3>
-        <div class="word-list" id="group1-list"></div>
+      <section class="vocab-card">
+        <h3 id="group1-title">Story & History</h3>
+        <p id="group1-text">These words help you understand the story of 孟母三迁 and its historical background.</p>
+        <div class="vocab-list" id="group1-list"></div>
       </section>
 
-      <section class="word-card">
-        <h3 id="group2-title">Environment & Education</h3>
-        <div class="word-list" id="group2-list"></div>
+      <section class="vocab-card">
+        <h3 id="group2-title">Environment & Learning</h3>
+        <p id="group2-text">These words connect the story to education, learning, and the effect of environment.</p>
+        <div class="vocab-list" id="group2-list"></div>
       </section>
 
-      <section class="word-card">
+      <section class="vocab-card">
         <h3 id="group3-title">Daily Life Extensions</h3>
-        <div class="word-list" id="group3-list"></div>
+        <p id="group3-text">These words extend the lesson into modern life, neighborhoods, work, and student life.</p>
+        <div class="vocab-list" id="group3-list"></div>
       </section>
     </div>
 
     <div class="grid-two">
-      <section class="focus-card">
-        <h3 id="focus1-title">Radical Focus: 車 / 车</h3>
-        <div class="focus-main" id="focus1-main">車 / 车</div>
-        <div class="focus-meta" id="focus1-meta">chē · vehicle / movement</div>
-        <p id="focus1-text">
-          This radical often appears in characters related to vehicles, movement, wheels, carrying, or transportation. In this lesson, 孟轲 / 孟軻 gives you one useful example.
-        </p>
-        <div id="focus1-examples"></div>
+      <section class="mini-card">
+        <h3 id="context-title">Context & Collocations</h3>
+        <p id="context-text">These patterns help you move from single words to useful phrases and sentences.</p>
+
+        <div class="collocation-box">
+          <div class="collocation-title" id="colloc1-title">环境 / 環境</div>
+          <div id="colloc1-body"></div>
+        </div>
+
+        <div class="collocation-box">
+          <div class="collocation-title" id="colloc2-title">模仿</div>
+          <div id="colloc2-body"></div>
+        </div>
+
+        <div class="collocation-box">
+          <div class="collocation-title" id="colloc3-title">礼仪 / 禮儀</div>
+          <div id="colloc3-body"></div>
+        </div>
+
+        <div class="collocation-box">
+          <div class="collocation-title" id="colloc4-title">花心思</div>
+          <div id="colloc4-body"></div>
+        </div>
       </section>
 
-      <section class="focus-card">
-        <h3 id="focus2-title">Radical Focus: 耳</h3>
-        <div class="focus-main" id="focus2-main">耳</div>
-        <div class="focus-meta" id="focus2-meta">ěr · ear / hearing / listening</div>
-        <p id="focus2-text">
-          This radical often appears in characters related to hearing, listening, communication, or social connection.
-        </p>
-        <div id="focus2-examples"></div>
+      <section class="mini-card">
+        <h3 id="families-title">Small Word Families</h3>
+        <p id="families-text">These are not full radical lessons yet. Here, the goal is to notice how one character can grow into several useful words.</p>
+
+        <div class="family-box">
+          <div class="family-head" id="family1-head">迁 / 遷 family</div>
+          <div class="family-item" id="family1-item1"></div>
+          <div class="family-item" id="family1-item2"></div>
+          <div class="family-item" id="family1-item3"></div>
+        </div>
+
+        <div class="family-box">
+          <div class="family-head" id="family2-head">商 family</div>
+          <div class="family-item" id="family2-item1"></div>
+          <div class="family-item" id="family2-item2"></div>
+          <div class="family-item" id="family2-item3"></div>
+        </div>
+
+        <div class="family-box">
+          <div class="family-head" id="family3-head">关 / 關 family</div>
+          <div class="family-item" id="family3-item1"></div>
+          <div class="family-item" id="family3-item2"></div>
+          <div class="family-item" id="family3-item3"></div>
+        </div>
+
+        <div class="tag-group" id="family-tags"></div>
       </section>
     </div>
 
     <section class="panel">
       <h2 id="practice-title">Try It Out</h2>
 
-      <div class="exercise-card">
-        <h3 id="ex1-title">Exercise 1: Which one belongs to the 車 / 车 family?</h3>
+      <div class="practice-card">
+        <h3 id="ex1-title">Exercise 1: Which word is most closely related to environment?</h3>
         <div class="exercise-options">
-          <button class="option-btn" onclick="checkAnswer('wrong1')">聊 / 聊</button>
-          <button class="option-btn" onclick="checkAnswer('correct1')">轲 / 軻</button>
-          <button class="option-btn" onclick="checkAnswer('wrong1')">聯 / 联</button>
+          <button class="option-btn" onclick="checkAnswer('wrong1')">典范 / 典範</button>
+          <button class="option-btn" onclick="checkAnswer('correct1')">附近</button>
+          <button class="option-btn" onclick="checkAnswer('wrong1')">酒吧</button>
         </div>
         <div id="result1" class="result"></div>
       </div>
 
-      <div class="exercise-card">
-        <h3 id="ex2-title">Exercise 2: Which one is related to hearing or communication?</h3>
+      <div class="practice-card">
+        <h3 id="ex2-title">Exercise 2: Which phrase best fits the lesson theme?</h3>
         <div class="exercise-options">
-          <button class="option-btn" onclick="checkAnswer('correct2')">聞 / 闻</button>
-          <button class="option-btn" onclick="checkAnswer('wrong2')">輕 / 轻</button>
-          <button class="option-btn" onclick="checkAnswer('wrong2')">轉 / 转</button>
+          <button class="option-btn" onclick="checkAnswer('wrong2')">好久不见</button>
+          <button class="option-btn" onclick="checkAnswer('correct2')">环境会改变一个人</button>
+          <button class="option-btn" onclick="checkAnswer('wrong2')">卡拉OK很热闹</button>
         </div>
         <div id="result2" class="result"></div>
       </div>
+
+      <div class="note-box" id="practice-note">
+        The goal here is not to memorize every word at once. The goal is to notice patterns, understand the story, and use a few words more actively.
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 id="next-title">Next Step</h2>
+      <p id="next-text">
+        After Word Explorer, move to Smart Reading to see these words in a full text and read them in context.
+      </p>
+      <a class="module-link" href="unit16-reading.html" id="next-link">Go to Smart Reading →</a>
     </section>
   </div>
 
@@ -272,155 +353,327 @@
         siteTitle: "Word Explorer",
         siteSubtitle: "Unit 16 vocabulary support",
         unitTitle: "Unit 16: 孟母三迁",
-        unitDesc: "Explore the key vocabulary for this lesson and notice how radicals can help you remember characters.",
-        overviewTitle: "Word Explorer Overview",
-        overviewText: "This unit combines story words, environment and education words, and daily-life extension words. Pay special attention to the 車 / 车 family and the 耳 family.",
-        overviewNote: "These words can support Smart Reading, discussion, and later writing tasks.",
-        group1Title: "Story & History Words",
-        group2Title: "Environment & Education",
+        unitDesc: "Explore the lesson vocabulary through theme, context, collocations, and word families. This page helps you understand how the words work in the lesson and how you can use them in discussion and writing.",
+        overviewTitle: "How this page works",
+        overviewText: "This page focuses on how words are used in the lesson. You will see key lesson words, useful collocations, and small word families that can help you read, discuss, and write more confidently.",
+        overviewNote: "Word Explorer focuses on meaning and usage. Culture & Characters will focus more on radicals, character structure, and cultural meaning.",
+
+        group1Title: "Story & History",
+        group1Text: "These words help you understand the story of 孟母三迁 and its historical background.",
+        group2Title: "Environment & Learning",
+        group2Text: "These words connect the story to education, learning, and the effect of environment.",
         group3Title: "Daily Life Extensions",
-        focus1Title: "Radical Focus: 車 / 车",
-        focus1Main: "車 / 车",
-        focus1Meta: "chē · vehicle / movement",
-        focus1Text: "This radical often appears in characters related to vehicles, movement, wheels, carrying, or transportation. In this lesson, 孟轲 gives you one useful example.",
-        focus2Title: "Radical Focus: 耳",
-        focus2Main: "耳",
-        focus2Meta: "ěr · ear / hearing / listening",
-        focus2Text: "This radical often appears in characters related to hearing, listening, communication, or social connection.",
+        group3Text: "These words extend the lesson into modern life, neighborhoods, work, and student life.",
+
+        contextTitle: "Context & Collocations",
+        contextText: "These patterns help you move from single words to useful phrases and sentences.",
+        colloc1Title: "环境",
+        colloc1Body: "学习环境 · 生活环境 · 好环境<br>environment for learning · living environment · a good environment",
+        colloc2Title: "模仿",
+        colloc2Body: "模仿大人 · 模仿动作 · 模仿说话<br>imitate adults · imitate actions · imitate the way someone speaks",
+        colloc3Title: "礼仪",
+        colloc3Body: "学礼仪 · 讲礼仪 · 礼仪教育<br>learn etiquette · practice etiquette · etiquette education",
+        colloc4Title: "花心思",
+        colloc4Body: "为孩子花心思 · 在学习上花心思<br>put thought and effort into one’s child · put effort into study",
+
+        familiesTitle: "Small Word Families",
+        familiesText: "These are not full radical lessons yet. Here, the goal is to notice how one character can grow into several useful words.",
+        family1Head: "迁 family",
+        family1Item1: "迁 / 遷 · qiān · to move; relocate",
+        family1Item2: "搬迁 / 搬遷 · bānqiān · to move to a new place",
+        family1Item3: "迁移 / 遷移 · qiānyí · migration; movement",
+        family2Head: "商 family",
+        family2Item1: "商人 · shāngrén · merchant; businessman",
+        family2Item2: "商业 / 商業 · shāngyè · commerce; business",
+        family2Item3: "商品 · shāngpǐn · product; commodity",
+        family3Head: "关 family",
+        family3Item1: "关心 / 關心 · guānxīn · to care about",
+        family3Item2: "有关 / 有關 · yǒuguān · related to",
+        family3Item3: "关系 / 關係 · guānxì · relationship; connection",
+        familyTags: ["theme words", "context clues", "usable phrases", "from character to word"],
+
         practiceTitle: "Try It Out",
-        ex1Title: "Exercise 1: Which one belongs to the 車 / 车 family?",
-        ex2Title: "Exercise 2: Which one is related to hearing or communication?",
-        result1Correct: "Correct! 轲 belongs to the 車 / 车 family.",
+        ex1Title: "Exercise 1: Which word is most closely related to environment?",
+        ex2Title: "Exercise 2: Which phrase best fits the lesson theme?",
+        result1Correct: "Correct! 附近 is closely connected to place and environment.",
         result1Wrong: "Try again.",
-        result2Correct: "Correct! 闻 is related to hearing.",
-        result2Wrong: "Try again."
+        result2Correct: "Correct! This phrase captures the central lesson idea.",
+        result2Wrong: "Try again.",
+        practiceNote: "The goal here is not to memorize every word at once. The goal is to notice patterns, understand the story, and use a few words more actively.",
+
+        nextTitle: "Next Step",
+        nextText: "After Word Explorer, move to Smart Reading to see these words in a full text and read them in context.",
+        nextLink: "Go to Smart Reading →"
       },
+
       traditional: {
         htmlLang: "zh-Hant",
         siteTitle: "Word Explorer",
         siteSubtitle: "Unit 16 vocabulary support",
         unitTitle: "Unit 16: 孟母三遷",
-        unitDesc: "Explore the key vocabulary for this lesson and notice how radicals can help you remember characters.",
-        overviewTitle: "Word Explorer Overview",
-        overviewText: "This unit combines story words, environment and education words, and daily-life extension words. Pay special attention to the 車 / 車 family and the 耳 family.",
-        overviewNote: "These words can support Smart Reading, discussion, and later writing tasks.",
-        group1Title: "Story & History Words",
-        group2Title: "Environment & Education",
+        unitDesc: "Explore the lesson vocabulary through theme, context, collocations, and word families. This page helps you understand how the words work in the lesson and how you can use them in discussion and writing.",
+        overviewTitle: "How this page works",
+        overviewText: "This page focuses on how words are used in the lesson. You will see key lesson words, useful collocations, and small word families that can help you read, discuss, and write more confidently.",
+        overviewNote: "Word Explorer focuses on meaning and usage. Culture & Characters will focus more on radicals, character structure, and cultural meaning.",
+
+        group1Title: "Story & History",
+        group1Text: "These words help you understand the story of 孟母三遷 and its historical background.",
+        group2Title: "Environment & Learning",
+        group2Text: "These words connect the story to education, learning, and the effect of environment.",
         group3Title: "Daily Life Extensions",
-        focus1Title: "Radical Focus: 車 / 車",
-        focus1Main: "車 / 車",
-        focus1Meta: "chē · vehicle / movement",
-        focus1Text: "This radical often appears in characters related to vehicles, movement, wheels, carrying, or transportation. In this lesson, 孟軻 gives you one useful example.",
-        focus2Title: "Radical Focus: 耳",
-        focus2Main: "耳",
-        focus2Meta: "ěr · ear / hearing / listening",
-        focus2Text: "This radical often appears in characters related to hearing, listening, communication, or social connection.",
+        group3Text: "These words extend the lesson into modern life, neighborhoods, work, and student life.",
+
+        contextTitle: "Context & Collocations",
+        contextText: "These patterns help you move from single words to useful phrases and sentences.",
+        colloc1Title: "環境",
+        colloc1Body: "學習環境 · 生活環境 · 好環境<br>environment for learning · living environment · a good environment",
+        colloc2Title: "模仿",
+        colloc2Body: "模仿大人 · 模仿動作 · 模仿說話<br>imitate adults · imitate actions · imitate the way someone speaks",
+        colloc3Title: "禮儀",
+        colloc3Body: "學禮儀 · 講禮儀 · 禮儀教育<br>learn etiquette · practice etiquette · etiquette education",
+        colloc4Title: "花心思",
+        colloc4Body: "為孩子花心思 · 在學習上花心思<br>put thought and effort into one’s child · put effort into study",
+
+        familiesTitle: "Small Word Families",
+        familiesText: "These are not full radical lessons yet. Here, the goal is to notice how one character can grow into several useful words.",
+        family1Head: "遷 family",
+        family1Item1: "遷 · qiān · to move; relocate",
+        family1Item2: "搬遷 · bānqiān · to move to a new place",
+        family1Item3: "遷移 · qiānyí · migration; movement",
+        family2Head: "商 family",
+        family2Item1: "商人 · shāngrén · merchant; businessman",
+        family2Item2: "商業 · shāngyè · commerce; business",
+        family2Item3: "商品 · shāngpǐn · product; commodity",
+        family3Head: "關 family",
+        family3Item1: "關心 · guānxīn · to care about",
+        family3Item2: "有關 · yǒuguān · related to",
+        family3Item3: "關係 · guānxì · relationship; connection",
+        familyTags: ["theme words", "context clues", "usable phrases", "from character to word"],
+
         practiceTitle: "Try It Out",
-        ex1Title: "Exercise 1: Which one belongs to the 車 / 車 family?",
-        ex2Title: "Exercise 2: Which one is related to hearing or communication?",
-        result1Correct: "Correct! 軻 belongs to the 車 / 車 family.",
+        ex1Title: "Exercise 1: Which word is most closely related to environment?",
+        ex2Title: "Exercise 2: Which phrase best fits the lesson theme?",
+        result1Correct: "Correct! 附近 is closely connected to place and environment.",
         result1Wrong: "Try again.",
-        result2Correct: "Correct! 聞 is related to hearing.",
-        result2Wrong: "Try again."
+        result2Correct: "Correct! This phrase captures the central lesson idea.",
+        result2Wrong: "Try again.",
+        practiceNote: "The goal here is not to memorize every word at once. The goal is to notice patterns, understand the story, and use a few words more actively.",
+
+        nextTitle: "Next Step",
+        nextText: "After Word Explorer, move to Smart Reading to see these words in a full text and read them in context.",
+        nextLink: "Go to Smart Reading →"
       }
     };
 
     const vocabGroups = {
       group1: [
-        { s: "孟", t: "孟", p: "Mèng", e: "Mencius / surname Meng" },
-        { s: "迁", t: "遷", p: "qiān", e: "to move; to relocate" },
-        { s: "孟轲", t: "孟軻", p: "Mèng Kē", e: "Mencius' personal name" },
-        { s: "公元前", t: "公元前", p: "gōngyuánqián", e: "B.C.; before the Common Era" },
-        { s: "墓地", t: "墓地", p: "mùdì", e: "graveyard; cemetery" },
-        { s: "举行", t: "舉行", p: "jǔxíng", e: "to hold; to carry out" },
-        { s: "葬礼", t: "葬禮", p: "zànglǐ", e: "funeral" },
-        { s: "每当", t: "每當", p: "měidāng", e: "whenever" },
-        { s: "仪式", t: "儀式", p: "yíshì", e: "ceremony; ritual" },
-        { s: "模仿", t: "模仿", p: "mófǎng", e: "to imitate" },
-        { s: "后人", t: "後人", p: "hòurén", e: "later generations" },
-        { s: "典范", t: "典範", p: "diǎnfàn", e: "model; example" }
+        {
+          s: "孟",
+          t: "孟",
+          p: "Mèng",
+          e: "Mencius / surname Meng",
+          h: "This character appears in names such as 孟子 and 孟轲 / 孟軻."
+        },
+        {
+          s: "迁",
+          t: "遷",
+          p: "qiān",
+          e: "to move; relocate",
+          h: "A key word in 孟母三迁. It refers to changing one’s place of living."
+        },
+        {
+          s: "孟轲",
+          t: "孟軻",
+          p: "Mèng Kē",
+          e: "Mencius' personal name",
+          h: "This helps students connect 孟子 as a historical figure with his original name."
+        },
+        {
+          s: "公元前",
+          t: "公元前",
+          p: "gōngyuánqián",
+          e: "B.C.; before the Common Era",
+          h: "A time expression used in historical texts."
+        },
+        {
+          s: "墓地",
+          t: "墓地",
+          p: "mùdì",
+          e: "graveyard; cemetery",
+          h: "This word is important for understanding the first place in the story."
+        },
+        {
+          s: "举行",
+          t: "舉行",
+          p: "jǔxíng",
+          e: "to hold; to carry out",
+          h: "A formal verb often used for events, ceremonies, and activities."
+        },
+        {
+          s: "葬礼",
+          t: "葬禮",
+          p: "zànglǐ",
+          e: "funeral",
+          h: "A key story word connected to the cemetery setting."
+        },
+        {
+          s: "仪式",
+          t: "儀式",
+          p: "yíshì",
+          e: "ceremony; ritual",
+          h: "Useful in both historical and modern cultural contexts."
+        }
       ],
-      group2: [
-        { s: "环境", t: "環境", p: "huánjìng", e: "environment" },
-        { s: "附近", t: "附近", p: "fùjìn", e: "nearby" },
-        { s: "市场", t: "市場", p: "shìchǎng", e: "market" },
-        { s: "来来往往", t: "來來往往", p: "láiláiwǎngwǎng", e: "coming and going" },
-        { s: "自从", t: "自從", p: "zìcóng", e: "since" },
-        { s: "尤其", t: "尤其", p: "yóuqí", e: "especially" },
-        { s: "商人", t: "商人", p: "shāngrén", e: "merchant; businessman" },
-        { s: "叫卖", t: "叫賣", p: "jiàomài", e: "to hawk; to shout out goods for sale" },
-        { s: "礼仪", t: "禮儀", p: "lǐyí", e: "etiquette; ritual behavior" },
-        { s: "静", t: "靜", p: "jìng", e: "quiet; still" },
-        { s: "跟……有关", t: "跟……有關", p: "gēn...yǒuguān", e: "to be related to..." },
-        { s: "合适", t: "合適", p: "héshì", e: "suitable; appropriate" }
-      ],
-      group3: [
-        { s: "麻烦", t: "麻煩", p: "máfan", e: "trouble; inconvenient" },
-        { s: "生意", t: "生意", p: "shēngyi", e: "business" },
-        { s: "上班", t: "上班", p: "shàngbān", e: "to go to work" },
-        { s: "好久不见", t: "好久不見", p: "hǎojiǔbújiàn", e: "long time no see" },
-        { s: "关心", t: "關心", p: "guānxīn", e: "to care about" },
-        { s: "收拾", t: "收拾", p: "shōushi", e: "to tidy up; to put in order" },
-        { s: "酒吧", t: "酒吧", p: "jiǔbā", e: "bar; pub" },
-        { s: "游戏机", t: "遊戲機", p: "yóuxìjī", e: "game machine; video game console" },
-        { s: "卡拉OK", t: "卡拉OK", p: "kǎlā OK", e: "karaoke" },
-        { s: "高中", t: "高中", p: "gāozhōng", e: "high school" },
-        { s: "换", t: "換", p: "huàn", e: "to change; to switch" },
-        { s: "用功", t: "用功", p: "yònggōng", e: "to study hard" },
-        { s: "商业区", t: "商業區", p: "shāngyèqū", e: "business district" },
-        { s: "花心思", t: "花心思", p: "huā xīnsī", e: "to put thought and effort into" },
-        { s: "白费", t: "白費", p: "báifèi", e: "to waste; to be in vain" }
-      ]
-    };
 
-    const radicalData = {
-      car: [
-        { s: "车", t: "車", p: "chē", e: "vehicle" },
-        { s: "轲", t: "軻", p: "kē", e: "part of 孟轲 / 孟軻" },
-        { s: "轻", t: "輕", p: "qīng", e: "light" },
-        { s: "转", t: "轉", p: "zhuǎn / zhuàn", e: "to turn" },
-        { s: "轮", t: "輪", p: "lún", e: "wheel" }
+      group2: [
+        {
+          s: "环境",
+          t: "環境",
+          p: "huánjìng",
+          e: "environment",
+          h: "One of the central lesson words. It connects the old story to modern education."
+        },
+        {
+          s: "模仿",
+          t: "模仿",
+          p: "mófǎng",
+          e: "to imitate",
+          h: "This word helps explain how children copy the people and actions around them."
+        },
+        {
+          s: "礼仪",
+          t: "禮儀",
+          p: "lǐyí",
+          e: "etiquette; ritual behavior",
+          h: "This word shows a more positive kind of social learning in the story."
+        },
+        {
+          s: "静",
+          t: "靜",
+          p: "jìng",
+          e: "quiet; still",
+          h: "Often used to describe a suitable place for study and concentration."
+        },
+        {
+          s: "跟……有关",
+          t: "跟……有關",
+          p: "gēn...yǒuguān",
+          e: "to be related to...",
+          h: "A very useful discussion phrase for explaining connection and cause."
+        },
+        {
+          s: "合适",
+          t: "合適",
+          p: "héshì",
+          e: "suitable; appropriate",
+          h: "Useful for evaluating whether a place or situation is good for learning."
+        },
+        {
+          s: "后人",
+          t: "後人",
+          p: "hòurén",
+          e: "later generations",
+          h: "This word helps connect the story to its influence in later Chinese culture."
+        },
+        {
+          s: "典范",
+          t: "典範",
+          p: "diǎnfàn",
+          e: "model; example",
+          h: "A formal word used when someone becomes a model for others."
+        }
       ],
-      ear: [
-        { s: "耳", t: "耳", p: "ěr", e: "ear" },
-        { s: "闻", t: "聞", p: "wén", e: "to hear; news" },
-        { s: "联", t: "聯", p: "lián", e: "to connect; join" },
-        { s: "聊", t: "聊", p: "liáo", e: "to chat" },
-        { s: "聪", t: "聰", p: "cōng", e: "clever; sharp-hearing" }
+
+      group3: [
+        {
+          s: "市场",
+          t: "市場",
+          p: "shìchǎng",
+          e: "market",
+          h: "Important in the story because the market setting leads to a different kind of imitation."
+        },
+        {
+          s: "商人",
+          t: "商人",
+          p: "shāngrén",
+          e: "merchant; businessman",
+          h: "Useful for discussing the people young 孟子 observed in the market."
+        },
+        {
+          s: "生意",
+          t: "生意",
+          p: "shēngyi",
+          e: "business",
+          h: "Common everyday word related to trade and work."
+        },
+        {
+          s: "上班",
+          t: "上班",
+          p: "shàngbān",
+          e: "to go to work",
+          h: "A very practical modern-life word for students to reuse."
+        },
+        {
+          s: "关心",
+          t: "關心",
+          p: "guānxīn",
+          e: "to care about",
+          h: "Important for talking about family, education, and what parents value."
+        },
+        {
+          s: "用功",
+          t: "用功",
+          p: "yònggōng",
+          e: "to study hard",
+          h: "A useful school-related word for discussing student effort."
+        },
+        {
+          s: "花心思",
+          t: "花心思",
+          p: "huā xīnsī",
+          e: "to put thought and effort into",
+          h: "Very useful for writing about parents, teaching, and care."
+        },
+        {
+          s: "白费",
+          t: "白費",
+          p: "báifèi",
+          e: "to waste; to be in vain",
+          h: "Useful for discussing whether effort succeeds or fails."
+        }
       ]
     };
 
     let currentMode = localStorage.getItem("scriptMode") || "simplified";
 
-    function renderWordGroup(groupKey, containerId) {
+    function renderGroup(groupKey, containerId) {
       const container = document.getElementById(containerId);
       container.innerHTML = "";
 
       vocabGroups[groupKey].forEach(item => {
         const zh = currentMode === "traditional" ? item.t : item.s;
         const div = document.createElement("div");
-        div.className = "word-item";
+        div.className = "vocab-item";
         div.innerHTML = `
-          <div class="word-head">
-            <span class="word-zh">${zh}</span>
-            <span class="word-pinyin">${item.p}</span>
+          <div class="vocab-head">
+            <span class="vocab-zh">${zh}</span>
+            <span class="vocab-pinyin">${item.p}</span>
           </div>
-          <div class="word-en">${item.e}</div>
+          <div class="vocab-en">${item.e}</div>
+          <div class="vocab-help">${item.h}</div>
         `;
         container.appendChild(div);
       });
     }
 
-    function renderFocusExamples(groupKey, containerId) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = "";
-
-      radicalData[groupKey].forEach(item => {
-        const zh = currentMode === "traditional" ? item.t : item.s;
+    function renderTags(mode) {
+      const tagBox = document.getElementById("family-tags");
+      tagBox.innerHTML = "";
+      content[mode].familyTags.forEach(tag => {
         const span = document.createElement("span");
-        span.className = "focus-example";
-        span.textContent = `${zh} · ${item.p} · ${item.e}`;
-        container.appendChild(span);
+        span.className = "tag";
+        span.textContent = tag;
+        tagBox.appendChild(span);
       });
     }
 
@@ -433,33 +686,57 @@
       document.getElementById("site-subtitle").textContent = data.siteSubtitle;
       document.getElementById("unit-title").textContent = data.unitTitle;
       document.getElementById("unit-desc").textContent = data.unitDesc;
+
       document.getElementById("overview-title").textContent = data.overviewTitle;
       document.getElementById("overview-text").textContent = data.overviewText;
       document.getElementById("overview-note").textContent = data.overviewNote;
 
       document.getElementById("group1-title").textContent = data.group1Title;
+      document.getElementById("group1-text").textContent = data.group1Text;
       document.getElementById("group2-title").textContent = data.group2Title;
+      document.getElementById("group2-text").textContent = data.group2Text;
       document.getElementById("group3-title").textContent = data.group3Title;
+      document.getElementById("group3-text").textContent = data.group3Text;
 
-      document.getElementById("focus1-title").textContent = data.focus1Title;
-      document.getElementById("focus1-main").textContent = data.focus1Main;
-      document.getElementById("focus1-meta").textContent = data.focus1Meta;
-      document.getElementById("focus1-text").textContent = data.focus1Text;
+      document.getElementById("context-title").textContent = data.contextTitle;
+      document.getElementById("context-text").textContent = data.contextText;
+      document.getElementById("colloc1-title").textContent = data.colloc1Title;
+      document.getElementById("colloc1-body").innerHTML = data.colloc1Body;
+      document.getElementById("colloc2-title").textContent = data.colloc2Title;
+      document.getElementById("colloc2-body").innerHTML = data.colloc2Body;
+      document.getElementById("colloc3-title").textContent = data.colloc3Title;
+      document.getElementById("colloc3-body").innerHTML = data.colloc3Body;
+      document.getElementById("colloc4-title").textContent = data.colloc4Title;
+      document.getElementById("colloc4-body").innerHTML = data.colloc4Body;
 
-      document.getElementById("focus2-title").textContent = data.focus2Title;
-      document.getElementById("focus2-main").textContent = data.focus2Main;
-      document.getElementById("focus2-meta").textContent = data.focus2Meta;
-      document.getElementById("focus2-text").textContent = data.focus2Text;
+      document.getElementById("families-title").textContent = data.familiesTitle;
+      document.getElementById("families-text").textContent = data.familiesText;
+      document.getElementById("family1-head").textContent = data.family1Head;
+      document.getElementById("family1-item1").textContent = data.family1Item1;
+      document.getElementById("family1-item2").textContent = data.family1Item2;
+      document.getElementById("family1-item3").textContent = data.family1Item3;
+      document.getElementById("family2-head").textContent = data.family2Head;
+      document.getElementById("family2-item1").textContent = data.family2Item1;
+      document.getElementById("family2-item2").textContent = data.family2Item2;
+      document.getElementById("family2-item3").textContent = data.family2Item3;
+      document.getElementById("family3-head").textContent = data.family3Head;
+      document.getElementById("family3-item1").textContent = data.family3Item1;
+      document.getElementById("family3-item2").textContent = data.family3Item2;
+      document.getElementById("family3-item3").textContent = data.family3Item3;
 
       document.getElementById("practice-title").textContent = data.practiceTitle;
       document.getElementById("ex1-title").textContent = data.ex1Title;
       document.getElementById("ex2-title").textContent = data.ex2Title;
+      document.getElementById("practice-note").textContent = data.practiceNote;
 
-      renderWordGroup("group1", "group1-list");
-      renderWordGroup("group2", "group2-list");
-      renderWordGroup("group3", "group3-list");
-      renderFocusExamples("car", "focus1-examples");
-      renderFocusExamples("ear", "focus2-examples");
+      document.getElementById("next-title").textContent = data.nextTitle;
+      document.getElementById("next-text").textContent = data.nextText;
+      document.getElementById("next-link").textContent = data.nextLink;
+
+      renderGroup("group1", "group1-list");
+      renderGroup("group2", "group2-list");
+      renderGroup("group3", "group3-list");
+      renderTags(mode);
 
       document.getElementById("result1").textContent = "";
       document.getElementById("result2").textContent = "";
