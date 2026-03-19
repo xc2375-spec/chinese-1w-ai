@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Unit 16 - Reading Fluency</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     .back-link {
       display: inline-block;
@@ -17,8 +16,7 @@
 
     .page-header,
     .panel,
-    .sentence-card,
-    .student-card {
+    .sentence-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -29,53 +27,16 @@
 
     .page-header h1,
     .panel h2,
-    .sentence-card h3,
-    .student-card h3 {
+    .sentence-card h3 {
       margin-top: 0;
       color: var(--accent-dark);
     }
 
     .page-header p,
     .panel p,
-    .sentence-card p,
-    .student-card p {
+    .sentence-card p {
       color: var(--muted);
       line-height: 1.8;
-    }
-
-    .student-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: end;
-    }
-
-    .field-label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    .text-input {
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      padding: 12px 14px;
-      font-size: 1rem;
-      box-sizing: border-box;
-    }
-
-    .status-box,
-    .note-box,
-    .feedback-box {
-      margin-top: 12px;
-      padding: 12px 14px;
-      background: #fffaf4;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      line-height: 1.75;
-      color: var(--muted);
     }
 
     .sentence-card {
@@ -84,10 +45,10 @@
 
     .sentence-main {
       font-size: 1.15rem;
-      line-height: 1.9;
+      line-height: 1.95;
       color: var(--accent-dark);
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .sentence-sub {
@@ -101,6 +62,7 @@
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 14px;
+      margin-bottom: 12px;
     }
 
     .small-btn,
@@ -127,14 +89,23 @@
 
     .audio-player {
       width: 100%;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
-    .result-line {
-      margin-top: 10px;
-      color: var(--accent-dark);
-      font-weight: 600;
+    .note-box,
+    .shadow-box,
+    .tip-box {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
       line-height: 1.75;
+      color: var(--muted);
+    }
+
+    .shadow-box strong {
+      color: var(--accent-dark);
     }
 
     .module-link {
@@ -145,9 +116,25 @@
       margin-top: 6px;
     }
 
+    .progress-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .progress-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #f1ebe3;
+      color: var(--text);
+      font-size: 0.92rem;
+    }
+
     @media (max-width: 900px) {
-      .student-row {
-        grid-template-columns: 1fr;
+      .sentence-main {
+        font-size: 1.08rem;
       }
     }
   </style>
@@ -159,7 +146,7 @@
     <header class="topbar">
       <div>
         <h1 id="site-title">Reading Fluency</h1>
-        <p id="site-subtitle">Unit 16 guided sentence practice</p>
+        <p id="site-subtitle">Unit 16 guided shadow reading</p>
       </div>
 
       <div class="lang-switch">
@@ -171,42 +158,36 @@
     <section class="page-header">
       <h1 id="unit-title">Unit 16: Reading Fluency</h1>
       <p id="unit-desc">
-        Listen, shadow, and record five formal sentences related to environment, education, and fairness.
+        Listen, shadow, and repeat five formal sentences related to environment, education, and fairness.
       </p>
-    </section>
-
-    <section class="student-card">
-      <h3 id="student-title">Student Session</h3>
-      <p id="student-text">
-        Enter your student code before recording, so your fluency practice can be saved.
-      </p>
-
-      <div class="student-row">
-        <div>
-          <label class="field-label" id="student-code-label" for="student-code">Student Code</label>
-          <input class="text-input" id="student-code" placeholder="e.g. 1w_alvin" />
-        </div>
-        <div>
-          <button class="primary-btn" id="save-session-btn">Save Session</button>
-        </div>
-      </div>
-
-      <div class="status-box" id="session-status">
-        Your session status will appear here.
-      </div>
     </section>
 
     <section class="panel">
-      <h2 id="fluency-title">Fluency Practice</h2>
+      <h2 id="fluency-title">How to do shadow reading</h2>
       <p id="fluency-text">
-        For each sentence: listen first, then record your own reading, then submit.
+        First listen to the model audio. Then read aloud together with the recording. Finally, try reading the sentence again on your own.
       </p>
+
       <div class="note-box" id="fluency-note">
-        These sentences are designed for heritage/background learners to practice more formal and academic Chinese in a natural way.
+        The goal here is not speed. The goal is clear rhythm, natural phrasing, and confident expression.
+      </div>
+
+      <div class="progress-row">
+        <span class="progress-pill" id="pill-1">Listen</span>
+        <span class="progress-pill" id="pill-2">Read Along</span>
+        <span class="progress-pill" id="pill-3">Shadow</span>
+        <span class="progress-pill" id="pill-4">Repeat</span>
       </div>
     </section>
 
     <div id="sentence-container"></div>
+
+    <section class="panel">
+      <h2 id="tips-title">Fluency Tips</h2>
+      <div class="tip-box" id="tips-box">
+        Try not to stop after every word. Read in meaning groups. Pay attention to longer phrases like “教育机会应该更加公平” and “孩子成长的环境会影响他们的学习习惯”.
+      </div>
+    </section>
 
     <section class="panel">
       <h2 id="next-title">Next Step</h2>
@@ -218,82 +199,69 @@
   </div>
 
   <script>
-    const SUPABASE_URL = "https://zulfijuosvgpdzuorikx.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_zp2Nu9zcgV7Qz7IwvA8-Zw_vIxaMx1h";
-    const BUCKET_NAME = "fluency-audio";
-    const UNIT_NO = 16;
-
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
     let currentMode = localStorage.getItem("scriptMode") || "simplified";
-    let mediaRecorder = null;
-    let currentChunks = [];
-    let currentBlob = null;
-    let currentAudioUrl = null;
 
     const content = {
       simplified: {
         htmlLang: "zh-Hans",
         siteTitle: "Reading Fluency",
-        siteSubtitle: "Unit 16 guided sentence practice",
+        siteSubtitle: "Unit 16 guided shadow reading",
         unitTitle: "Unit 16: Reading Fluency",
-        unitDesc: "Listen, shadow, and record five formal sentences related to environment, education, and fairness.",
-        studentTitle: "Student Session",
-        studentText: "Enter your student code before recording, so your fluency practice can be saved.",
-        studentCodeLabel: "Student Code",
-        studentPlaceholder: "e.g. 1w_alvin",
-        saveSessionBtn: "Save Session",
-        sessionDefault: "Your session status will appear here.",
-        sessionNeedCode: "Please enter a student code first.",
-        sessionSaved: "Session saved. You can now begin fluency practice.",
-        sessionError: "There was a problem saving the session. Please try again.",
-        fluencyTitle: "Fluency Practice",
-        fluencyText: "For each sentence: listen first, then record your own reading, then submit.",
-        fluencyNote: "These sentences are designed for heritage/background learners to practice more formal and academic Chinese in a natural way.",
-        playModel: "Play Model Audio",
-        startRecording: "Start Recording",
-        stopRecording: "Stop Recording",
-        submitAttempt: "Submit Attempt",
-        readyStatus: "Ready to record.",
-        noCodeStatus: "Please save your student code first.",
-        recordingStatus: "Recording...",
-        stoppedStatus: "Recording stopped. You can now submit.",
-        submitSuccess: "Attempt saved successfully.",
-        submitError: "There was an error saving this attempt.",
-        saveFirst: "Please save your session first.",
-        recordFirst: "Please record your reading first.",
+        unitDesc: "Listen, shadow, and repeat five formal sentences related to environment, education, and fairness.",
+        fluencyTitle: "How to do shadow reading",
+        fluencyText: "First listen to the model audio. Then read aloud together with the recording. Finally, try reading the sentence again on your own.",
+        fluencyNote: "The goal here is not speed. The goal is clear rhythm, natural phrasing, and confident expression.",
+        pill1: "Listen",
+        pill2: "Read Along",
+        pill3: "Shadow",
+        pill4: "Repeat",
+        playLabel: "Model Audio",
+        shadowLabel: "Shadow Reading Focus",
+        shadowPrompt: "Listen once. Then read with the audio. Finally, read the sentence again by yourself.",
+        tipsTitle: "Fluency Tips",
+        tipsBox: "Try not to stop after every word. Read in meaning groups. Pay attention to longer phrases like “教育机会应该更加公平” and “孩子成长的环境会影响他们的学习习惯”.",
         nextTitle: "Next Step",
         nextText: "After fluency practice, continue to Writing Studio and use some of these sentence patterns in your writing.",
         nextLink: "Go to Writing Studio →",
         sentences: [
           {
+            title: "Sentence 1",
             zh: "很多中国父母相信，孩子成长的环境会影响他们的学习习惯和价值观。",
             pinyin: "Hěn duō Zhōngguó fùmǔ xiāngxìn, háizi chéngzhǎng de huánjìng huì yǐngxiǎng tāmen de xuéxí xíguàn hé jiàzhíguān.",
             en: "Many Chinese parents believe that a child’s environment can influence their learning habits and values.",
+            focus: "Read this sentence in two meaning groups: 很多中国父母相信 / 孩子成长的环境会影响他们的学习习惯和价值观。",
             audio: "audio/unit16-s1.mp3"
           },
           {
+            title: "Sentence 2",
             zh: "在中国，一些家庭为了让孩子进入更好的学校，会花很多钱买学区房。",
             pinyin: "Zài Zhōngguó, yìxiē jiātíng wèile ràng háizi jìnrù gèng hǎo de xuéxiào, huì huā hěn duō qián mǎi xuéqūfáng.",
             en: "In China, some families spend large amounts of money on school-district housing so their children can attend better schools.",
+            focus: "Notice the purpose phrase: 为了让孩子进入更好的学校. Keep it connected when you read.",
             audio: "audio/unit16-s2.mp3"
           },
           {
+            title: "Sentence 3",
             zh: "很多人认为，教育机会应该更加公平，而不应该只和家庭的经济条件有关。",
             pinyin: "Hěn duō rén rènwéi, jiàoyù jīhuì yīnggāi gèngjiā gōngpíng, ér bù yīnggāi zhǐ hé jiātíng de jīngjì tiáojiàn yǒuguān.",
             en: "Many people believe that educational opportunities should be fairer and not determined mainly by family wealth.",
+            focus: "This is a formal opinion sentence. Slow down slightly at “应该更加公平” and “不应该只和…有关”.",
             audio: "audio/unit16-s3.mp3"
           },
           {
+            title: "Sentence 4",
             zh: "从孟母三迁的故事到今天的学区房现象，中国社会一直非常重视教育。",
             pinyin: "Cóng Mèngmǔ sān qiān de gùshì dào jīntiān de xuéqūfáng xiànxiàng, Zhōngguó shèhuì yìzhí fēicháng zhòngshì jiàoyù.",
             en: "From the story of Mencius’ mother moving three times to today’s school-district housing, Chinese society has long valued education.",
+            focus: "This sentence has a clear from...to... structure: 从…到…。 Keep the contrast smooth and connected.",
             audio: "audio/unit16-s4.mp3"
           },
           {
+            title: "Sentence 5",
             zh: "作为大学生，我们也可以思考：什么样的环境最有利于学习和成长？",
             pinyin: "Zuòwéi dàxuéshēng, wǒmen yě kěyǐ sīkǎo: shénme yàng de huánjìng zuì yǒulì yú xuéxí hé chéngzhǎng?",
             en: "As college students, we can also ask: what kind of environment best supports learning and growth?",
+            focus: "This is a very useful academic discussion sentence. Read “作为大学生” as one chunk.",
             audio: "audio/unit16-s5.mp3"
           }
         ]
@@ -302,226 +270,105 @@
       traditional: {
         htmlLang: "zh-Hant",
         siteTitle: "Reading Fluency",
-        siteSubtitle: "Unit 16 guided sentence practice",
+        siteSubtitle: "Unit 16 guided shadow reading",
         unitTitle: "Unit 16: Reading Fluency",
-        unitDesc: "Listen, shadow, and record five formal sentences related to environment, education, and fairness.",
-        studentTitle: "Student Session",
-        studentText: "Enter your student code before recording, so your fluency practice can be saved.",
-        studentCodeLabel: "Student Code",
-        studentPlaceholder: "e.g. 1w_alvin",
-        saveSessionBtn: "Save Session",
-        sessionDefault: "Your session status will appear here.",
-        sessionNeedCode: "Please enter a student code first.",
-        sessionSaved: "Session saved. You can now begin fluency practice.",
-        sessionError: "There was a problem saving the session. Please try again.",
-        fluencyTitle: "Fluency Practice",
-        fluencyText: "For each sentence: listen first, then record your own reading, then submit.",
-        fluencyNote: "These sentences are designed for heritage/background learners to practice more formal and academic Chinese in a natural way.",
-        playModel: "Play Model Audio",
-        startRecording: "Start Recording",
-        stopRecording: "Stop Recording",
-        submitAttempt: "Submit Attempt",
-        readyStatus: "Ready to record.",
-        noCodeStatus: "Please save your student code first.",
-        recordingStatus: "Recording...",
-        stoppedStatus: "Recording stopped. You can now submit.",
-        submitSuccess: "Attempt saved successfully.",
-        submitError: "There was an error saving this attempt.",
-        saveFirst: "Please save your session first.",
-        recordFirst: "Please record your reading first.",
+        unitDesc: "Listen, shadow, and repeat five formal sentences related to environment, education, and fairness.",
+        fluencyTitle: "How to do shadow reading",
+        fluencyText: "First listen to the model audio. Then read aloud together with the recording. Finally, try reading the sentence again on your own.",
+        fluencyNote: "The goal here is not speed. The goal is clear rhythm, natural phrasing, and confident expression.",
+        pill1: "Listen",
+        pill2: "Read Along",
+        pill3: "Shadow",
+        pill4: "Repeat",
+        playLabel: "Model Audio",
+        shadowLabel: "Shadow Reading Focus",
+        shadowPrompt: "Listen once. Then read with the audio. Finally, read the sentence again by yourself.",
+        tipsTitle: "Fluency Tips",
+        tipsBox: "Try not to stop after every word. Read in meaning groups. Pay attention to longer phrases like “教育機會應該更加公平” and “孩子成長的環境會影響他們的學習習慣”.",
         nextTitle: "Next Step",
         nextText: "After fluency practice, continue to Writing Studio and use some of these sentence patterns in your writing.",
         nextLink: "Go to Writing Studio →",
         sentences: [
           {
+            title: "Sentence 1",
             zh: "很多中國父母相信，孩子成長的環境會影響他們的學習習慣和價值觀。",
             pinyin: "Hěn duō Zhōngguó fùmǔ xiāngxìn, háizi chéngzhǎng de huánjìng huì yǐngxiǎng tāmen de xuéxí xíguàn hé jiàzhíguān.",
             en: "Many Chinese parents believe that a child’s environment can influence their learning habits and values.",
+            focus: "Read this sentence in two meaning groups: 很多中國父母相信 / 孩子成長的環境會影響他們的學習習慣和價值觀。",
             audio: "audio/unit16-s1.mp3"
           },
           {
+            title: "Sentence 2",
             zh: "在中國，一些家庭為了讓孩子進入更好的學校，會花很多錢買學區房。",
             pinyin: "Zài Zhōngguó, yìxiē jiātíng wèile ràng háizi jìnrù gèng hǎo de xuéxiào, huì huā hěn duō qián mǎi xuéqūfáng.",
             en: "In China, some families spend large amounts of money on school-district housing so their children can attend better schools.",
+            focus: "Notice the purpose phrase: 為了讓孩子進入更好的學校. Keep it connected when you read.",
             audio: "audio/unit16-s2.mp3"
           },
           {
+            title: "Sentence 3",
             zh: "很多人認為，教育機會應該更加公平，而不應該只和家庭的經濟條件有關。",
             pinyin: "Hěn duō rén rènwéi, jiàoyù jīhuì yīnggāi gèngjiā gōngpíng, ér bù yīnggāi zhǐ hé jiātíng de jīngjì tiáojiàn yǒuguān.",
             en: "Many people believe that educational opportunities should be fairer and not determined mainly by family wealth.",
+            focus: "This is a formal opinion sentence. Slow down slightly at “應該更加公平” and “不應該只和…有關”.",
             audio: "audio/unit16-s3.mp3"
           },
           {
+            title: "Sentence 4",
             zh: "從孟母三遷的故事到今天的學區房現象，中國社會一直非常重視教育。",
             pinyin: "Cóng Mèngmǔ sān qiān de gùshì dào jīntiān de xuéqūfáng xiànxiàng, Zhōngguó shèhuì yìzhí fēicháng zhòngshì jiàoyù.",
             en: "From the story of Mencius’ mother moving three times to today’s school-district housing, Chinese society has long valued education.",
+            focus: "This sentence has a clear from...to... structure: 從…到…。 Keep the contrast smooth and connected.",
             audio: "audio/unit16-s4.mp3"
           },
           {
+            title: "Sentence 5",
             zh: "作為大學生，我們也可以思考：什麼樣的環境最有利於學習和成長？",
             pinyin: "Zuòwéi dàxuéshēng, wǒmen yě kěyǐ sīkǎo: shénme yàng de huánjìng zuì yǒulì yú xuéxí hé chéngzhǎng?",
             en: "As college students, we can also ask: what kind of environment best supports learning and growth?",
+            focus: "This is a very useful academic discussion sentence. Read “作為大學生” as one chunk.",
             audio: "audio/unit16-s5.mp3"
           }
         ]
       }
     };
 
-    async function saveSession() {
-      const mode = currentMode;
-      const data = content[mode];
-      const studentCode = document.getElementById("student-code").value.trim();
-
-      if (!studentCode) {
-        document.getElementById("session-status").textContent = data.sessionNeedCode;
-        return false;
-      }
-
-      const { error } = await supabaseClient.from("lesson_sessions").insert([
-        {
-          student_code: studentCode,
-          unit_no: UNIT_NO,
-          module_name: "fluency"
-        }
-      ]);
-
-      if (error) {
-        document.getElementById("session-status").textContent = data.sessionError;
-        return false;
-      }
-
-      localStorage.setItem("student_code", studentCode);
-      document.getElementById("session-status").textContent = data.sessionSaved;
-      return true;
-    }
-
-    async function startRecording(sentenceNo) {
-      const studentCode = document.getElementById("student-code").value.trim();
-      if (!studentCode) {
-        document.getElementById(`status-${sentenceNo}`).textContent = content[currentMode].saveFirst;
-        return;
-      }
-
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        currentChunks = [];
-        currentBlob = null;
-        currentAudioUrl = null;
-
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = e => {
-          if (e.data.size > 0) currentChunks.push(e.data);
-        };
-
-        mediaRecorder.onstop = () => {
-          currentBlob = new Blob(currentChunks, { type: "audio/webm" });
-          currentAudioUrl = URL.createObjectURL(currentBlob);
-          const playback = document.getElementById(`student-audio-${sentenceNo}`);
-          playback.src = currentAudioUrl;
-          playback.style.display = "block";
-          document.getElementById(`status-${sentenceNo}`).textContent = content[currentMode].stoppedStatus;
-        };
-
-        mediaRecorder.start();
-        document.getElementById(`status-${sentenceNo}`).textContent = content[currentMode].recordingStatus;
-      } catch (err) {
-        document.getElementById(`status-${sentenceNo}`).textContent = "Microphone access failed.";
-      }
-    }
-
-    function stopRecording(sentenceNo) {
-      if (mediaRecorder && mediaRecorder.state !== "inactive") {
-        mediaRecorder.stop();
-      }
-    }
-
-    async function submitAttempt(sentenceNo) {
-      const studentCode = document.getElementById("student-code").value.trim();
-      const data = content[currentMode];
-      const sentence = data.sentences[sentenceNo - 1];
-
-      if (!studentCode) {
-        document.getElementById(`status-${sentenceNo}`).textContent = data.saveFirst;
-        return;
-      }
-
-      if (!currentBlob) {
-        document.getElementById(`status-${sentenceNo}`).textContent = data.recordFirst;
-        return;
-      }
-
-      const fileName = `${studentCode}-unit${UNIT_NO}-s${sentenceNo}-${Date.now()}.webm`;
-
-      const { error: uploadError } = await supabaseClient.storage
-        .from(BUCKET_NAME)
-        .upload(fileName, currentBlob, {
-          contentType: "audio/webm",
-          upsert: false
-        });
-
-      if (uploadError) {
-        document.getElementById(`status-${sentenceNo}`).textContent = data.submitError;
-        return;
-      }
-
-      const { data: publicData } = supabaseClient.storage
-        .from(BUCKET_NAME)
-        .getPublicUrl(fileName);
-
-      const audioUrl = publicData.publicUrl;
-
-      const { error: insertError } = await supabaseClient.from("fluency_attempts").insert([
-        {
-          student_code: studentCode,
-          unit_no: UNIT_NO,
-          sentence_no: sentenceNo,
-          target_text: sentence.zh,
-          audio_url: audioUrl,
-          transcript: null,
-          ai_feedback: null,
-          score: null
-        }
-      ]);
-
-      if (insertError) {
-        document.getElementById(`status-${sentenceNo}`).textContent = data.submitError;
-        return;
-      }
-
-      document.getElementById(`status-${sentenceNo}`).textContent = data.submitSuccess;
-    }
-
     function buildSentenceCards() {
       const container = document.getElementById("sentence-container");
       const data = content[currentMode];
       container.innerHTML = "";
 
-      data.sentences.forEach((item, index) => {
-        const no = index + 1;
+      data.sentences.forEach((item) => {
         const card = document.createElement("section");
         card.className = "sentence-card";
         card.innerHTML = `
-          <h3>Sentence ${no}</h3>
+          <h3>${item.title}</h3>
           <div class="sentence-main">${item.zh}</div>
           <div class="sentence-sub"><strong>Pinyin:</strong> ${item.pinyin}</div>
           <div class="sentence-sub"><strong>English:</strong> ${item.en}</div>
 
-          <audio class="audio-player" controls>
+          <div class="toolbar">
+            <button class="primary-btn" onclick="playSentenceAudio(this)">${data.playLabel}</button>
+          </div>
+
+          <audio class="audio-player" preload="none">
             <source src="${item.audio}" type="audio/mpeg">
           </audio>
 
-          <div class="toolbar">
-            <button class="small-btn" onclick="startRecording(${no})">${data.startRecording}</button>
-            <button class="small-btn" onclick="stopRecording(${no})">${data.stopRecording}</button>
-            <button class="primary-btn" onclick="submitAttempt(${no})">${data.submitAttempt}</button>
+          <div class="shadow-box">
+            <strong>${data.shadowLabel}:</strong><br>
+            ${item.focus}<br><br>
+            ${data.shadowPrompt}
           </div>
-
-          <audio id="student-audio-${no}" class="audio-player" controls style="display:none;"></audio>
-
-          <div class="feedback-box" id="status-${no}">${data.readyStatus}</div>
         `;
         container.appendChild(card);
       });
+    }
+
+    function playSentenceAudio(button) {
+      const card = button.closest(".sentence-card");
+      const audio = card.querySelector("audio");
+      audio.play().catch(() => {});
     }
 
     function applyLanguage(mode) {
@@ -533,21 +380,15 @@
       document.getElementById("site-subtitle").textContent = data.siteSubtitle;
       document.getElementById("unit-title").textContent = data.unitTitle;
       document.getElementById("unit-desc").textContent = data.unitDesc;
-
-      document.getElementById("student-title").textContent = data.studentTitle;
-      document.getElementById("student-text").textContent = data.studentText;
-      document.getElementById("student-code-label").textContent = data.studentCodeLabel;
-      document.getElementById("student-code").placeholder = data.studentPlaceholder;
-      document.getElementById("save-session-btn").textContent = data.saveSessionBtn;
-
-      if (!document.getElementById("session-status").dataset.locked) {
-        document.getElementById("session-status").textContent = data.sessionDefault;
-      }
-
       document.getElementById("fluency-title").textContent = data.fluencyTitle;
       document.getElementById("fluency-text").textContent = data.fluencyText;
       document.getElementById("fluency-note").textContent = data.fluencyNote;
-
+      document.getElementById("pill-1").textContent = data.pill1;
+      document.getElementById("pill-2").textContent = data.pill2;
+      document.getElementById("pill-3").textContent = data.pill3;
+      document.getElementById("pill-4").textContent = data.pill4;
+      document.getElementById("tips-title").textContent = data.tipsTitle;
+      document.getElementById("tips-box").textContent = data.tipsBox;
       document.getElementById("next-title").textContent = data.nextTitle;
       document.getElementById("next-text").textContent = data.nextText;
       document.getElementById("next-link").textContent = data.nextLink;
@@ -560,18 +401,8 @@
       localStorage.setItem("scriptMode", mode);
     }
 
-    document.getElementById("save-session-btn").addEventListener("click", async () => {
-      document.getElementById("session-status").dataset.locked = "true";
-      await saveSession();
-    });
-
     document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
     document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
-
-    const savedStudentCode = localStorage.getItem("student_code");
-    if (savedStudentCode) {
-      document.getElementById("student-code").value = savedStudentCode;
-    }
 
     applyLanguage(currentMode);
   </script>
