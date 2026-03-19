@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Unit 16 - Writing Studio</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     .back-link {
       display: inline-block;
@@ -16,7 +17,8 @@
 
     .page-header,
     .panel,
-    .mini-card {
+    .mini-card,
+    .student-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -27,14 +29,16 @@
 
     .page-header h1,
     .panel h2,
-    .mini-card h3 {
+    .mini-card h3,
+    .student-card h3 {
       margin-top: 0;
       color: var(--accent-dark);
     }
 
     .page-header p,
     .panel p,
-    .mini-card p {
+    .mini-card p,
+    .student-card p {
       color: var(--muted);
       line-height: 1.75;
     }
@@ -53,6 +57,13 @@
       padding: 14px 16px;
       margin-top: 10px;
       line-height: 1.8;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .prompt-card.active-prompt {
+      outline: 2px solid var(--accent);
+      background: #f6efe6;
     }
 
     .pill-group {
@@ -75,12 +86,6 @@
 
     .pill:hover {
       box-shadow: var(--shadow);
-    }
-
-    .sentence-list {
-      margin: 0;
-      padding-left: 20px;
-      line-height: 1.9;
     }
 
     .toolbar {
@@ -126,6 +131,29 @@
       box-sizing: border-box;
     }
 
+    .text-input {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 12px 14px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .field-label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .student-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: end;
+    }
+
     .feedback-box,
     .note-box,
     .status-box {
@@ -166,9 +194,18 @@
       font-weight: 600;
     }
 
+    .module-link {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
     @media (max-width: 900px) {
       .grid-two,
-      .compare-grid {
+      .compare-grid,
+      .student-row {
         grid-template-columns: 1fr;
       }
     }
@@ -176,7 +213,7 @@
 </head>
 <body>
   <div class="site-shell">
-    <a class="back-link" href="writing-studio.html">← Back to Writing Studio</a>
+    <a class="back-link" href="unit16-flow.html">← Back to Today’s Lesson</a>
 
     <header class="topbar">
       <div>
@@ -195,17 +232,34 @@
       <p id="unit-question">Write about environment, education, parental choices, and fairness.</p>
     </section>
 
+    <section class="student-card">
+      <h3 id="student-title">Student Session</h3>
+      <p id="student-text">Enter your student code before writing, so your work can be saved.</p>
+
+      <div class="student-row">
+        <div>
+          <label class="field-label" id="student-code-label" for="student-code">Student Code</label>
+          <input class="text-input" id="student-code" placeholder="e.g. 1w_alvin" />
+        </div>
+        <div>
+          <button class="primary-btn" id="save-session-btn">Save Session</button>
+        </div>
+      </div>
+
+      <div class="status-box" id="session-status">Your session status will appear here.</div>
+    </section>
+
     <section class="panel">
       <h2 id="task-title">Writing Prompts</h2>
       <p id="task-text">Choose one prompt and write a short response in Chinese.</p>
 
-      <div class="prompt-card" id="prompt1">
+      <div class="prompt-card active-prompt" id="prompt1" data-prompt="1">
         1. 你觉得环境会改变一个人吗？请结合课文或自己的经验说一说。
       </div>
-      <div class="prompt-card" id="prompt2">
+      <div class="prompt-card" id="prompt2" data-prompt="2">
         2. 如果你是家长，你会不会为了孩子搬家或者买学区房？为什么？
       </div>
-      <div class="prompt-card" id="prompt3">
+      <div class="prompt-card" id="prompt3" data-prompt="3">
         3. 你觉得好的教育应该和房子、地址有关系吗？为什么？
       </div>
 
@@ -272,10 +326,26 @@
         Your revision status will appear here.
       </div>
     </section>
+
+    <section class="panel">
+      <h2 id="next-title">Next Step</h2>
+      <p id="next-text">
+        After writing, you can return to the lesson flow or review the character and culture page again.
+      </p>
+      <a class="module-link" id="next-link" href="unit16-culture.html">Go to Culture & Characters →</a>
+    </section>
   </div>
 
   <script>
-   const WORKER_URL = "https://quiet-field-a529.xc2375.workers.dev";
+    const SUPABASE_URL = "https://zulfijuosvgpdzuorikx.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_zp2Nu9zcgV7Qz7IwvA8-Zw_vIxaMx1h";
+    const WORKER_URL = "https://quiet-field-a529.xc2375.workers.dev";
+    const UNIT_NO = 16;
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let currentMode = localStorage.getItem("scriptMode") || "simplified";
+    let selectedPrompt = 1;
 
     const content = {
       simplified: {
@@ -284,16 +354,29 @@
         siteSubtitle: "Unit 16 writing practice",
         unitTitle: "Unit 16: 孟母三迁与教育环境",
         unitQuestion: "Write about environment, education, parental choices, and fairness.",
+
+        studentTitle: "Student Session",
+        studentText: "Enter your student code before writing, so your work can be saved.",
+        studentCodeLabel: "Student Code",
+        studentPlaceholder: "e.g. 1w_alvin",
+        saveSessionBtn: "Save Session",
+        sessionDefault: "Your session status will appear here.",
+        sessionNeedCode: "Please enter a student code first.",
+        sessionSaved: "Session saved. You can now begin writing.",
+        sessionError: "There was a problem saving the session. Please try again.",
+
         taskTitle: "Writing Prompts",
         taskText: "Choose one prompt and write a short response in Chinese.",
         prompt1: "1. 你觉得环境会改变一个人吗？请结合课文或自己的经验说一说。",
         prompt2: "2. 如果你是家长，你会不会为了孩子搬家或者买学区房？为什么？",
         prompt3: "3. 你觉得好的教育应该和房子、地址有关系吗？为什么？",
         taskNote: "Suggested length: 5–8 sentences. Try to use words and patterns from this unit.",
+
         wordbankTitle: "Word Bank",
         wordbankText: "Tap a word to copy it into your draft.",
         builderTitle: "Sentence Builder",
         builderText: "Tap a pattern to copy it into your draft.",
+
         draftTitle: "Draft 1",
         draftText: "Write your first draft below.",
         draftPlaceholder: "请在这里写你的想法……",
@@ -303,6 +386,7 @@
         draftHelp: "Tip: Try using words like 环境, 教育, 公平, 压力, 竞争, 未来.",
         feedbackDefault: "Your AI feedback will appear here.",
         feedbackLoading: "AI is analyzing your writing...",
+
         revisionTitle: "Revision",
         revisionText: "Revise your writing based on the feedback.",
         draft1Label: "Draft 1",
@@ -310,10 +394,19 @@
         draft2Placeholder: "请根据反馈修改你的第二稿……",
         saveRevisionBtn: "Save Revision",
         revisionDefault: "Your revision status will appear here.",
-        revisionSaved: "Revision saved. Nice work revising your writing.",
+        revisionSaved: "Revision saved successfully.",
+        revisionNeedDraft: "Please write and copy your first draft before saving revision.",
+        saveWritingFirst: "Please save your student session first.",
         writeFirst: "Please write a little more first, so the AI can give better feedback.",
         copyFirst: "Draft copied. Now revise it in the Draft 2 box.",
         workerError: "There was an error getting AI feedback. Please try again.",
+        writingSaveError: "There was an error saving your writing.",
+        writingSaveSuccess: "Writing and revision saved successfully.",
+
+        nextTitle: "Next Step",
+        nextText: "After writing, you can return to the lesson flow or review the character and culture page again.",
+        nextLink: "Go to Culture & Characters →",
+
         wordBank: [
           "环境", "改变", "教育", "父母", "学区房",
           "房价", "公平", "制度", "投资", "代价",
@@ -329,22 +422,36 @@
           "对我来说，好的教育应该……"
         ]
       },
+
       traditional: {
         htmlLang: "zh-Hant",
         siteTitle: "Writing Studio",
         siteSubtitle: "Unit 16 writing practice",
         unitTitle: "Unit 16: 孟母三遷與教育環境",
         unitQuestion: "Write about environment, education, parental choices, and fairness.",
+
+        studentTitle: "Student Session",
+        studentText: "Enter your student code before writing, so your work can be saved.",
+        studentCodeLabel: "Student Code",
+        studentPlaceholder: "e.g. 1w_alvin",
+        saveSessionBtn: "Save Session",
+        sessionDefault: "Your session status will appear here.",
+        sessionNeedCode: "Please enter a student code first.",
+        sessionSaved: "Session saved. You can now begin writing.",
+        sessionError: "There was a problem saving the session. Please try again.",
+
         taskTitle: "Writing Prompts",
         taskText: "Choose one prompt and write a short response in Chinese.",
         prompt1: "1. 你覺得環境會改變一個人嗎？請結合課文或自己的經驗說一說。",
         prompt2: "2. 如果你是家長，你會不會為了孩子搬家或者買學區房？為什麼？",
         prompt3: "3. 你覺得好的教育應該和房子、地址有關係嗎？為什麼？",
         taskNote: "Suggested length: 5–8 sentences. Try to use words and patterns from this unit.",
+
         wordbankTitle: "Word Bank",
         wordbankText: "Tap a word to copy it into your draft.",
         builderTitle: "Sentence Builder",
         builderText: "Tap a pattern to copy it into your draft.",
+
         draftTitle: "Draft 1",
         draftText: "Write your first draft below.",
         draftPlaceholder: "請在這裡寫你的想法……",
@@ -354,6 +461,7 @@
         draftHelp: "Tip: Try using words like 環境, 教育, 公平, 壓力, 競爭, 未來.",
         feedbackDefault: "Your AI feedback will appear here.",
         feedbackLoading: "AI is analyzing your writing...",
+
         revisionTitle: "Revision",
         revisionText: "Revise your writing based on the feedback.",
         draft1Label: "Draft 1",
@@ -361,10 +469,19 @@
         draft2Placeholder: "請根據回饋修改你的第二稿……",
         saveRevisionBtn: "Save Revision",
         revisionDefault: "Your revision status will appear here.",
-        revisionSaved: "Revision saved. Nice work revising your writing.",
+        revisionSaved: "Revision saved successfully.",
+        revisionNeedDraft: "Please write and copy your first draft before saving revision.",
+        saveWritingFirst: "Please save your student session first.",
         writeFirst: "Please write a little more first, so the AI can give better feedback.",
         copyFirst: "Draft copied. Now revise it in the Draft 2 box.",
         workerError: "There was an error getting AI feedback. Please try again.",
+        writingSaveError: "There was an error saving your writing.",
+        writingSaveSuccess: "Writing and revision saved successfully.",
+
+        nextTitle: "Next Step",
+        nextText: "After writing, you can return to the lesson flow or review the character and culture page again.",
+        nextLink: "Go to Culture & Characters →",
+
         wordBank: [
           "環境", "改變", "教育", "父母", "學區房",
           "房價", "公平", "制度", "投資", "代價",
@@ -423,7 +540,136 @@
       });
     }
 
+    function setActivePrompt(promptNo) {
+      selectedPrompt = promptNo;
+      document.querySelectorAll(".prompt-card").forEach(card => {
+        card.classList.toggle("active-prompt", Number(card.dataset.prompt) === promptNo);
+      });
+    }
+
+    async function saveSession() {
+      const data = content[currentMode];
+      const studentCode = document.getElementById("student-code").value.trim();
+
+      if (!studentCode) {
+        document.getElementById("session-status").textContent = data.sessionNeedCode;
+        return false;
+      }
+
+      const { error } = await supabaseClient.from("lesson_sessions").insert([
+        {
+          student_code: studentCode,
+          unit_no: UNIT_NO,
+          module_name: "writing"
+        }
+      ]);
+
+      if (error) {
+        document.getElementById("session-status").textContent = data.sessionError;
+        return false;
+      }
+
+      localStorage.setItem("student_code", studentCode);
+      document.getElementById("session-status").textContent = data.sessionSaved;
+      return true;
+    }
+
+    function formatFeedback(text) {
+      const escaped = text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+      return escaped
+        .replace(/\n/g, "<br>")
+        .replace(/What is clear:?/gi, "<strong>What is clear:</strong>")
+        .replace(/What sounds a little unnatural:?/gi, "<strong>What sounds a little unnatural:</strong>")
+        .replace(/Better ways to say it:?/gi, "<strong>Better ways to say it:</strong>")
+        .replace(/Next step:?/gi, "<strong>Next step:</strong>")
+        .replace(/Useful lesson words to try:?/gi, "<strong>Useful lesson words to try:</strong>");
+    }
+
+    async function generateFeedback() {
+      const data = content[currentMode];
+      const studentCode = document.getElementById("student-code").value.trim();
+      const text = document.getElementById("draft-input").value.trim();
+      const feedbackBox = document.getElementById("feedback-box");
+
+      if (!studentCode) {
+        feedbackBox.innerHTML = data.saveWritingFirst;
+        feedbackBox.dataset.locked = "true";
+        return;
+      }
+
+      if (text.length < 20) {
+        feedbackBox.innerHTML = data.writeFirst;
+        feedbackBox.dataset.locked = "true";
+        return;
+      }
+
+      feedbackBox.innerHTML = `<span class="loading">${data.feedbackLoading}</span>`;
+      feedbackBox.dataset.locked = "true";
+
+      try {
+        const response = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ text })
+        });
+
+        const result = await response.json();
+
+        if (result.feedback) {
+          feedbackBox.innerHTML = formatFeedback(result.feedback);
+          feedbackBox.dataset.rawFeedback = result.feedback;
+        } else {
+          feedbackBox.innerHTML = `<strong>Error:</strong> ${result.error || data.workerError}<br><br>${result.details || ""}`;
+        }
+      } catch (error) {
+        feedbackBox.innerHTML = data.workerError;
+      }
+    }
+
+    async function saveWritingSubmission() {
+      const data = content[currentMode];
+      const studentCode = document.getElementById("student-code").value.trim();
+      const draft1 = document.getElementById("draft1-box").value.trim();
+      const draft2 = document.getElementById("draft2-box").value.trim();
+      const aiFeedback = document.getElementById("feedback-box").dataset.rawFeedback || "";
+
+      if (!studentCode) {
+        document.getElementById("revision-status").textContent = data.saveWritingFirst;
+        return;
+      }
+
+      if (!draft1) {
+        document.getElementById("revision-status").textContent = data.revisionNeedDraft;
+        return;
+      }
+
+      const { error } = await supabaseClient.from("writing_submissions").insert([
+        {
+          student_code: studentCode,
+          unit_no: UNIT_NO,
+          prompt_no: selectedPrompt,
+          draft_1: draft1,
+          ai_feedback: aiFeedback,
+          draft_2: draft2
+        }
+      ]);
+
+      if (error) {
+        document.getElementById("revision-status").textContent = data.writingSaveError;
+        return;
+      }
+
+      document.getElementById("revision-status").textContent = data.writingSaveSuccess;
+    }
+
     function applyLanguage(mode) {
+      currentMode = mode;
       const data = content[mode];
       document.documentElement.lang = data.htmlLang;
 
@@ -431,6 +677,16 @@
       document.getElementById("site-subtitle").textContent = data.siteSubtitle;
       document.getElementById("unit-title").textContent = data.unitTitle;
       document.getElementById("unit-question").textContent = data.unitQuestion;
+
+      document.getElementById("student-title").textContent = data.studentTitle;
+      document.getElementById("student-text").textContent = data.studentText;
+      document.getElementById("student-code-label").textContent = data.studentCodeLabel;
+      document.getElementById("student-code").placeholder = data.studentPlaceholder;
+      document.getElementById("save-session-btn").textContent = data.saveSessionBtn;
+
+      if (!document.getElementById("session-status").dataset.locked) {
+        document.getElementById("session-status").textContent = data.sessionDefault;
+      }
 
       document.getElementById("task-title").textContent = data.taskTitle;
       document.getElementById("task-text").textContent = data.taskText;
@@ -466,6 +722,10 @@
         document.getElementById("revision-status").textContent = data.revisionDefault;
       }
 
+      document.getElementById("next-title").textContent = data.nextTitle;
+      document.getElementById("next-text").textContent = data.nextText;
+      document.getElementById("next-link").textContent = data.nextLink;
+
       renderPills(mode);
 
       document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
@@ -474,91 +734,58 @@
       localStorage.setItem("scriptMode", mode);
     }
 
-    async function generateFeedback() {
-      const mode = localStorage.getItem("scriptMode") || "simplified";
-      const data = content[mode];
-      const text = document.getElementById("draft-input").value.trim();
-      const feedbackBox = document.getElementById("feedback-box");
+    document.querySelectorAll(".prompt-card").forEach(card => {
+      card.addEventListener("click", () => {
+        setActivePrompt(Number(card.dataset.prompt));
+      });
+    });
 
-      if (text.length < 20) {
-        feedbackBox.innerHTML = data.writeFirst;
-        feedbackBox.dataset.locked = "true";
-        return;
-      }
-
-      feedbackBox.innerHTML = `<span class="loading">${data.feedbackLoading}</span>`;
-      feedbackBox.dataset.locked = "true";
-
-      try {
-        const response = await fetch(WORKER_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ text })
-        });
-
-        const result = await response.json();
-
-        if (result.feedback) {
-          feedbackBox.innerHTML = formatFeedback(result.feedback);
-        } else {
-          feedbackBox.innerHTML = data.workerError;
-        }
-      } catch (error) {
-        feedbackBox.innerHTML = data.workerError;
-      }
-    }
-
-    function formatFeedback(text) {
-      const escaped = text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-
-      return escaped
-        .replace(/\n/g, "<br>")
-        .replace(/What is clear:?/gi, "<strong>What is clear:</strong>")
-        .replace(/What can improve:?/gi, "<strong>What can improve:</strong>")
-        .replace(/What to add next:?/gi, "<strong>What to add next:</strong>");
-    }
+    document.getElementById("save-session-btn").addEventListener("click", async () => {
+      document.getElementById("session-status").dataset.locked = "true";
+      await saveSession();
+    });
 
     document.getElementById("feedback-btn").addEventListener("click", generateFeedback);
 
     document.getElementById("clear-btn").addEventListener("click", () => {
-      const mode = localStorage.getItem("scriptMode") || "simplified";
+      const data = content[currentMode];
       document.getElementById("draft-input").value = "";
-      document.getElementById("feedback-box").innerHTML = content[mode].feedbackDefault;
+      document.getElementById("feedback-box").innerHTML = data.feedbackDefault;
       document.getElementById("feedback-box").dataset.locked = "";
+      document.getElementById("feedback-box").dataset.rawFeedback = "";
     });
 
     document.getElementById("copy-btn").addEventListener("click", () => {
-      const mode = localStorage.getItem("scriptMode") || "simplified";
+      const data = content[currentMode];
       const text = document.getElementById("draft-input").value.trim();
 
       if (!text) {
-        document.getElementById("feedback-box").innerHTML = content[mode].writeFirst;
+        document.getElementById("feedback-box").innerHTML = data.writeFirst;
         document.getElementById("feedback-box").dataset.locked = "true";
         return;
       }
 
       document.getElementById("draft1-box").value = text;
       document.getElementById("draft2-box").value = text;
-      document.getElementById("revision-status").textContent = content[mode].copyFirst;
+      document.getElementById("revision-status").textContent = data.copyFirst;
       document.getElementById("revision-status").dataset.locked = "true";
     });
 
-    document.getElementById("save-revision-btn").addEventListener("click", () => {
-      const mode = localStorage.getItem("scriptMode") || "simplified";
-      document.getElementById("revision-status").textContent = content[mode].revisionSaved;
+    document.getElementById("save-revision-btn").addEventListener("click", async () => {
       document.getElementById("revision-status").dataset.locked = "true";
+      await saveWritingSubmission();
     });
 
     document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
     document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
 
-    const savedMode = localStorage.getItem("scriptMode") || "simplified";
-    applyLanguage(savedMode);
+    const savedStudentCode = localStorage.getItem("student_code");
+    if (savedStudentCode) {
+      document.getElementById("student-code").value = savedStudentCode;
+    }
+
+    applyLanguage(currentMode);
+    setActivePrompt(1);
   </script>
 </body>
 </html>
