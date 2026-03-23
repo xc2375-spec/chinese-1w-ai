@@ -1,163 +1,888 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>国王和孩子 - Smart Reading</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>国王和孩子 - Smart Reading</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .back-link {
+      display: inline-block;
+      margin-bottom: 18px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
 
-<style>
-body {
-  font-family: system-ui;
-  line-height: 1.9;
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
-}
+    .page-header,
+    .panel,
+    .question-card,
+    .discussion-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
 
-.word {
-  color: #c0392b;
-  cursor: pointer;
-  position: relative;
-}
+    .page-header h1,
+    .panel h2,
+    .question-card h3,
+    .discussion-card h3 {
+      margin-top: 0;
+      color: var(--accent-dark);
+    }
 
-.popup {
-  position: absolute;
-  background: #fff;
-  border: 1px solid #ccc;
-  padding: 6px 10px;
-  border-radius: 6px;
-  top: 28px;
-  left: 0;
-  z-index: 10;
-  display: none;
-  font-size: 14px;
-}
+    .page-header p,
+    .panel p,
+    .question-card p,
+    .discussion-card p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
 
-.word.active .popup {
-  display: block;
-}
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
 
-.question {
-  margin-top: 20px;
-  padding: 10px;
-  background: #f7f7f7;
-  border-radius: 8px;
-}
+    .small-btn {
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 14px;
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
 
-</style>
+    .small-btn:hover {
+      box-shadow: var(--shadow);
+    }
+
+    .reading-box {
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      line-height: 2.08;
+      font-size: 1.05rem;
+    }
+
+    .reading-sentence {
+      margin-bottom: 14px;
+    }
+
+    .click-word {
+      display: inline-block;
+      padding: 0 2px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      border-bottom: 1px dashed rgba(86, 112, 91, 0.35);
+    }
+
+    .click-word:hover {
+      background: #efe7dc;
+    }
+
+    .click-word.active-word {
+      background: #efe7dc;
+    }
+
+    .reading-note,
+    .audio-note,
+    .moral-note {
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+
+    .question-card label {
+      display: block;
+      margin: 8px 0;
+      cursor: pointer;
+      line-height: 1.75;
+    }
+
+    .result-box {
+      margin-top: 14px;
+      padding: 14px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+
+    .discussion-list {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.9;
+      color: var(--text);
+    }
+
+    .tooltip-box {
+      position: fixed;
+      z-index: 9999;
+      max-width: 340px;
+      background: #fffaf4;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 12px 14px;
+      line-height: 1.6;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .tooltip-word {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 4px;
+    }
+
+    .tooltip-label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .tooltip-block {
+      margin-top: 6px;
+    }
+
+    .module-link {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 980px) {
+      .tooltip-box {
+        max-width: min(340px, calc(100vw - 24px));
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="site-shell">
+    <a class="back-link" href="index.html">← Back to Home</a>
 
-<h1>国王和孩子</h1>
+    <header class="topbar">
+      <div>
+        <h1 id="site-title">Smart Reading</h1>
+        <p id="site-subtitle">Reading support for class practice</p>
+      </div>
 
-<p>
-从前，中国西北部有一个小国。小国的国王没有儿子，
-他很着急，想找一个人做他的继承人。
-</p>
+      <div class="lang-switch">
+        <button id="btn-simplified" class="switch-btn active">简体</button>
+        <button id="btn-traditional" class="switch-btn">繁體</button>
+      </div>
+    </header>
 
-<p>
-于是，他想出了一个<span class="word">办法
-  <span class="popup">bànfǎ<br>method</span>
-</span>：
-给全国的孩子每人一粒种子，让他们种花。
-两个月以后，谁的花长得最好，谁就可以当国王。
-</p>
+    <section class="page-header">
+      <h1 id="unit-title">国王和孩子</h1>
+      <p id="unit-question">Read the story and think about honesty, leadership, and what kind of person should become a ruler.</p>
+    </section>
 
-<p>
-有一个男孩叫伯南，他很<span class="word">认真
-  <span class="popup">rènzhēn<br>serious</span>
-</span>地种花，
-每天都给花<span class="word">浇水
-  <span class="popup">jiāo shuǐ<br>water plants</span>
-</span>。
-可是，花一直没有长出来。
-</p>
+    <section class="panel">
+      <h2 id="reading-title">Smart Reading</h2>
+      <p id="reading-subtitle">
+        Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.
+      </p>
 
-<p>
-时间到了，所有孩子都带着漂亮的花来了，
-只有伯南的花盆里什么都没有。
-他觉得很<span class="word">难过
-  <span class="popup">nánguò<br>sad</span>
-</span>。
-</p>
+      <div class="toolbar">
+        <button class="small-btn" id="toggle-pinyin-btn">Show / Hide Pinyin Guide</button>
+      </div>
 
-<p>
-国王看到以后，问他为什么没有花。
-伯南诚实地说：“我每天都努力照顾，可是没有长出来。”
-</p>
+      <div class="reading-note" id="reading-note">
+        This story is about honesty. The king is not looking for the child with the most beautiful flower — he is looking for the most honest child.
+      </div>
 
-<p>
-国王听了以后说：“其实，我给你们的种子是不能发芽的。
-你是唯一一个<span class="word">诚实
-  <span class="popup">chéngshí<br>honest</span>
-</span>的孩子，
-所以你可以当国王。”
-</p>
+      <div class="moral-note" id="moral-note">
+        Focus question: Why does the king choose the boy without flowers?
+      </div>
 
----
+      <div class="reading-box" id="reading-box"></div>
+    </section>
 
-<h2>理解问题</h2>
+    <section class="question-card">
+      <h3 id="check-title">Reading Check</h3>
 
-<div class="question">
-1. 国王为什么给孩子种子？  
-<br>
-A. 让他们学习种花  
-<br>
-B. 选一个诚实的人  
-<br>
-C. 让他们比赛  
-</div>
+      <div>
+        <p id="q1-text">1. 国王为什么要给孩子种子？</p>
+        <label><input type="radio" name="q1" value="A"> <span id="q1a">A. 因为他喜欢花</span></label>
+        <label><input type="radio" name="q1" value="B"> <span id="q1b">B. 因为他想选一个诚实的继承人</span></label>
+        <label><input type="radio" name="q1" value="C"> <span id="q1c">C. 因为他要开一个花展</span></label>
+      </div>
 
-<div class="question">
-2. 为什么伯南没有花？  
-<br>
-A. 他没有浇水  
-<br>
-B. 种子不能发芽  
-<br>
-C. 他忘了  
-</div>
+      <div style="margin-top:18px;">
+        <p id="q2-text">2. 伯南为什么没有带漂亮的花来？</p>
+        <label><input type="radio" name="q2" value="A"> <span id="q2a">A. 因为他没有浇水</span></label>
+        <label><input type="radio" name="q2" value="B"> <span id="q2b">B. 因为他不想做国王</span></label>
+        <label><input type="radio" name="q2" value="C"> <span id="q2c">C. 因为国王给的种子根本不能发芽</span></label>
+      </div>
 
-<div class="question">
-3. 这个故事主要告诉我们什么？  
-<br>
-A. 花很重要  
-<br>
-B. 要诚实  
-<br>
-C. 要努力赚钱  
-</div>
+      <div style="margin-top:18px;">
+        <p id="q3-text">3. 国王最后为什么选了伯南？</p>
+        <label><input type="radio" name="q3" value="A"> <span id="q3a">A. 因为他的花盆最好看</span></label>
+        <label><input type="radio" name="q3" value="B"> <span id="q3b">B. 因为他诚实</span></label>
+        <label><input type="radio" name="q3" value="C"> <span id="q3c">C. 因为他最聪明</span></label>
+      </div>
 
----
+      <div class="toolbar" style="margin-top:18px;">
+        <button class="small-btn" id="check-btn">Check Answers</button>
+      </div>
 
-<h2>思考</h2>
+      <div class="result-box" id="result-box">Your result will appear here.</div>
+    </section>
 
-<p>
-你觉得诚实重要吗？为什么？
-</p>
+    <section class="discussion-card">
+      <h3 id="discussion-title">Think More</h3>
+      <ul class="discussion-list" id="discussion-list"></ul>
+    </section>
 
----
+    <section class="panel">
+      <h2 id="next-title">Next Step</h2>
+      <p id="next-text">
+        Continue to another reading practice or return to the homepage.
+      </p>
+      <a class="module-link" id="next-link" href="saiweng-reading.html">Go to 塞翁失马 →</a>
+    </section>
+  </div>
 
-<script>
-document.querySelectorAll(".word").forEach(word => {
-  word.addEventListener("click", (e) => {
-    e.stopPropagation();
+  <div id="tooltip-box" class="tooltip-box"></div>
 
-    document.querySelectorAll(".word").forEach(w => {
-      if (w !== word) w.classList.remove("active");
+  <script>
+    const readingSupport = {
+      "国王": {
+        simplified: "国王",
+        traditional: "國王",
+        pinyin: "guówáng",
+        english: "king",
+        help: "the ruler of a kingdom",
+        remember: "the central person in this story",
+        exampleSimplified: "国王想找一个诚实的孩子。",
+        exampleTraditional: "國王想找一個誠實的孩子。"
+      },
+      "儿子": {
+        simplified: "儿子",
+        traditional: "兒子",
+        pinyin: "érzi",
+        english: "son",
+        help: "a male child in the family",
+        remember: "the king has no son in this story",
+        exampleSimplified: "国王没有儿子。",
+        exampleTraditional: "國王沒有兒子。"
+      },
+      "着急": {
+        simplified: "着急",
+        traditional: "著急",
+        pinyin: "zháojí",
+        english: "anxious; worried",
+        help: "to feel worried because something important has not been solved",
+        remember: "the king feels worried about the future",
+        exampleSimplified: "他很着急。",
+        exampleTraditional: "他很著急。"
+      },
+      "继承人": {
+        simplified: "继承人",
+        traditional: "繼承人",
+        pinyin: "jìchéngrén",
+        english: "heir; successor",
+        help: "the person who will continue a position, title, or responsibility after someone else",
+        remember: "继承 = inherit, 人 = person",
+        exampleSimplified: "国王想找一个人做他的继承人。",
+        exampleTraditional: "國王想找一個人做他的繼承人。"
+      },
+      "办法": {
+        simplified: "办法",
+        traditional: "辦法",
+        pinyin: "bànfǎ",
+        english: "method; way",
+        help: "a way to solve a problem or do something",
+        remember: "a very common practical word",
+        exampleSimplified: "国王想出了一个办法。",
+        exampleTraditional: "國王想出了一個辦法。"
+      },
+      "种子": {
+        simplified: "种子",
+        traditional: "種子",
+        pinyin: "zhǒngzi",
+        english: "seed",
+        help: "the small thing planted in the ground to grow a plant",
+        remember: "the whole test begins with the seeds",
+        exampleSimplified: "国王给每个孩子一粒种子。",
+        exampleTraditional: "國王給每個孩子一粒種子。"
+      },
+      "全国": {
+        simplified: "全国",
+        traditional: "全國",
+        pinyin: "quánguó",
+        english: "the whole country",
+        help: "all parts of a country",
+        remember: "not just one city—everywhere in the kingdom",
+        exampleSimplified: "他给全国的孩子种子。",
+        exampleTraditional: "他給全國的孩子種子。"
+      },
+      "孩子": {
+        simplified: "孩子",
+        traditional: "孩子",
+        pinyin: "háizi",
+        english: "child",
+        help: "a young person",
+        remember: "the king tests all the children",
+        exampleSimplified: "孩子们都带着花来了。",
+        exampleTraditional: "孩子們都帶著花來了。"
+      },
+      "浇水": {
+        simplified: "浇水",
+        traditional: "澆水",
+        pinyin: "jiāo shuǐ",
+        english: "to water plants",
+        help: "to pour water on plants so they can grow",
+        remember: "伯南 does this every day",
+        exampleSimplified: "他每天都给花浇水。",
+        exampleTraditional: "他每天都給花澆水。"
+      },
+      "认真": {
+        simplified: "认真",
+        traditional: "認真",
+        pinyin: "rènzhēn",
+        english: "serious; careful",
+        help: "to do something carefully and with real effort",
+        remember: "伯南 is very responsible",
+        exampleSimplified: "伯南很认真地种花。",
+        exampleTraditional: "伯南很認真地種花。"
+      },
+      "努力": {
+        simplified: "努力",
+        traditional: "努力",
+        pinyin: "nǔlì",
+        english: "to make effort; hard-working",
+        help: "to try hard",
+        remember: "伯南 really tries, even though nothing grows",
+        exampleSimplified: "他每天都很努力。",
+        exampleTraditional: "他每天都很努力。"
+      },
+      "长出来": {
+        simplified: "长出来",
+        traditional: "長出來",
+        pinyin: "zhǎng chūlái",
+        english: "to grow out; to sprout",
+        help: "used when a plant begins to appear and grow",
+        remember: "the flowers never grow out",
+        exampleSimplified: "可是花一直没有长出来。",
+        exampleTraditional: "可是花一直沒有長出來。"
+      },
+      "难过": {
+        simplified: "难过",
+        traditional: "難過",
+        pinyin: "nánguò",
+        english: "sad; upset",
+        help: "to feel unhappy or emotionally hurt",
+        remember: "伯南 feels sad when he sees the others' flowers",
+        exampleSimplified: "他觉得很难过。",
+        exampleTraditional: "他覺得很難過。"
+      },
+      "诚实": {
+        simplified: "诚实",
+        traditional: "誠實",
+        pinyin: "chéngshí",
+        english: "honest",
+        help: "telling the truth and not pretending",
+        remember: "the most important value in this story",
+        exampleSimplified: "你是一个诚实的孩子。",
+        exampleTraditional: "你是一個誠實的孩子。"
+      },
+      "花盆": {
+        simplified: "花盆",
+        traditional: "花盆",
+        pinyin: "huāpén",
+        english: "flower pot",
+        help: "the container where a flower is planted",
+        remember: "伯南的花盆里没有花",
+        exampleSimplified: "他的花盆里什么都没有。",
+        exampleTraditional: "他的花盆裡什麼都沒有。"
+      },
+      "发芽": {
+        simplified: "发芽",
+        traditional: "發芽",
+        pinyin: "fāyá",
+        english: "to sprout; to germinate",
+        help: "when a seed begins to grow",
+        remember: "the king’s seeds cannot sprout",
+        exampleSimplified: "这些种子不能发芽。",
+        exampleTraditional: "這些種子不能發芽。"
+      },
+      "唯一": {
+        simplified: "唯一",
+        traditional: "唯一",
+        pinyin: "wéiyī",
+        english: "the only one",
+        help: "there is just one, and no second one",
+        remember: "伯南 is the only honest child in the test",
+        exampleSimplified: "你是唯一一个诚实的孩子。",
+        exampleTraditional: "你是唯一一個誠實的孩子。"
+      },
+      "选择": {
+        simplified: "选择",
+        traditional: "選擇",
+        pinyin: "xuǎnzé",
+        english: "to choose; choice",
+        help: "to decide which person or thing is best",
+        remember: "the king must choose a successor",
+        exampleSimplified: "国王要选择一个孩子。",
+        exampleTraditional: "國王要選擇一個孩子。"
+      }
+    };
+
+    const content = {
+      simplified: {
+        htmlLang: "zh-Hans",
+        siteTitle: "Smart Reading",
+        siteSubtitle: "Reading support for class practice",
+        unitTitle: "国王和孩子",
+        unitQuestion: "Read the story and think about honesty, leadership, and what kind of person should become a ruler.",
+        readingTitle: "Smart Reading",
+        readingSubtitle: "Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.",
+        togglePinyin: "Show / Hide Pinyin Guide",
+        readingNote: "This story is about honesty. The king is not looking for the child with the most beautiful flower — he is looking for the most honest child.",
+        moralNote: "Focus question: Why does the king choose the boy without flowers?",
+        checkTitle: "Reading Check",
+        q1Text: "1. 国王为什么要给孩子种子？",
+        q1a: "A. 因为他喜欢花",
+        q1b: "B. 因为他想选一个诚实的继承人",
+        q1c: "C. 因为他要开一个花展",
+        q2Text: "2. 伯南为什么没有带漂亮的花来？",
+        q2a: "A. 因为他没有浇水",
+        q2b: "B. 因为他不想做国王",
+        q2c: "C. 因为国王给的种子根本不能发芽",
+        q3Text: "3. 国王最后为什么选了伯南？",
+        q3a: "A. 因为他的花盆最好看",
+        q3b: "B. 因为他诚实",
+        q3c: "C. 因为他最聪明",
+        checkBtn: "Check Answers",
+        resultDefault: "Your result will appear here.",
+        discussionTitle: "Think More",
+        discussionQuestions: [
+          "你觉得国王的办法聪明吗？为什么？",
+          "如果你是伯南，你会不会也带着空花盆去见国王？",
+          "你觉得一个领导者最重要的品质是什么？"
+        ],
+        nextTitle: "Next Step",
+        nextText: "Continue to another reading practice or return to the homepage.",
+        nextLink: "Go to 塞翁失马 →",
+        pinyinVisibleLabel: "Pinyin guide is on.",
+        pinyinHiddenLabel: "Pinyin guide is off."
+      },
+      traditional: {
+        htmlLang: "zh-Hant",
+        siteTitle: "Smart Reading",
+        siteSubtitle: "Reading support for class practice",
+        unitTitle: "國王和孩子",
+        unitQuestion: "Read the story and think about honesty, leadership, and what kind of person should become a ruler.",
+        readingTitle: "Smart Reading",
+        readingSubtitle: "Move your mouse over highlighted words on desktop, or tap them on mobile, for pinyin and English support.",
+        togglePinyin: "Show / Hide Pinyin Guide",
+        readingNote: "This story is about honesty. The king is not looking for the child with the most beautiful flower — he is looking for the most honest child.",
+        moralNote: "Focus question: Why does the king choose the boy without flowers?",
+        checkTitle: "Reading Check",
+        q1Text: "1. 國王為什麼要給孩子種子？",
+        q1a: "A. 因為他喜歡花",
+        q1b: "B. 因為他想選一個誠實的繼承人",
+        q1c: "C. 因為他要開一個花展",
+        q2Text: "2. 伯南為什麼沒有帶漂亮的花來？",
+        q2a: "A. 因為他沒有澆水",
+        q2b: "B. 因為他不想做國王",
+        q2c: "C. 因為國王給的種子根本不能發芽",
+        q3Text: "3. 國王最後為什麼選了伯南？",
+        q3a: "A. 因為他的花盆最好看",
+        q3b: "B. 因為他誠實",
+        q3c: "C. 因為他最聰明",
+        checkBtn: "Check Answers",
+        resultDefault: "Your result will appear here.",
+        discussionTitle: "Think More",
+        discussionQuestions: [
+          "你覺得國王的辦法聰明嗎？為什麼？",
+          "如果你是伯南，你會不會也帶著空花盆去見國王？",
+          "你覺得一個領導者最重要的品質是什麼？"
+        ],
+        nextTitle: "Next Step",
+        nextText: "Continue to another reading practice or return to the homepage.",
+        nextLink: "Go to 塞翁失馬 →",
+        pinyinVisibleLabel: "Pinyin guide is on.",
+        pinyinHiddenLabel: "Pinyin guide is off."
+      }
+    };
+
+    const passages = {
+      simplified: [
+        [
+          { text: "从前，中国西北部有一个小国。小国的" },
+          { text: "国王", key: "国王" },
+          { text: "没有" },
+          { text: "儿子", key: "儿子" },
+          { text: "，他觉得自己一天天地老了，有点儿" },
+          { text: "着急", key: "着急" },
+          { text: "。" }
+        ],
+        [
+          { text: "他想：有一天我会死的，我死了以后，谁作国王呢？他作国王呢？他想来想去，终于想出了一个" },
+          { text: "办法", key: "办法" },
+          { text: "。" }
+        ],
+        [
+          { text: "国王告诉所有的老百姓，他决定十几岁的男孩子中选出一个人来作国王，也就是选一个" },
+          { text: "继承人", key: "继承人" },
+          { text: "。" }
+        ],
+        [
+          { text: "选择的办法是给每个孩子一粒" },
+          { text: "种子", key: "种子" },
+          { text: "，让他们拿回家去种；两个月以后，拿到花种的人都得把自己种的花拿到一个指定的地方去，谁的花长得最美就选谁。" }
+        ],
+        [
+          { text: "伯南是一个十六岁的男孩子，跟别的孩子一样，他也希望自己被选上。于是他很小心地把它种在花盆里，常常给花" },
+          { text: "浇水", key: "浇水" },
+          { text: "。" }
+        ],
+        [
+          { text: "可是日子一天天过去了，花盆里的种子还都没" },
+          { text: "发芽", key: "发芽" },
+          { text: "。伯南看着自己的花盆，心里很" },
+          { text: "难过", key: "难过" },
+          { text: "。" }
+        ],
+        [
+          { text: "指定的日子到了，伯南真不想到指定的地方去，可是又不能不去。他拿着花盆走到指定的地方一看，那儿真美极了：红的、黄的、白的、紫的，各种颜色的花都有。" }
+        ],
+        [
+          { text: "伯南不好意思地站到孩子们中间，不希望被人注意到。国王走啊走，一边看一边看，一边看一边夸那些花盆。" }
+        ],
+        [
+          { text: "突然，国王看到了伯南的花盆。他马上走到伯南面前，指着伯南的花盆问：“孩子，你怎么拿着一个没有花的花盆来了？”" }
+        ],
+        [
+          { text: "听到国王问他，伯南不好意思地把自己怎么种花、怎么照顾花的事告诉了国王，接着伤心地说：“我不知道为什么花盆里的种子都没长出来。”" }
+        ],
+        [
+          { text: "国王听了，哈哈大笑起来。他高兴地说：“我找到了最美的花了。孩子，我要找一个做国王的人，你是个" },
+          { text: "诚实", key: "诚实" },
+          { text: "的人，将来我要让你作国王。”" }
+        ],
+        [
+          { text: "原来，国王给孩子们的花种都是用开水煮过的，怎么会长出花来呢？伯南是" },
+          { text: "唯一", key: "唯一" },
+          { text: "一个没有拿假花来骗人的孩子，所以国王" },
+          { text: "选择", key: "选择" },
+          { text: "了他。" }
+        ]
+      ],
+      traditional: [
+        [
+          { text: "從前，中國西北部有一個小國。小國的" },
+          { text: "國王", key: "国王" },
+          { text: "沒有" },
+          { text: "兒子", key: "儿子" },
+          { text: "，他覺得自己一天天地老了，有點兒" },
+          { text: "著急", key: "着急" },
+          { text: "。" }
+        ],
+        [
+          { text: "他想：有一天我會死的，我死了以後，誰作國王呢？他作國王呢？他想來想去，終於想出了一個" },
+          { text: "辦法", key: "办法" },
+          { text: "。" }
+        ],
+        [
+          { text: "國王告訴所有的老百姓，他決定十幾歲的男孩子中選出一個人來作國王，也就是選一個" },
+          { text: "繼承人", key: "继承人" },
+          { text: "。" }
+        ],
+        [
+          { text: "選擇的辦法是給每個孩子一粒" },
+          { text: "種子", key: "种子" },
+          { text: "，讓他們拿回家去種；兩個月以後，拿到花種的人都得把自己種的花拿到一個指定的地方去，誰的花長得最美就選誰。" }
+        ],
+        [
+          { text: "伯南是一個十六歲的男孩子，跟別的孩子一樣，他也希望自己被選上。於是他很小心地把它種在花盆裡，常常給花" },
+          { text: "澆水", key: "浇水" },
+          { text: "。" }
+        ],
+        [
+          { text: "可是日子一天天過去了，花盆裡的種子還都沒" },
+          { text: "發芽", key: "发芽" },
+          { text: "。伯南看著自己的花盆，心裡很" },
+          { text: "難過", key: "难过" },
+          { text: "。" }
+        ],
+        [
+          { text: "指定的日子到了，伯南真不想到指定的地方去，可是又不能不去。他拿著花盆走到指定的地方一看，那兒真美極了：紅的、黃的、白的、紫的，各種顏色的花都有。" }
+        ],
+        [
+          { text: "伯南不好意思地站到孩子們中間，不希望被人注意到。國王走啊走，一邊看一邊看，一邊看一邊誇那些花盆。" }
+        ],
+        [
+          { text: "突然，國王看到了伯南的花盆。他馬上走到伯南面前，指著伯南的花盆問：「孩子，你怎麼拿著一個沒有花的花盆來了？」" }
+        ],
+        [
+          { text: "聽到國王問他，伯南不好意思地把自己怎麼種花、怎麼照顧花的事告訴了國王，接著傷心地說：「我不知道為什麼花盆裡的種子都沒長出來。」" }
+        ],
+        [
+          { text: "國王聽了，哈哈大笑起來。他高興地說：「我找到了最美的花了。孩子，我要找一個做國王的人，你是個" },
+          { text: "誠實", key: "诚实" },
+          { text: "的人，將來我要讓你作國王。」" }
+        ],
+        [
+          { text: "原來，國王給孩子們的花種都是用開水煮過的，怎麼會長出花來呢？伯南是" },
+          { text: "唯一", key: "唯一" },
+          { text: "一個沒有拿假花來騙人的孩子，所以國王" },
+          { text: "選擇", key: "选择" },
+          { text: "了他。" }
+        ]
+      ]
+    };
+
+    let currentMode = localStorage.getItem("scriptMode") || "simplified";
+    let activeWordKey = null;
+    let activeWordElement = null;
+    let showPinyinGuide = false;
+    const isTouchDevice = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+    function applyLanguage(mode) {
+      const data = content[mode];
+      currentMode = mode;
+      document.documentElement.lang = data.htmlLang;
+
+      document.getElementById("site-title").textContent = data.siteTitle;
+      document.getElementById("site-subtitle").textContent = data.siteSubtitle;
+      document.getElementById("unit-title").textContent = data.unitTitle;
+      document.getElementById("unit-question").textContent = data.unitQuestion;
+      document.getElementById("reading-title").textContent = data.readingTitle;
+      document.getElementById("reading-subtitle").textContent = data.readingSubtitle;
+      document.getElementById("toggle-pinyin-btn").textContent = data.togglePinyin;
+      document.getElementById("reading-note").textContent = data.readingNote;
+      document.getElementById("moral-note").textContent = data.moralNote;
+
+      document.getElementById("check-title").textContent = data.checkTitle;
+      document.getElementById("q1-text").textContent = data.q1Text;
+      document.getElementById("q1a").textContent = data.q1a;
+      document.getElementById("q1b").textContent = data.q1b;
+      document.getElementById("q1c").textContent = data.q1c;
+      document.getElementById("q2-text").textContent = data.q2Text;
+      document.getElementById("q2a").textContent = data.q2a;
+      document.getElementById("q2b").textContent = data.q2b;
+      document.getElementById("q2c").textContent = data.q2c;
+      document.getElementById("q3-text").textContent = data.q3Text;
+      document.getElementById("q3a").textContent = data.q3a;
+      document.getElementById("q3b").textContent = data.q3b;
+      document.getElementById("q3c").textContent = data.q3c;
+      document.getElementById("check-btn").textContent = data.checkBtn;
+      document.getElementById("result-box").textContent = data.resultDefault;
+
+      document.getElementById("discussion-title").textContent = data.discussionTitle;
+      const discussionList = document.getElementById("discussion-list");
+      discussionList.innerHTML = "";
+      data.discussionQuestions.forEach(q => {
+        const li = document.createElement("li");
+        li.textContent = q;
+        discussionList.appendChild(li);
+      });
+
+      document.getElementById("next-title").textContent = data.nextTitle;
+      document.getElementById("next-text").textContent = data.nextText;
+      document.getElementById("next-link").textContent = data.nextLink;
+
+      renderReading();
+      hideTooltip();
+      clearActiveWord();
+
+      document.getElementById("btn-simplified").classList.toggle("active", mode === "simplified");
+      document.getElementById("btn-traditional").classList.toggle("active", mode === "traditional");
+
+      localStorage.setItem("scriptMode", mode);
+    }
+
+    function renderReading() {
+      const box = document.getElementById("reading-box");
+      box.innerHTML = "";
+      const data = passages[currentMode];
+
+      data.forEach(sentenceParts => {
+        const sentenceDiv = document.createElement("div");
+        sentenceDiv.className = "reading-sentence";
+
+        sentenceParts.forEach(part => {
+          if (!part.key) {
+            const span = document.createElement("span");
+            span.textContent = part.text;
+            sentenceDiv.appendChild(span);
+          } else {
+            const wrapper = document.createElement("span");
+
+            const wordSpan = document.createElement("span");
+            wordSpan.className = "click-word";
+            wordSpan.textContent = part.text;
+            wordSpan.dataset.wordKey = part.key;
+
+            wrapper.appendChild(wordSpan);
+
+            if (showPinyinGuide) {
+              const pinyinSpan = document.createElement("span");
+              pinyinSpan.style.marginLeft = "4px";
+              pinyinSpan.style.fontSize = "0.82rem";
+              pinyinSpan.style.color = "#8b7f73";
+              pinyinSpan.textContent = `(${readingSupport[part.key].pinyin})`;
+              wrapper.appendChild(pinyinSpan);
+            }
+
+            if (!isTouchDevice) {
+              wordSpan.addEventListener("mouseenter", (e) => {
+                setActiveWord(wordSpan, part.key);
+                showTooltip(part.key, e.clientX, e.clientY);
+              });
+              wordSpan.addEventListener("mousemove", (e) => {
+                showTooltip(part.key, e.clientX, e.clientY);
+              });
+              wordSpan.addEventListener("mouseleave", () => {
+                clearActiveWord();
+                hideTooltip();
+              });
+            }
+
+            wordSpan.addEventListener("click", (e) => {
+              if (!isTouchDevice) return;
+              e.stopPropagation();
+
+              if (activeWordKey === part.key && activeWordElement === wordSpan) {
+                clearActiveWord();
+                hideTooltip();
+                return;
+              }
+
+              setActiveWord(wordSpan, part.key);
+              const rect = wordSpan.getBoundingClientRect();
+              showTooltip(part.key, rect.left + rect.width / 2, rect.bottom);
+            });
+
+            sentenceDiv.appendChild(wrapper);
+          }
+        });
+
+        box.appendChild(sentenceDiv);
+      });
+    }
+
+    function setActiveWord(element, wordKey) {
+      clearActiveWord();
+      activeWordElement = element;
+      activeWordKey = wordKey;
+      if (activeWordElement) activeWordElement.classList.add("active-word");
+    }
+
+    function clearActiveWord() {
+      if (activeWordElement) activeWordElement.classList.remove("active-word");
+      activeWordElement = null;
+      activeWordKey = null;
+    }
+
+    function showTooltip(wordKey, anchorX, anchorY) {
+      const item = readingSupport[wordKey];
+      if (!item) return;
+
+      const tooltip = document.getElementById("tooltip-box");
+      const displayWord = currentMode === "traditional" ? item.traditional : item.simplified;
+      const displayExample = currentMode === "traditional" ? item.exampleTraditional : item.exampleSimplified;
+
+      tooltip.innerHTML = `
+        <div class="tooltip-word">${displayWord}</div>
+        <div><span class="tooltip-label">Pinyin:</span> ${item.pinyin}</div>
+        <div><span class="tooltip-label">English:</span> ${item.english}</div>
+        <div class="tooltip-block"><span class="tooltip-label">Help:</span> ${item.help}</div>
+        <div class="tooltip-block"><span class="tooltip-label">Remember:</span> ${item.remember}</div>
+        <div class="tooltip-block"><span class="tooltip-label">Example:</span> ${displayExample}</div>
+      `;
+
+      tooltip.style.display = "block";
+
+      const rect = tooltip.getBoundingClientRect();
+      let left = anchorX + 14;
+      let top = anchorY + 14;
+
+      if (isTouchDevice) {
+        left = Math.max(12, Math.min((window.innerWidth - rect.width) / 2, window.innerWidth - rect.width - 12));
+        top = anchorY + 12;
+      }
+
+      if (left + rect.width > window.innerWidth - 12) left = window.innerWidth - rect.width - 12;
+      if (left < 12) left = 12;
+      if (top + rect.height > window.innerHeight - 12) top = anchorY - rect.height - 12;
+      if (top < 12) top = 12;
+
+      tooltip.style.left = `${left}px`;
+      tooltip.style.top = `${top}px`;
+    }
+
+    function hideTooltip() {
+      document.getElementById("tooltip-box").style.display = "none";
+    }
+
+    function checkAnswers() {
+      let score = 0;
+      const q1 = document.querySelector('input[name="q1"]:checked');
+      const q2 = document.querySelector('input[name="q2"]:checked');
+      const q3 = document.querySelector('input[name="q3"]:checked');
+
+      if (q1 && q1.value === "B") score++;
+      if (q2 && q2.value === "C") score++;
+      if (q3 && q3.value === "B") score++;
+
+      const resultBox = document.getElementById("result-box");
+      resultBox.innerHTML = `<strong>Score:</strong> ${score}/3<br><br>
+      <strong>Quick feedback:</strong><br>
+      ${score === 3 ? "Excellent. You understood the story’s main idea and moral very well." :
+      score === 2 ? "Good job. Read the story one more time and think carefully about why the king chooses 伯南." :
+      "Try again. Review the highlighted words and think about the king’s real goal in this test."}`;
+    }
+
+    document.getElementById("toggle-pinyin-btn").addEventListener("click", () => {
+      showPinyinGuide = !showPinyinGuide;
+      renderReading();
     });
 
-    word.classList.toggle("active");
-  });
-});
+    document.addEventListener("click", (e) => {
+      if (!isTouchDevice) return;
+      const clickedWord = e.target.closest(".click-word");
+      const clickedTooltip = e.target.closest("#tooltip-box");
 
-document.addEventListener("click", () => {
-  document.querySelectorAll(".word").forEach(w => {
-    w.classList.remove("active");
-  });
-});
-</script>
+      if (!clickedWord && !clickedTooltip) {
+        clearActiveWord();
+        hideTooltip();
+      }
+    });
 
+    document.addEventListener("scroll", () => {
+      if (isTouchDevice) {
+        clearActiveWord();
+        hideTooltip();
+      }
+    }, true);
+
+    document.getElementById("check-btn").addEventListener("click", checkAnswers);
+    document.getElementById("btn-simplified").addEventListener("click", () => applyLanguage("simplified"));
+    document.getElementById("btn-traditional").addEventListener("click", () => applyLanguage("traditional"));
+
+    applyLanguage(currentMode);
+  </script>
 </body>
 </html>
