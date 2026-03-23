@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>今日閱讀練習 — 塞翁失馬</title>
+  <style>
+    :root {
+      --primary: #c0392b;
+      --primary-light: #e74c3c;
+      --secondary: #f39c12;
+      --accent: #27ae60;
+      --bg: #fdfaf6;
+      --card: #ffffff;
+      --text: #2c2c2c;
+      --muted: #888;
+      --border: #e5e5e5;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Serif TC', 'Noto Serif SC', serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    /* ── TOP NAV ── */
+    .site-nav {
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .site-nav .logo { font-size: 1.2rem; font-weight: 700; letter-spacing: 1px; }
+    .site-nav a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.9rem; margin-left: 24px; }
+    .site-nav a:hover { color: white; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #c0392b 0%, #922b21 50%, #1a1a2e 100%);
+      color: white;
+      padding: 56px 32px 48px;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .hero h1 { font-size: 2.8rem; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    .hero .subtitle { font-size: 1rem; opacity: 0.85; margin-bottom: 24px; }
+    .hero .meta { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+    .hero .meta span {
+      background: rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 0.85rem;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-bar-wrap {
+      background: white;
+      padding: 12px 32px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .progress-bar-wrap span { font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
+    .progress-track {
+      flex: 1;
+      height: 8px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 4px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 900px; margin: 0 auto; padding: 32px 24px 80px; }
+
+    /* ── SECTION CARDS ── */
+    .section-card {
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .icon-story { background: #fdebd0; }
+    .icon-vocab { background: #d5e8d4; }
+    .icon-order { background: #dae8fc; }
+    .icon-tf    { background: #ffe6cc; }
+    .icon-mc    { background: #e1d5e7; }
+    .icon-fill  { background: #fff2cc; }
+    .section-header h2 { font-size: 1.1rem; font-weight: 700; }
+    .section-header .en { font-size: 0.8rem; color: var(--muted); font-weight: 400; }
+    .section-body { padding: 28px; }
+
+    /* ── STORY TEXT ── */
+    .story-text { font-size: 1.05rem; line-height: 2.2; color: #333; }
+    .story-text p { margin-bottom: 16px; text-indent: 2em; }
+    .story-text .highlight {
+      background: #fdebd0;
+      border-bottom: 2px solid var(--secondary);
+      padding: 0 2px;
+      cursor: help;
+      position: relative;
+    }
+    .story-text .dialog { color: var(--primary); font-weight: 500; }
+
+    /* ── VOCAB MATCHING ── */
+    .vocab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .vocab-col h3 { font-size: 0.85rem; color: var(--muted); letter-spacing: 1px; margin-bottom: 12px; }
+    .vocab-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1rem;
+    }
+    .vocab-item:hover { border-color: var(--primary); background: #fef5f5; }
+    .vocab-item.selected { border-color: var(--primary); background: #fef5f5; }
+    .vocab-item.matched-correct { border-color: var(--accent); background: #d5f5e3; cursor: default; }
+    .vocab-item.matched-wrong { border-color: #e74c3c; background: #fadbd8; }
+    .vocab-num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-size: 0.75rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .vocab-item.matched-correct .vocab-num { background: var(--accent); }
+    .def-letter {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: #555;
+      color: white;
+      font-size: 0.75rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .vocab-check-btn {
+      margin-top: 16px;
+      padding: 10px 28px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .vocab-check-btn:hover { background: var(--primary-light); }
+
+    /* ── ORDERING ── */
+    .order-instructions { font-size: 0.9rem; color: var(--muted); margin-bottom: 16px; }
+    .order-list { list-style: none; }
+    .order-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      background: white;
+    }
+    .order-input {
+      width: 50px;
+      height: 36px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .order-input:focus { outline: none; border-color: var(--primary); }
+    .order-input.correct { border-color: var(--accent); background: #d5f5e3; }
+    .order-input.wrong { border-color: #e74c3c; background: #fadbd8; }
+
+    /* ── TRUE / FALSE ── */
+    .tf-item {
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .tf-item p { font-size: 0.95rem; margin-bottom: 10px; }
+    .tf-options { display: flex; gap: 10px; }
+    .tf-btn {
+      padding: 6px 20px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .tf-btn:hover { border-color: var(--primary); }
+    .tf-btn.selected { border-color: var(--primary); background: var(--primary); color: white; }
+    .tf-btn.correct { border-color: var(--accent); background: var(--accent); color: white; }
+    .tf-btn.wrong { border-color: #e74c3c; background: #e74c3c; color: white; }
+    .tf-feedback { font-size: 0.85rem; margin-top: 6px; display: none; }
+    .tf-feedback.show { display: block; }
+
+    /* ── MULTIPLE CHOICE ── */
+    .mc-item {
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .mc-item p { font-size: 0.95rem; margin-bottom: 10px; }
+    .mc-options { display: flex; flex-direction: column; gap: 6px; }
+    .mc-btn {
+      padding: 8px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      text-align: left;
+      transition: all 0.2s;
+    }
+    .mc-btn:hover { border-color: var(--primary); background: #fef5f5; }
+    .mc-btn.selected { border-color: var(--primary); background: #fef5f5; }
+    .mc-btn.correct { border-color: var(--accent); background: #d5f5e3; }
+    .mc-btn.wrong { border-color: #e74c3c; background: #fadbd8; }
+
+    /* ── FILL IN BLANK ── */
+    .fill-sentence {
+      font-size: 1rem;
+      line-height: 2.2;
+      margin-bottom: 14px;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+    }
+    .blank-input {
+      border: none;
+      border-bottom: 2px solid var(--primary);
+      background: transparent;
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--primary);
+      padding: 0 4px;
+      min-width: 80px;
+      text-align: center;
+    }
+    .blank-input:focus { outline: none; border-bottom-color: var(--secondary); }
+    .blank-input.correct { border-bottom-color: var(--accent); color: var(--accent); }
+    .blank-input.wrong { border-bottom-color: #e74c3c; color: #e74c3c; }
+    .word-bank {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 20px;
+      padding: 16px;
+      background: #f9f9f9;
+      border-radius: 10px;
+    }
+    .word-chip {
+      padding: 5px 14px;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      background: white;
+      transition: all 0.2s;
+    }
+    .word-chip:hover { border-color: var(--primary); background: #fef5f5; }
+    .word-chip.used { opacity: 0.4; cursor: default; text-decoration: line-through; }
+
+    /* ── CHECK / RESULT BUTTONS ── */
+    .check-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      padding: 11px 28px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); }
+    .btn-secondary { background: var(--border); color: #555; margin-left: 12px; }
+    .btn-secondary:hover { background: #ddd; }
+
+    .result-box {
+      margin-top: 16px;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      display: none;
+    }
+    .result-box.show { display: block; }
+    .result-box.pass { background: #d5f5e3; border: 2px solid var(--accent); color: #1e8449; }
+    .result-box.fail { background: #fadbd8; border: 2px solid #e74c3c; color: #c0392b; }
+    .result-box.info { background: #eaf4fc; border: 2px solid #3498db; color: #1a5276; }
+
+    /* ── SCORE WIDGET ── */
+    .score-widget {
+      background: linear-gradient(135deg, var(--primary) 0%, #8e1b12 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      margin-top: 16px;
+      display: none;
+    }
+    .score-widget.show { display: block; }
+    .score-widget .big-score { font-size: 3.5rem; font-weight: 700; }
+    .score-widget p { opacity: 0.9; margin-top: 8px; }
+
+    /* ── TABS ── */
+    .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
+    .tab-btn {
+      padding: 10px 20px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+
+    /* ── VOCAB TOOLTIP ── */
+    .vocab-tooltip {
+      position: relative;
+      display: inline-block;
+    }
+    .vocab-tooltip .tip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .vocab-tooltip:hover .tip { display: block; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .vocab-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav">
+  <span class="logo">🀄 中文基礎讀本</span>
+  <div>
+    <a href="index.html">首頁</a>
+    <a href="#">詞彙</a>
+    <a href="#">練習</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">📖 今日閱讀練習 · TODAY'S READING</div>
+  <h1>塞翁失馬</h1>
+  <p class="subtitle">Misfortune May Be a Blessing in Disguise &nbsp;·&nbsp; 第一課 Chapter One</p>
+  <div class="meta">
+    <span>🏷 中級 Intermediate</span>
+    <span>📚 32 生詞 New Words</span>
+    <span>⏱ 約 30 分鐘</span>
+    <span>✍️ 5 大練習</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar-wrap">
+  <span>學習進度</span>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <span id="progressText">0 / 5 完成</span>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- ① STORY -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon icon-story">📖</div>
+      <div>
+        <h2>課文 Story Text</h2>
+        <div class="en">Read the story carefully before doing exercises</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="story-text">
+        <p>
+          古時候有個地方叫<span class="vocab-tooltip"><span class="highlight">塞</span><span class="tip">Sài — northern frontier</span></span>上，這兒住著一個老人，人們都叫他「<span class="highlight">塞翁</span>」。老人的家裡沒有什麼錢，日子過得不太好，可是大家都知道這個老人很<span class="vocab-tooltip"><span class="highlight">聰明</span><span class="tip">cōngmíng — smart, clever</span></span>，也很會<span class="vocab-tooltip"><span class="highlight">養</span><span class="tip">yǎng — raise, rear</span></span>馬。他家養的馬長得又高又大，跑得也很快。
+        </p>
+        <p>
+          有一天，他們家的馬<span class="vocab-tooltip"><span class="highlight">跑丟了</span><span class="tip">ran away and got lost</span></span>。老人家裡很<span class="vocab-tooltip"><span class="highlight">窮</span><span class="tip">qióng — poor</span></span>，馬是他們家最<span class="vocab-tooltip"><span class="highlight">值錢</span><span class="tip">zhíqián — valuable</span></span>的東西，也是幫助他們<span class="vocab-tooltip"><span class="highlight">勞動</span><span class="tip">láodòng — work, labor</span></span>的重要<span class="vocab-tooltip"><span class="highlight">工具</span><span class="tip">gōngjù — tool</span></span>。沒有了馬怎麼生活啊！朋友們都為他們<span class="vocab-tooltip"><span class="highlight">著急</span><span class="tip">zháojí — feel anxious, worry</span></span>，和他們住在一起的人也都為他們<span class="vocab-tooltip"><span class="highlight">難過</span><span class="tip">nánguò — feel sorry, feel bad</span></span>，可是老人好像一點也不難過，每天還是和平常一樣生活。
+        </p>
+        <p>
+          <span class="dialog">「你們不著急嗎？沒有馬你們怎麼過日子啊！」</span>人們<span class="vocab-tooltip"><span class="highlight">關心</span><span class="tip">guānxīn — care for, be concerned with</span></span>地問他們。可是老人說：<span class="dialog">「馬已經沒有了，著急有什麼用啊？誰知道呢，<span class="vocab-tooltip"><span class="highlight">也許</span><span class="tip">yěxǔ — perhaps, maybe</span></span>這件壞事能<span class="vocab-tooltip"><span class="highlight">變成</span><span class="tip">biànchéng — turn into, become</span></span>一件好事呢！」</span>別人聽了他的話都覺得很<span class="vocab-tooltip"><span class="highlight">好笑</span><span class="tip">hǎoxiào — laughable, funny</span></span>，就不再<span class="vocab-tooltip"><span class="highlight">理</span><span class="tip">lǐ — pay attention to</span></span>他了。
+        </p>
+        <p>
+          <span class="vocab-tooltip"><span class="highlight">沒想到</span><span class="tip">méi xiǎngdào — unexpectedly</span></span>，幾個月以後，他們家的馬回來了。它不但自己回來了，還帶回來了一<span class="vocab-tooltip"><span class="highlight">匹</span><span class="tip">pǐ — measure word for horses</span></span>又高又大的好馬。
+        </p>
+        <p>
+          <span class="vocab-tooltip"><span class="highlight">原來</span><span class="tip">yuánlái — it turns out</span></span>，老人家的馬跑到<span class="vocab-tooltip"><span class="highlight">塞外</span><span class="tip">sàiwài — beyond northern frontier</span></span>去了。塞外的馬非常有名。老人的馬在塞外過了幾個月以後想回家了，它回來的時候，塞外的一匹馬也跟著它跑了過來。
+        </p>
+        <p>
+          大家聽說老人家的馬自己跑回來了，而且還帶回來了一匹塞外的好馬，都覺得很<span class="vocab-tooltip"><span class="highlight">奇怪</span><span class="tip">qíguài — strange, odd</span></span>，也都為他們家高興。沒想到老人又說：<span class="dialog">「<span class="vocab-tooltip"><span class="highlight">一下子</span><span class="tip">yīxiàzi — all of a sudden</span></span>得到這麼一匹好馬，也許不一定是件好事呢！」</span>
+        </p>
+        <p>
+          這個老人有一個兒子，他兒子很喜歡<span class="vocab-tooltip"><span class="highlight">騎</span><span class="tip">qí — ride</span></span>馬。看到家裡來了這麼一匹好馬，他的兒子高興極了。第二天，他就騎上這匹從塞外來的馬跑了出去，想讓<span class="vocab-tooltip"><span class="highlight">所有</span><span class="tip">suǒyǒu — all</span></span>的人都看看他們家的好<span class="vocab-tooltip"><span class="highlight">運氣</span><span class="tip">yùnqì — luck, fortune</span></span>。沒想到這匹馬跑得太快了，他一下子從馬上<span class="vocab-tooltip"><span class="highlight">摔</span><span class="tip">shuāi — fall, tumble</span></span>了下來，把<span class="vocab-tooltip"><span class="highlight">腿</span><span class="tip">tuǐ — leg</span></span><span class="vocab-tooltip"><span class="highlight">斷</span><span class="tip">duàn — break</span></span>了。
+        </p>
+        <p>
+          這件好事馬上就變成了壞事。人們都為老人難過，就到他們家來<span class="vocab-tooltip"><span class="highlight">安慰</span><span class="tip">ānwèi — comfort, console</span></span>他。這一次老人又說：<span class="dialog">「謝謝大家對我的關心。我兒子的腿斷了，我也很難過。可是，誰能說這件壞事以後不能變成一件好事呢？！」</span>
+        </p>
+        <p>
+          聽了老人的話，人們都覺得好笑極了。上次他家的馬丟了，後來帶回來一匹好馬，是他<span class="vocab-tooltip"><span class="highlight">碰上</span><span class="tip">pèngshang — run into, bump into</span></span>了好運氣。但他不可能總是有好運氣。這次他兒子的腿摔斷了，還能有什麼好運氣呢？
+        </p>
+        <p>
+          可是，誰也沒想到，一年以後，塞外跟老人的國家打仗了。國王<span class="vocab-tooltip"><span class="highlight">命令</span><span class="tip">mìnglìng — order, command</span></span>所有的男人都要去打仗。老人的朋友和跟他們住在一起的很多人都得去打仗，最後那些人差不多都死在了塞外。但是老人的兒子因為腿摔斷了不能去打仗，留在了家裡。他們父子從這個壞運氣裡得到了<span class="vocab-tooltip"><span class="highlight">平安</span><span class="tip">píng'ān — safe and sound</span></span>。
+        </p>
+        <p>
+          後來，人們就用這個塞上老人丟馬的故事來<span class="vocab-tooltip"><span class="highlight">說明</span><span class="tip">shuōmíng — illustrate, show</span></span>有時候一件壞事能變成好事，一件好事也能變成壞事。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② VOCAB SCANNING -->
+  <div class="section-card" id="sec-vocab">
+    <div class="section-header">
+      <div class="section-icon icon-vocab">🔍</div>
+      <div>
+        <h2>快速略讀練習 Scanning — Vocabulary Matching</h2>
+        <div class="en">Match each Chinese word/expression with its English definition</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:20px;">點擊左側詞語，再點擊右側對應的英文解釋。 Click a word, then click the matching definition.</p>
+      <div class="vocab-grid">
+        <div class="vocab-col">
+          <h3>詞語 WORDS</h3>
+          <div class="vocab-item" data-word="1" onclick="selectWord(this)">
+            <span class="vocab-num">1</span> 窮
+          </div>
+          <div class="vocab-item" data-word="2" onclick="selectWord(this)">
+            <span class="vocab-num">2</span> 沒想到
+          </div>
+          <div class="vocab-item" data-word="3" onclick="selectWord(this)">
+            <span class="vocab-num">3</span> 原來
+          </div>
+          <div class="vocab-item" data-word="4" onclick="selectWord(this)">
+            <span class="vocab-num">4</span> 一下子
+          </div>
+          <div class="vocab-item" data-word="5" onclick="selectWord(this)">
+            <span class="vocab-num">5</span> 腿
+          </div>
+          <div class="vocab-item" data-word="6" onclick="selectWord(this)">
+            <span class="vocab-num">6</span> 碰上
+          </div>
+          <div class="vocab-item" data-word="7" onclick="selectWord(this)">
+            <span class="vocab-num">7</span> 父子
+          </div>
+          <div class="vocab-item" data-word="8" onclick="selectWord(this)">
+            <span class="vocab-num">8</span> 所有
+          </div>
+        </div>
+        <div class="vocab-col">
+          <h3>英文解釋 DEFINITIONS</h3>
+          <div class="vocab-item" data-def="A" onclick="selectDef(this)">
+            <span class="def-letter">A</span> run into
+          </div>
+          <div class="vocab-item" data-def="B" onclick="selectDef(this)">
+            <span class="def-letter">B</span> all of a sudden
+          </div>
+          <div class="vocab-item" data-def="C" onclick="selectDef(this)">
+            <span class="def-letter">C</span> father and son
+          </div>
+          <div class="vocab-item" data-def="D" onclick="selectDef(this)">
+            <span class="def-letter">D</span> unexpectedly
+          </div>
+          <div class="vocab-item" data-def="E" onclick="selectDef(this)">
+            <span class="def-letter">E</span> it turns out
+          </div>
+          <div class="vocab-item" data-def="F" onclick="selectDef(this)">
+            <span class="def-letter">F</span> poor
+          </div>
+          <div class="vocab-item" data-def="G" onclick="selectDef(this)">
+            <span class="def-letter">G</span> all
+          </div>
+          <div class="vocab-item" data-def="H" onclick="selectDef(this)">
+            <span class="def-letter">H</span> leg
+          </div>
+        </div>
+      </div>
+      <div id="vocabResult" class="result-box"></div>
+      <button class="check-btn btn-primary" onclick="checkVocab()">✓ 核對答案 Check Answers</button>
+      <button class="check-btn btn-secondary" onclick="resetVocab()">↺ 重置</button>
+    </div>
+  </div>
+
+  <!-- ③ ORDERING -->
+  <div class="section-card" id="sec-order">
+    <div class="section-header">
+      <div class="section-icon icon-order">🔢</div>
+      <div>
+        <h2>首次閱讀練習 — 組織信息 Event Ordering</h2>
+        <div class="en">Put the events in the correct chronological order (1–8)</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p class="order-instructions">在每個方框中填入正確的數字（1–8），按故事發生的時間順序排列。</p>
+      <ul class="order-list" id="orderList">
+        <li class="order-item" data-correct="2">
+          <input type="number" class="order-input" min="1" max="8" placeholder="?" />
+          <span>老人的馬帶回來了一匹塞外的馬。</span>
+        </li>
+        <li class="order-item" data-correct="4">
+          <input type="number" class="order-input" min="1" max="8" placeholder="?" />
+          <span>老人的兒子把腿摔斷了。</span>
+        </li>
+        <li class="order-item" data-correct="8">
+          <input type="number" class="order-input" min="1" max="8" placeholder="?" />
+          <span>老人一家從他們的壞運氣裡得到了平安。</span>
+        </li>
+        <li class="order-item" data-correct="5">
+          <input type="number" class="order-input" min="1" max="8" placeholder="?" />
+          <span>人們都不相信腿摔斷了還會有好運氣。</span>
+        </li>
+        <li class="order-item" data-correct="6">
+          <input type="number" class="order-input" min="1" max="8" placeholder="?" />
+          <span>國王命令所有的男人都要去打仗。</span>
+        </li>
+        <li class="order-item" data-correct="3">
+          <input type="number" class="order-input" min="1" max="8" placeholder="?" />
+          <span>有一天，老人家最值錢的馬丟了。</span>
+        </li>
+        <li class="order-item" data-correct="7">
+          <input type="number" class="order-input" min="1" max="8" placeholder="?" />
+          <span>塞外和老人的國家打仗了。</span>
+        </li>
+        <li class="order-item" data-correct="1">
+          <input type="number" class="order-input" min="1" max="8" placeholder="?" />
+          <span>塞上住著一個老人，他很會養馬。</span>
+        </li>
+      </ul>
+      <div id="orderResult" class="result-box"></div>
+      <button class="check-btn btn-primary" onclick="checkOrder()">✓ 核對答案</button>
+      <button class="check-btn btn-secondary" onclick="resetOrder()">↺ 重置</button>
+    </div>
+  </div>
+
+  <!-- ④ TRUE / FALSE -->
+  <div class="section-card" id="sec-tf">
+    <div class="section-header">
+      <div class="section-icon icon-tf">✅</div>
+      <div>
+        <h2>二次閱讀練習 — 判斷對錯 True or False</h2>
+        <div class="en">Mark True (對) or False (錯) for each statement</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:16px;">根據課文，判斷下面的句子是否正確。</p>
+
+      <div class="tf-item" id="tf1">
+        <p><strong>1.</strong> 因為老人家的日子過得不好，所以他很會養馬。</p>
+        <div class="tf-options">
+          <button class="tf-btn" onclick="selectTF('tf1','對')">對 True</button>
+          <button class="tf-btn" onclick="selectTF('tf1','錯')">錯 False</button>
+        </div>
+        <div class="tf-feedback" id="tf1-fb"></div>
+      </div>
+
+      <div class="tf-item" id="tf2">
+        <p><strong>2.</strong> 老人家的馬丟了以後，老人又著急，又難過。</p>
+        <div class="tf-options">
+          <button class="tf-btn" onclick="selectTF('tf2','對')">對 True</button>
+          <button class="tf-btn" onclick="selectTF('tf2','錯')">錯 False</button>
+        </div>
+        <div class="tf-feedback" id="tf2-fb"></div>
+      </div>
+
+      <div class="tf-item" id="tf3">
+        <p><strong>3.</strong> 老人說馬丟了也許是一件好事，他的朋友聽了以後都很不高興，就不愿意跟他說話了。</p>
+        <div class="tf-options">
+          <button class="tf-btn" onclick="selectTF('tf3','對')">對 True</button>
+          <button class="tf-btn" onclick="selectTF('tf3','錯')">錯 False</button>
+        </div>
+        <div class="tf-feedback" id="tf3-fb"></div>
+      </div>
+
+      <div class="tf-item" id="tf4">
+        <p><strong>4.</strong> 老人知道他家的馬會從塞外帶回來一匹好馬，所以丟了馬以後他不覺得難過。</p>
+        <div class="tf-options">
+          <button class="tf-btn" onclick="selectTF('tf4','對')">對 True</button>
+          <button class="tf-btn" onclick="selectTF('tf4','錯')">錯 False</button>
+        </div>
+        <div class="tf-feedback" id="tf4-fb"></div>
+      </div>
+
+      <div class="tf-item" id="tf5">
+        <p><strong>5.</strong> 別人看到老人家得到了一匹塞外的好馬，都想騎一騎。</p>
+        <div class="tf-options">
+          <button class="tf-btn" onclick="selectTF('tf5','對')">對 True</button>
+          <button class="tf-btn" onclick="selectTF('tf5','錯')">錯 False</button>
+        </div>
+        <div class="tf-feedback" id="tf5-fb"></div>
+      </div>
+
+      <div class="tf-item" id="tf6">
+        <p><strong>6.</strong> 兒子把腿摔斷了，老人非常難過，人們都去安慰他。</p>
+        <div class="tf-options">
+          <button class="tf-btn" onclick="selectTF('tf6','對')">對 True</button>
+          <button class="tf-btn" onclick="selectTF('tf6','錯')">錯 False</button>
+        </div>
+        <div class="tf-feedback" id="tf6-fb"></div>
+      </div>
+
+      <div class="tf-item" id="tf7">
+        <p><strong>7.</strong> 大家覺得老人太好笑了：他兒子的腿摔斷了，這怎麼可能變成好事呢？</p>
+        <div class="tf-options">
+          <button class="tf-btn" onclick="selectTF('tf7','對')">對 True</button>
+          <button class="tf-btn" onclick="selectTF('tf7','錯')">錯 False</button>
+        </div>
+        <div class="tf-feedback" id="tf7-fb"></div>
+      </div>
+
+      <div class="tf-item" id="tf8">
+        <p><strong>8.</strong> 最後，老人的腿也摔斷了，所以他沒去打仗。</p>
+        <div class="tf-options">
+          <button class="tf-btn" onclick="selectTF('tf8','對')">對 True</button>
+          <button class="tf-btn" onclick="selectTF('tf8','錯')">錯 False</button>
+        </div>
+        <div class="tf-feedback" id="tf8-fb"></div>
+      </div>
+
+      <div id="tfResult" class="result-box"></div>
+      <button class="check-btn btn-primary" onclick="checkTF()">✓ 核對答案</button>
+      <button class="check-btn btn-secondary" onclick="resetTF()">↺ 重置</button>
+    </div>
+  </div>
+
+  <!-- ⑤ MULTIPLE CHOICE -->
+  <div class="section-card" id="sec-mc">
+    <div class="section-header">
+      <div class="section-icon icon-mc">🎯</div>
+      <div>
+        <h2>選擇題 Multiple Choice</h2>
+        <div class="en">Choose the best answer based on the text</div>
+      </div>
+    </div>
+    <div class="section-body">
+
+      <div class="mc-item" id="mc1">
+        <p><strong>1.</strong> 這個故事發生在（　）。</p>
+        <div class="mc-options">
+          <button class="mc-btn" onclick="selectMC('mc1','A')">A. 小城市</button>
+          <button class="mc-btn" onclick="selectMC('mc1','B')">B. 外國</button>
+          <button class="mc-btn" onclick="selectMC('mc1','C')" data-correct="true">C. 塞上</button>
+        </div>
+      </div>
+
+      <div class="mc-item" id="mc2">
+        <p><strong>2.</strong> 老人家的日子過得不好是因為（　）。</p>
+        <div class="mc-options">
+          <button class="mc-btn" onclick="selectMC('mc2','A')">A. 老人喜歡養馬</button>
+          <button class="mc-btn" onclick="selectMC('mc2','B')" data-correct="true">B. 沒有很多錢</button>
+          <button class="mc-btn" onclick="selectMC('mc2','C')">C. 馬跑丟了</button>
+        </div>
+      </div>
+
+      <div class="mc-item" id="mc3">
+        <p><strong>3.</strong> 老人家的馬丟了，老人（　）。</p>
+        <div class="mc-options">
+          <button class="mc-btn" onclick="selectMC('mc3','A')" data-correct="true">A. 和平常一樣生活</button>
+          <button class="mc-btn" onclick="selectMC('mc3','B')">B. 又著急又難過</button>
+          <button class="mc-btn" onclick="selectMC('mc3','C')">C. 不知道應該怎麼辦</button>
+        </div>
+      </div>
+
+      <div class="mc-item" id="mc4">
+        <p><strong>4.</strong> 過了不久，老人家的馬帶回來一匹塞外馬，他的兒子（　）。</p>
+        <div class="mc-options">
+          <button class="mc-btn" onclick="selectMC('mc4','A')">A. 和平常一樣</button>
+          <button class="mc-btn" onclick="selectMC('mc4','B')">B. 很生氣</button>
+          <button class="mc-btn" onclick="selectMC('mc4','C')" data-correct="true">C. 很高興</button>
+        </div>
+      </div>
+
+      <div class="mc-item" id="mc5">
+        <p><strong>5.</strong> 這匹馬帶來了一匹塞外的好馬以後，（　）。</p>
+        <div class="mc-options">
+          <button class="mc-btn" onclick="selectMC('mc5','A')">A. 老人覺得很奇怪</button>
+          <button class="mc-btn" onclick="selectMC('mc5','B')">B. 別人覺得很好笑</button>
+          <button class="mc-btn" onclick="selectMC('mc5','C')" data-correct="true">C. 老人的兒子摔斷了腿</button>
+        </div>
+      </div>
+
+      <div class="mc-item" id="mc6">
+        <p><strong>6.</strong> 因為老人的兒子摔斷了腿，所以（　）。</p>
+        <div class="mc-options">
+          <button class="mc-btn" onclick="selectMC('mc6','A')">A. 老人非常生氣</button>
+          <button class="mc-btn" onclick="selectMC('mc6','B')">B. 大家都很高興</button>
+          <button class="mc-btn" onclick="selectMC('mc6','C')" data-correct="true">C. 不能去打仗</button>
+        </div>
+      </div>
+
+      <div id="mcResult" class="result-box"></div>
+      <button class="check-btn btn-primary" onclick="checkMC()">✓ 核對答案</button>
+      <button class="check-btn btn-secondary" onclick="resetMC()">↺ 重置</button>
+    </div>
+  </div>
+
+  <!-- ⑥ FILL IN THE BLANKS -->
+  <div class="section-card" id="sec-fill">
+    <div class="section-header">
+      <div class="section-icon icon-fill">✍️</div>
+      <div>
+        <h2>綜合練習 — 選詞填空 Fill in the Blanks</h2>
+        <div class="en">Choose the correct word from the word bank</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:0.9rem;color:var(--muted);margin-bottom:12px;">點擊詞語來填入空格，或直接輸入。Click a word chip to fill the focused blank.</p>
+      <div class="word-bank" id="wordBank">
+        <span class="word-chip" onclick="fillFromBank(this)" data-word="工具">工具</span>
+        <span class="word-chip" onclick="fillFromBank(this)" data-word="養">養</span>
+        <span class="word-chip" onclick="fillFromBank(this)" data-word="運氣">運氣</span>
+        <span class="word-chip" onclick="fillFromBank(this)" data-word="好笑">好笑</span>
+        <span class="word-chip" onclick="fillFromBank(this)" data-word="值錢">值錢</span>
+        <span class="word-chip" onclick="fillFromBank(this)" data-word="平安">平安</span>
+        <span class="word-chip" onclick="fillFromBank(this)" data-word="日子">日子</span>
+        <span class="word-chip" onclick="fillFromBank(this)" data-word="丟">丟</span>
+      </div>
+
+      <div class="fill-sentence">
+        1. 他們家以前 <input class="blank-input" data-answer="日子" id="f1" onfocus="setFocusedBlank(this)" size="4"/> 過得不好，沒有什麼錢。可是後來他們開始 <input class="blank-input" data-answer="養" id="f2" onfocus="setFocusedBlank(this)" size="2"/> 馬，生活就好起來了。
+      </div>
+      <div class="fill-sentence">
+        2. 這張古畫兒是他們家最 <input class="blank-input" data-answer="值錢" id="f3" onfocus="setFocusedBlank(this)" size="4"/> 的東西，你不能拿走。
+      </div>
+      <div class="fill-sentence">
+        3. 很早以前，馬是幫助人們勞動的重要 <input class="blank-input" data-answer="工具" id="f4" onfocus="setFocusedBlank(this)" size="4"/>。
+      </div>
+      <div class="fill-sentence">
+        4. 昨天我的 <input class="blank-input" data-answer="運氣" id="f5" onfocus="setFocusedBlank(this)" size="4"/> 真不好，我去買東西的時候，<input class="blank-input" data-answer="丟" id="f6" onfocus="setFocusedBlank(this)" size="2"/> 了一百塊錢。
+      </div>
+      <div class="fill-sentence">
+        5. 老人說壞運氣會給他們家帶來好運氣，大家都覺得他的話很 <input class="blank-input" data-answer="好笑" id="f7" onfocus="setFocusedBlank(this)" size="4"/>。
+      </div>
+      <div class="fill-sentence">
+        6. 老人的兒子因為不能去打仗，就留在了家裡。他們父子從這個壞運氣裡得到了 <input class="blank-input" data-answer="平安" id="f8" onfocus="setFocusedBlank(this)" size="4"/>。
+      </div>
+
+      <div id="fillResult" class="result-box"></div>
+      <button class="check-btn btn-primary" onclick="checkFill()">✓ 核對答案</button>
+      <button class="check-btn btn-secondary" onclick="resetFill()">↺ 重置</button>
+    </div>
+  </div>
+
+  <!-- FINAL SCORE -->
+  <div class="score-widget" id="scoreWidget">
+    <div class="big-score" id="finalScore">0/5</div>
+    <p id="finalMsg">完成所有練習！Great job!</p>
+    <button class="check-btn btn-secondary" style="margin-top:16px;" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 回到頂部</button>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+// ── PROGRESS ─────────────────────────────────────────────────────
+const completed = { vocab: false, order: false, tf: false, mc: false, fill: false };
+function updateProgress() {
+  const done = Object.values(completed).filter(Boolean).length;
+  document.getElementById('progressFill').style.width = (done / 5 * 100) + '%';
+  document.getElementById('progressText').textContent = done + ' / 5 完成';
+  if (done === 5) {
+    const sw = document.getElementById('scoreWidget');
+    sw.classList.add('show');
+    document.getElementById('finalScore').textContent = '5/5 ⭐';
+    document.getElementById('finalMsg').textContent = '恭喜！所有練習已完成！Congratulations — all exercises done!';
+    sw.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// ── VOCAB MATCHING ────────────────────────────────────────────────
+const VOCAB_ANSWERS = { '1':'F','2':'D','3':'E','4':'B','5':'H','6':'A','7':'C','8':'G' };
+let selectedWord = null, selectedDef = null;
+const userVocab = {};
+
+function selectWord(el) {
+  document.querySelectorAll('[data-word]').forEach(e => e.classList.remove('selected'));
+  selectedWord = el.dataset.word;
+  el.classList.add('selected');
+  tryMatch();
+}
+function selectDef(el) {
+  document.querySelectorAll('[data-def]').forEach(e => e.classList.remove('selected'));
+  selectedDef = el.dataset.def;
+  el.classList.add('selected');
+  tryMatch();
+}
+function tryMatch() {
+  if (!selectedWord || !selectedDef) return;
+  userVocab[selectedWord] = selectedDef;
+  selectedWord = null; selectedDef = null;
+  document.querySelectorAll('[data-word],[data-def]').forEach(e => e.classList.remove('selected'));
+}
+function checkVocab() {
+  let correct = 0;
+  document.querySelectorAll('[data-word]').forEach(el => {
+    const w = el.dataset.word;
+    const ans = VOCAB_ANSWERS[w];
+    const user = userVocab[w];
+    if (user === ans) { el.classList.add('matched-correct'); correct++; }
+    else if (user) { el.classList.add('matched-wrong'); }
+  });
+  const r = document.getElementById('vocabResult');
+  r.classList.add('show');
+  if (correct === 8) {
+    r.className = 'result-box show pass';
+    r.textContent = '✅ 全對！滿分！8/8 — Excellent!';
+    completed.vocab = true; updateProgress();
+  } else {
+    r.className = 'result-box show fail';
+    r.textContent = `你答對了 ${correct}/8 題。Please try again for the rest!`;
+  }
+}
+function resetVocab() {
+  Object.keys(userVocab).forEach(k => delete userVocab[k]);
+  selectedWord = null; selectedDef = null;
+  document.querySelectorAll('[data-word],[data-def]').forEach(el => {
+    el.classList.remove('selected','matched-correct','matched-wrong');
+  });
+  const r = document.getElementById('vocabResult');
+  r.className = 'result-box'; r.textContent = '';
+}
+
+// ── ORDERING ──────────────────────────────────────────────────────
+function checkOrder() {
+  const items = document.querySelectorAll('#orderList .order-item');
+  let correct = 0;
+  items.forEach(item => {
+    const inp = item.querySelector('input');
+    const val = parseInt(inp.value);
+    const ans = parseInt(item.dataset.correct);
+    inp.classList.remove('correct','wrong');
+    if (val === ans) { inp.classList.add('correct'); correct++; }
+    else if (inp.value) { inp.classList.add('wrong'); }
+  });
+  const r = document.getElementById('orderResult');
+  r.classList.add('show');
+  if (correct === 8) {
+    r.className = 'result-box show pass';
+    r.textContent = '✅ 全對！事件順序完全正確！8/8';
+    completed.order = true; updateProgress();
+  } else {
+    r.className = 'result-box show fail';
+    r.textContent = `你答對了 ${correct}/8 個順序。請再試試！`;
+  }
+}
+function resetOrder() {
+  document.querySelectorAll('#orderList input').forEach(inp => {
+    inp.value = ''; inp.classList.remove('correct','wrong');
+  });
+  const r = document.getElementById('orderResult');
+  r.className = 'result-box'; r.textContent = '';
+}
+
+// ── TRUE / FALSE ──────────────────────────────────────────────────
+const TF_ANSWERS = {
+  tf1:'錯', // 老人聰明，這兩件事無直接因果
+  tf2:'錯', // 老人一點也不難過
+  tf3:'錯', // 人們覺得好笑，不再理他（非生氣）
+  tf4:'錯', // 老人不知道，他只是說也許
+  tf5:'錯', // 課文沒有說別人想騎
+  tf6:'對', // 正確
+  tf7:'對', // 正確
+  tf8:'錯', // 是兒子的腿，不是老人的腿
+};
+const TF_EXPLAIN = {
+  tf1:'老人很聰明是眾所周知的；養馬也是他的特長。兩件事沒有直接因果關係。',
+  tf2:'課文說老人「好像一點也不難過，每天還是和平常一樣生活」。',
+  tf3:'課文說別人「覺得好笑，就不再理他了」，不是生氣。',
+  tf4:'老人不知道馬會回來；他只是說「也許」可能變成好事。',
+  tf5:'課文沒有提到別人想騎那匹塞外馬。',
+  tf6:'課文說「人們都為老人難過，就到他們家來安慰他」。',
+  tf7:'課文說「人們都覺得好笑極了」，認為兒子的腿斷了不可能有好事。',
+  tf8:'是兒子的腿斷了，老人的腿沒斷。兒子因腿斷不能去打仗。',
+};
+const userTF = {};
+function selectTF(id, val) {
+  userTF[id] = val;
+  const btns = document.querySelectorAll(`#${id} .tf-btn`);
+  btns.forEach(b => { b.classList.remove('selected','correct','wrong'); });
+  btns.forEach(b => { if (b.textContent.startsWith(val)) b.classList.add('selected'); });
+}
+function checkTF() {
+  let correct = 0;
+  Object.keys(TF_ANSWERS).forEach(id => {
+    const ans = TF_ANSWERS[id];
+    const user = userTF[id];
+    const fb = document.getElementById(id + '-fb');
+    fb.classList.remove('show');
+    const btns = document.querySelectorAll(`#${id} .tf-btn`);
+    btns.forEach(b => b.classList.remove('selected','correct','wrong'));
+    if (user) {
+      btns.forEach(b => {
+        if (b.textContent.startsWith(ans)) b.classList.add('correct');
+        else if (b.textContent.startsWith(user) && user !== ans) b.classList.add('wrong');
+      });
+      if (user === ans) { correct++; }
+      else {
+        fb.textContent = '解析：' + TF_EXPLAIN[id];
+        fb.className = 'tf-feedback show';
+        fb.style.color = '#c0392b';
+      }
+    }
+  });
+  const r = document.getElementById('tfResult');
+  r.classList.add('show');
+  if (correct === 8) {
+    r.className = 'result-box show pass';
+    r.textContent = '✅ 全對！8/8 — Perfect!';
+    completed.tf = true; updateProgress();
+  } else {
+    r.className = 'result-box show fail';
+    r.textContent = `你答對了 ${correct}/8 題。請查看每題下方的解析！`;
+  }
+}
+function resetTF() {
+  Object.keys(userTF).forEach(k => delete userTF[k]);
+  document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('selected','correct','wrong'));
+  document.querySelectorAll('.tf-feedback').forEach(fb => { fb.classList.remove('show'); fb.textContent=''; });
+  const r = document.getElementById('tfResult');
+  r.className = 'result-box'; r.textContent = '';
+}
+
+// ── MULTIPLE CHOICE ───────────────────────────────────────────────
+const userMC = {};
+function selectMC(id, choice) {
+  userMC[id] = choice;
+  document.querySelectorAll(`#${id} .mc-btn`).forEach(b => b.classList.remove('selected','correct','wrong'));
+  const btn = document.querySelector(`#${id} .mc-btn:nth-child(${choice.charCodeAt(0)-64})`);
+  if (btn) btn.classList.add('selected');
+}
+function checkMC() {
+  let correct = 0;
+  const ids = ['mc1','mc2','mc3','mc4','mc5','mc6'];
+  ids.forEach(id => {
+    const btns = document.querySelectorAll(`#${id} .mc-btn`);
+    btns.forEach(b => b.classList.remove('selected','correct','wrong'));
+    const user = userMC[id];
+    if (user) {
+      btns.forEach(b => {
+        const isCorrect = b.dataset.correct === 'true';
+        const isUser = b.textContent.startsWith(user + '.');
+        if (isCorrect) b.classList.add('correct');
+        else if (isUser) b.classList.add('wrong');
+      });
+      const correctBtn = document.querySelector(`#${id} [data-correct="true"]`);
+      if (correctBtn && correctBtn.textContent.startsWith(user + '.')) correct++;
+    }
+  });
+  const r = document.getElementById('mcResult');
+  r.classList.add('show');
+  if (correct === 6) {
+    r.className = 'result-box show pass';
+    r.textContent = '✅ 全對！6/6 — Excellent!';
+    completed.mc = true; updateProgress();
+  } else {
+    r.className = 'result-box show fail';
+    r.textContent = `你答對了 ${correct}/6 題。綠色是正確答案，請再看看課文！`;
+  }
+}
+function resetMC() {
+  Object.keys(userMC).forEach(k => delete userMC[k]);
+  document.querySelectorAll('.mc-btn').forEach(b => b.classList.remove('selected','correct','wrong'));
+  const r = document.getElementById('mcResult');
+  r.className = 'result-box'; r.textContent = '';
+}
+
+// ── FILL IN BLANKS ────────────────────────────────────────────────
+let focusedBlank = null;
+function setFocusedBlank(el) { focusedBlank = el; }
+function fillFromBank(chip) {
+  if (chip.classList.contains('used')) return;
+  if (!focusedBlank) {
+    // find first empty blank
+    const blanks = document.querySelectorAll('.blank-input');
+    for (const b of blanks) { if (!b.value) { focusedBlank = b; break; } }
+  }
+  if (focusedBlank) {
+    focusedBlank.value = chip.dataset.word;
+    focusedBlank = null;
+  }
+}
+function checkFill() {
+  let correct = 0;
+  const blanks = document.querySelectorAll('.blank-input');
+  blanks.forEach(inp => {
+    inp.classList.remove('correct','wrong');
+    if (inp.value.trim() === inp.dataset.answer) {
+      inp.classList.add('correct'); correct++;
+    } else if (inp.value) {
+      inp.classList.add('wrong');
+    }
+  });
+  const r = document.getElementById('fillResult');
+  r.classList.add('show');
+  if (correct === 8) {
+    r.className = 'result-box show pass';
+    r.textContent = '✅ 全對！8/8 — Perfect!';
+    completed.fill = true; updateProgress();
+  } else {
+    r.className = 'result-box show fail';
+    r.textContent = `你答對了 ${correct}/8 題。紅色空格請重新填寫！`;
+  }
+}
+function resetFill() {
+  document.querySelectorAll('.blank-input').forEach(inp => {
+    inp.value = ''; inp.classList.remove('correct','wrong');
+  });
+  document.querySelectorAll('.word-chip').forEach(c => c.classList.remove('used'));
+  const r = document.getElementById('fillResult');
+  r.className = 'result-box'; r.textContent = '';
+  focusedBlank = null;
+}
+</script>
+</body>
+</html>
