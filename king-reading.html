@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国王和孩子 - Smart Reading</title>
+
+<style>
+body {
+  font-family: system-ui;
+  line-height: 1.9;
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.word {
+  color: #c0392b;
+  cursor: pointer;
+  position: relative;
+}
+
+.popup {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 6px;
+  top: 28px;
+  left: 0;
+  z-index: 10;
+  display: none;
+  font-size: 14px;
+}
+
+.word.active .popup {
+  display: block;
+}
+
+.question {
+  margin-top: 20px;
+  padding: 10px;
+  background: #f7f7f7;
+  border-radius: 8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>国王和孩子</h1>
+
+<p>
+从前，中国西北部有一个小国。小国的国王没有儿子，
+他很着急，想找一个人做他的继承人。
+</p>
+
+<p>
+于是，他想出了一个<span class="word">办法
+  <span class="popup">bànfǎ<br>method</span>
+</span>：
+给全国的孩子每人一粒种子，让他们种花。
+两个月以后，谁的花长得最好，谁就可以当国王。
+</p>
+
+<p>
+有一个男孩叫伯南，他很<span class="word">认真
+  <span class="popup">rènzhēn<br>serious</span>
+</span>地种花，
+每天都给花<span class="word">浇水
+  <span class="popup">jiāo shuǐ<br>water plants</span>
+</span>。
+可是，花一直没有长出来。
+</p>
+
+<p>
+时间到了，所有孩子都带着漂亮的花来了，
+只有伯南的花盆里什么都没有。
+他觉得很<span class="word">难过
+  <span class="popup">nánguò<br>sad</span>
+</span>。
+</p>
+
+<p>
+国王看到以后，问他为什么没有花。
+伯南诚实地说：“我每天都努力照顾，可是没有长出来。”
+</p>
+
+<p>
+国王听了以后说：“其实，我给你们的种子是不能发芽的。
+你是唯一一个<span class="word">诚实
+  <span class="popup">chéngshí<br>honest</span>
+</span>的孩子，
+所以你可以当国王。”
+</p>
+
+---
+
+<h2>理解问题</h2>
+
+<div class="question">
+1. 国王为什么给孩子种子？  
+<br>
+A. 让他们学习种花  
+<br>
+B. 选一个诚实的人  
+<br>
+C. 让他们比赛  
+</div>
+
+<div class="question">
+2. 为什么伯南没有花？  
+<br>
+A. 他没有浇水  
+<br>
+B. 种子不能发芽  
+<br>
+C. 他忘了  
+</div>
+
+<div class="question">
+3. 这个故事主要告诉我们什么？  
+<br>
+A. 花很重要  
+<br>
+B. 要诚实  
+<br>
+C. 要努力赚钱  
+</div>
+
+---
+
+<h2>思考</h2>
+
+<p>
+你觉得诚实重要吗？为什么？
+</p>
+
+---
+
+<script>
+document.querySelectorAll(".word").forEach(word => {
+  word.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    document.querySelectorAll(".word").forEach(w => {
+      if (w !== word) w.classList.remove("active");
+    });
+
+    word.classList.toggle("active");
+  });
+});
+
+document.addEventListener("click", () => {
+  document.querySelectorAll(".word").forEach(w => {
+    w.classList.remove("active");
+  });
+});
+</script>
+
+</body>
+</html>
