@@ -619,7 +619,12 @@
               <span id="noteBody1Zh">这些词可以帮助你把时间、频率、重点和无奈感表达得更准确。比如：自从……以后 表示“从那个时候开始”；每当……就…… 表示“每次……的时候”；只好 表示“没有更好的办法”。</span>
               <span class="en">These words help you express time, frequency, emphasis, and “having no better choice” more precisely.</span>
             </div>
-
+<div class="grid grid-2">
+  <div class="grammar-note">
+    <div class="note-title" id="noteTitle1Zh">经验 / 经常 / 合适 / 举行 / 态度 / 劝</div>
+    <span id="noteBody1Zh">这些词都是这次复习里要特别注意的重点词。你需要会看句子的意思，判断该用哪一个词。比如：“经验”常常跟工作、生活连用；“经常”表示频率高；“合适”表示适不适合；“举行”常和婚礼、活动、比赛搭配；“态度”常表示一个人对事情或对别人的看法和反应；“劝”表示建议别人做或不要做某事。</span>
+    <span class="en">These are key review words. You need to understand the sentence meaning and choose the right word. For example, jingyan means experience, jingchang means often, heshi means suitable, juxing means to hold or conduct an event, taidu means attitude, and quan means to advise or persuade someone.</span>
+  </div>
             <div class="grammar-note">
               <div class="note-title" id="noteTitle2Zh">疑问词 + 都 / 也；比 / 没有</div>
               <span id="noteBody2Zh">谁都、什么都、哪儿都、怎么都 可以把重复的信息压缩成更自然的概括句；比 / 没有 可以帮助你做比较，表达“更……”或“不如……”。</span>
@@ -807,26 +812,35 @@
 
     let currentScript = "simp";
 
-    const writingWords = [
-      { simp:"态度", trad:"態度", pinyin:"tài dù", english:"attitude" },
-      { simp:"耐心", trad:"耐心", pinyin:"nài xīn", english:"patience; patient" },
-      { simp:"关心", trad:"關心", pinyin:"guān xīn", english:"to care about" },
-      { simp:"热心", trad:"熱心", pinyin:"rè xīn", english:"enthusiastic; warm-hearted" },
-      { simp:"教育", trad:"教育", pinyin:"jiào yù", english:"education" },
-      { simp:"机会", trad:"機會", pinyin:"jī huì", english:"opportunity" },
-      { simp:"社会", trad:"社會", pinyin:"shè huì", english:"society" },
-      { simp:"环境", trad:"環境", pinyin:"huán jìng", english:"environment" },
-      { simp:"合适", trad:"合適", pinyin:"hé shì", english:"suitable" },
-      { simp:"主张", trad:"主張", pinyin:"zhǔ zhāng", english:"to advocate" },
-      { simp:"管理", trad:"管理", pinyin:"guǎn lǐ", english:"to manage" },
-      { simp:"经验", trad:"經驗", pinyin:"jīng yàn", english:"experience" },
-      { simp:"经常", trad:"經常", pinyin:"jīng cháng", english:"often" },
-      { simp:"模仿", trad:"模仿", pinyin:"mó fǎng", english:"to imitate" },
-      { simp:"附近", trad:"附近", pinyin:"fù jìn", english:"nearby" },
-      { simp:"市场", trad:"市場", pinyin:"shì chǎng", english:"market" },
-      { simp:"礼仪", trad:"禮儀", pinyin:"lǐ yí", english:"etiquette" },
-      { simp:"影响", trad:"影響", pinyin:"yǐng xiǎng", english:"influence" }
-    ];
+   const writingWords = [
+  { simp:"态度", trad:"態度", pinyin:"tài dù", english:"attitude" },
+  { simp:"耐心", trad:"耐心", pinyin:"nài xīn", english:"patience" },
+  { simp:"好心", trad:"好心", pinyin:"hǎo xīn", english:"kind-hearted" },
+  { simp:"关心", trad:"關心", pinyin:"guān xīn", english:"to care about" },
+
+  { simp:"教育", trad:"教育", pinyin:"jiào yù", english:"education" },
+  { simp:"机会", trad:"機會", pinyin:"jī huì", english:"opportunity" },
+  { simp:"社会", trad:"社會", pinyin:"shè huì", english:"society" },
+  { simp:"环境", trad:"環境", pinyin:"huán jìng", english:"environment" },
+  { simp:"合适", trad:"合適", pinyin:"hé shì", english:"suitable" },
+  { simp:"学费", trad:"學費", pinyin:"xué fèi", english:"tuition" },
+  { simp:"办法", trad:"辦法", pinyin:"bàn fǎ", english:"way; method" },
+  { simp:"法子", trad:"法子", pinyin:"fǎ zi", english:"way; method" },
+  { simp:"尊敬", trad:"尊敬", pinyin:"zūn jìng", english:"to respect" },
+  { simp:"主张", trad:"主張", pinyin:"zhǔ zhāng", english:"to advocate" },
+  { simp:"管理", trad:"管理", pinyin:"guǎn lǐ", english:"to manage" },
+
+  { simp:"经常", trad:"經常", pinyin:"jīng cháng", english:"often" },
+  { simp:"经验", trad:"經驗", pinyin:"jīng yàn", english:"experience" },
+  { simp:"模仿", trad:"模仿", pinyin:"mó fǎng", english:"to imitate" },
+  { simp:"附近", trad:"附近", pinyin:"fù jìn", english:"nearby" },
+  { simp:"市场", trad:"市場", pinyin:"shì chǎng", english:"market" },
+  { simp:"困难", trad:"困難", pinyin:"kùn nán", english:"difficult; difficulty" },
+  { simp:"诚实", trad:"誠實", pinyin:"chéng shí", english:"honest" },
+  { simp:"礼仪", trad:"禮儀", pinyin:"lǐ yí", english:"etiquette" },
+  { simp:"影响", trad:"影響", pinyin:"yǐng xiǎng", english:"influence" },
+  { simp:"游戏", trad:"遊戲", pinyin:"yóu xì", english:"game" }
+];
 
     const pinyinWords = [
       { simp:"关心", trad:"關心", marked:"guān xīn", plain:"guan xin", numbered:"guan1 xin1" },
@@ -874,7 +888,38 @@
         explain:{ simp:"表示“特别是”。", trad:"表示「特別是」。" }
       }
     ];
-
+const grammarFill = [
+  {
+    prompt:{ simp:"看他不舒服，我——他别去运动了。", trad:"看他不舒服，我——他別去運動了。" },
+    answers:{ simp:["劝"], trad:["勸"] },
+    explain:{ simp:"“劝”表示劝别人做或不做某事。", trad:"「勸」表示勸別人做或不做某事。" }
+  },
+  {
+    prompt:{ simp:"现在很多公司要有工作——的人，可是大学生不开始工作，怎么有——呢？", trad:"現在很多公司要有工作——的人，可是大學生不開始工作，怎麼有——呢？" },
+    answers:{ simp:["经验"], trad:["經驗"] },
+    explain:{ simp:"两个空都填“经验 / 經驗”。", trad:"兩個空都填「經驗 / 经验」。" }
+  },
+  {
+    prompt:{ simp:"这本书放这里不——，你拿走吧！", trad:"這本書放這裡不——，你拿走吧！" },
+    answers:{ simp:["合适"], trad:["合適"] },
+    explain:{ simp:"这里要填“合适 / 合適”。", trad:"這裡要填「合適 / 合适」。" }
+  },
+  {
+    prompt:{ simp:"很多知识很快就忘了，需要——复习。", trad:"很多知識很快就忘了，需要——複習。" },
+    answers:{ simp:["经常"], trad:["經常"] },
+    explain:{ simp:"这里表示“常常复习”。", trad:"這裡表示「常常複習」。" }
+  },
+  {
+    prompt:{ simp:"最近他对我的——改变了。", trad:"最近他對我的——改變了。" },
+    answers:{ simp:["态度"], trad:["態度"] },
+    explain:{ simp:"固定搭配是“态度改变了”。", trad:"固定搭配是「態度改變了」。" }
+  },
+  {
+    prompt:{ simp:"这个地方是很多年轻人——婚礼的地方。", trad:"這個地方是很多年輕人——婚禮的地方。" },
+    answers:{ simp:["举行"], trad:["舉行"] },
+    explain:{ simp:"固定搭配是“举行婚礼 / 舉行婚禮”。", trad:"固定搭配是「舉行婚禮 / 举行婚礼」。" }
+  }
+];
     const grammarRewrite = [
       {
         target:{ simp:"谁都", trad:"誰都" },
