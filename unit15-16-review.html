@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>第15、16课复习互动网页</title>
+  <style>
+    :root{
+      --bg:#f7f3ea;
+      --card:#fffdf8;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --red:#b42318;
+      --gold:#c58a1f;
+      --blue:#2457a7;
+      --green:#1f7a4d;
+      --line:#e7dcc7;
+      --shadow:0 10px 30px rgba(43,30,12,.08);
+      --radius:20px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#f8f5ef 0%, #f5efe4 100%);
+      color:var(--ink);
+      font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+      line-height:1.65;
+    }
+    .wrap{width:min(1180px, calc(100% - 28px)); margin:0 auto;}
+    header.hero{padding:28px 0 16px;}
+    .hero-card{
+      background:
+        radial-gradient(circle at top right, rgba(196,138,31,.12), transparent 22%),
+        radial-gradient(circle at left top, rgba(36,87,167,.08), transparent 20%),
+        var(--card);
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:28px 24px 22px;
+      position:relative;
+    }
+    .script-toggle{
+      position:absolute;
+      top:18px;
+      right:18px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .toggle-btn{
+      border:1px solid #e5d8bf;
+      background:#fffaf2;
+      color:#6b5b45;
+      padding:8px 12px;
+      border-radius:999px;
+      font:inherit;
+      font-weight:700;
+      cursor:pointer;
+    }
+    .toggle-btn.active{
+      background:var(--red);
+      color:#fff;
+      border-color:var(--red);
+      box-shadow:0 8px 18px rgba(180,35,24,.16);
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 12px;
+      border-radius:999px;
+      background:#fff7eb;
+      color:var(--red);
+      font-size:13px;
+      font-weight:700;
+      border:1px solid #f1dcc0;
+      margin-top:8px;
+    }
+    h1{
+      margin:14px 0 8px;
+      font-size:clamp(28px, 4vw, 44px);
+      line-height:1.18;
+      font-weight:800;
+      letter-spacing:.5px;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:15px;
+      max-width:950px;
+    }
+    .en{
+      display:block;
+      margin-top:6px;
+      color:#7d8796;
+      font-size:13px;
+    }
+    .top-actions{
+      margin-top:16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .btn, button{border:none; cursor:pointer; font:inherit;}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:11px 16px;
+      border-radius:14px;
+      background:var(--red);
+      color:white;
+      font-weight:700;
+      box-shadow:0 8px 20px rgba(180,35,24,.18);
+      text-decoration:none;
+    }
+    .btn.secondary{
+      background:white;
+      color:var(--blue);
+      border:1px solid #d7e2f2;
+      box-shadow:none;
+    }
+    .btn.ghost{
+      background:#fff7eb;
+      color:#8a5b08;
+      border:1px solid #f1dcc0;
+      box-shadow:none;
+    }
+    .btn.green{
+      background:var(--green);
+      box-shadow:0 8px 20px rgba(31,122,77,.18);
+    }
+    nav.sticky{
+      position:sticky;
+      top:0;
+      z-index:20;
+      backdrop-filter:blur(12px);
+      background:rgba(248,245,239,.84);
+      border-bottom:1px solid rgba(231,220,199,.8);
+      margin-top:14px;
+    }
+    .nav-inner{
+      width:min(1180px, calc(100% - 28px));
+      margin:0 auto;
+      display:flex;
+      gap:10px;
+      overflow:auto;
+      padding:10px 0;
+    }
+    .nav-link{
+      white-space:nowrap;
+      text-decoration:none;
+      color:var(--ink);
+      background:white;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:14px;
+      font-weight:700;
+    }
+    main{padding:18px 0 60px;}
+    section{scroll-margin-top:78px; margin:22px 0;}
+    .section-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+    .section-title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin:0 0 8px;
+      font-size:26px;
+      font-weight:800;
+    }
+    .section-title .icon{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      font-size:22px;
+      background:#fff5f3;
+      color:var(--red);
+      border:1px solid #f1d5cf;
+    }
+    .hint{
+      margin:0 0 14px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .grid{display:grid; gap:16px;}
+    .grid-2{grid-template-columns:repeat(2, minmax(0,1fr));}
+    .grid-3{grid-template-columns:repeat(3, minmax(0,1fr));}
+    @media (max-width: 980px){
+      .grid-2,.grid-3{grid-template-columns:1fr}
+      .hero-card{padding:22px 18px 22px}
+      .section-card{padding:18px}
+      .script-toggle{
+        position:static;
+        margin-bottom:10px;
+      }
+    }
+    .mini-card{
+      background:white;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:5px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.2px;
+      background:#f4efe6;
+      color:#6b5b45;
+      border:1px solid #eadfcf;
+    }
+    .progress{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-top:12px;
+    }
+    .progress-bar{
+      flex:1;
+      height:12px;
+      border-radius:999px;
+      background:#efe7d8;
+      overflow:hidden;
+    }
+    .progress-fill{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background:linear-gradient(90deg, var(--red), #e1662d);
+      transition:width .25s ease;
+    }
+    .score{
+      font-weight:800;
+      color:var(--red);
+      white-space:nowrap;
+    }
+    .prompt-box{
+      min-height:110px;
+      display:grid;
+      place-items:center;
+      border:2px dashed #eadbc2;
+      border-radius:18px;
+      background:#fffaf2;
+      text-align:center;
+      padding:18px;
+    }
+    .prompt-box .stage{
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .prompt-box .display{
+      font-size:clamp(21px, 5vw, 38px);
+      font-weight:800;
+      letter-spacing:.5px;
+      color:var(--ink);
+    }
+    .prompt-box .subdisplay{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+    }
+    .feedback{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:#f6f0e5;
+      border:1px solid #eadfcf;
+      color:#6b5b45;
+      font-size:14px;
+    }
+    .feedback.ok{
+      background:#eef8f1;
+      border-color:#cce7d4;
+      color:#17633e;
+    }
+    .feedback.bad{
+      background:#fff0ef;
+      border-color:#f1d0cd;
+      color:#9c2c23;
+    }
+    .feedback.mid{
+      background:#fff8ea;
+      border-color:#f1dcc0;
+      color:#8a5b08;
+    }
+    .word-answer{
+      margin-top:10px;
+      display:none;
+      font-size:28px;
+      font-weight:800;
+      text-align:center;
+      color:var(--red);
+      letter-spacing:2px;
+    }
+    .word-answer.show{display:block;}
+    .char-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:14px;
+      margin-top:16px;
+    }
+    .char-card{
+      background:white;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+    }
+    .char-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .char-header .char{
+      font-size:28px;
+      font-weight:800;
+      color:var(--red);
+    }
+    .char-tools{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .small-btn{
+      padding:6px 10px;
+      border-radius:10px;
+      font-size:12px;
+      background:#fff7eb;
+      color:#8a5b08;
+      border:1px solid #f1dcc0;
+      cursor:pointer;
+    }
+    .square-wrap{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width:640px){
+      .square-wrap{grid-template-columns:1fr;}
+    }
+    .square-panel{
+      background:#fffaf2;
+      border:1px solid #eadbc2;
+      border-radius:16px;
+      padding:10px;
+    }
+    .panel-label{
+      font-size:12px;
+      color:#7a6852;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+    .writer-box, .draw-pad{
+      width:100%;
+      aspect-ratio:1 / 1;
+      border-radius:14px;
+      background:#fffdf9;
+      border:1px solid #e5d8bf;
+    }
+    .writer-box{
+      position:relative;
+      overflow:hidden;
+    }
+    .writer-fallback{
+      display:grid;
+      place-items:center;
+      height:100%;
+      text-align:center;
+      color:#8f7b65;
+      font-size:13px;
+      padding:14px;
+    }
+    .input-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    input[type="text"], textarea{
+      flex:1;
+      min-width:220px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid #dccfb8;
+      background:#fffdf9;
+      font:inherit;
+      color:var(--ink);
+    }
+    textarea{
+      min-height:100px;
+      resize:vertical;
+    }
+    .exercise-block{
+      background:white;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+    }
+    .exercise-title{
+      margin:0 0 10px;
+      font-size:18px;
+      font-weight:800;
+    }
+    .grammar-note{
+      background:#fcf6ea;
+      border:1px solid #efdfbf;
+      border-radius:16px;
+      padding:14px;
+      margin-bottom:14px;
+    }
+    .note-title{
+      font-weight:800;
+      color:#8a5b08;
+      margin-bottom:6px;
+    }
+    .exercise-item{
+      padding:14px 0;
+      border-top:1px dashed #eadfcf;
+    }
+    .exercise-item:first-child{
+      border-top:none;
+      padding-top:0;
+    }
+    .label-soft{
+      font-size:12px;
+      color:#7a6852;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+    .target{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 10px;
+      background:#eff5ff;
+      color:#2457a7;
+      border:1px solid #d3e2ff;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+    }
+    .footnote{
+      margin-top:16px;
+      color:var(--muted);
+      font-size:13px;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-card">
+        <div class="script-toggle">
+          <button class="toggle-btn active" id="toggleSimp">简体</button>
+          <button class="toggle-btn" id="toggleTrad">繁體</button>
+        </div>
+
+        <div class="eyebrow" id="eyebrowZh">第15、16课复习</div>
+        <h1 id="heroTitleZh">第15、16课复习互动网页</h1>
+        <p class="sub">
+          <span id="heroSubZh">你可以先练写重点词，再练拼音，最后做语法改写。每一部分都可以反复练习，也可以按自己的速度完成。</span>
+          <span class="en">You can practice key words first, then pinyin, and finally grammar rewriting. Each part can be repeated as many times as you need, and you can work at your own pace.</span>
+        </p>
+
+        <div class="top-actions">
+          <a class="btn" href="#writing" id="startBtnZh">开始练习</a>
+          <a class="btn secondary" href="#pinyin" id="pinyinBtnZh">拼音练习</a>
+          <a class="btn ghost" href="#grammar" id="grammarBtnZh">语法练习</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="sticky">
+    <div class="nav-inner">
+      <a class="nav-link" href="#writing" id="navWritingZh">红色词汇书写</a>
+      <a class="nav-link" href="#pinyin" id="navPinyinZh">拼音标注练习</a>
+      <a class="nav-link" href="#grammar" id="navGrammarZh">语法讲解与练习</a>
+    </div>
+  </nav>
+
+  <main>
+    <div class="wrap">
+      <section id="writing">
+        <div class="section-card">
+          <h2 class="section-title"><span class="icon">✍️</span><span id="writingTitleZh">红色词汇书写练习</span></h2>
+          <p class="hint">
+            <span id="writingHintZh">看拼音和英文提示，先自己写，再看答案。左边可以看笔顺动画，右边可以直接练写。</span>
+            <span class="en">Look at the pinyin and English prompt, write the word first, and then check the answer. Use the left box for stroke-order animation and the right box for free writing.</span>
+          </p>
+
+          <div class="grid grid-2">
+            <div class="mini-card">
+              <div class="tag" id="writingModeTagZh">书写模式</div>
+
+              <div class="prompt-box" style="margin-top:12px;">
+                <div>
+                  <div class="stage" id="writingStage">第 1 / 18 题</div>
+                  <div class="display" id="writingPromptPinyin">tài dù</div>
+                  <div class="subdisplay" id="writingPromptEnglish">attitude</div>
+                </div>
+              </div>
+
+              <div class="word-answer" id="writingAnswer">态度</div>
+
+              <div class="controls">
+                <button class="btn secondary" id="prevWordBtn">上一个</button>
+                <button class="btn secondary" id="nextWordBtn">下一个</button>
+                <button class="btn ghost" id="showAnswerBtn">显示答案</button>
+                <button class="btn ghost" id="animateAllBtn">演示笔顺</button>
+                <button class="btn ghost" id="quizAllBtn">开始练写</button>
+                <button class="btn green" id="markDoneBtn">完成一题</button>
+              </div>
+
+              <div class="feedback" id="writingFeedback">先看提示自己写，再决定要不要看答案。</div>
+
+              <div class="progress">
+                <div class="progress-bar"><div class="progress-fill" id="writingProgress"></div></div>
+                <div class="score" id="writingScore">0 / 0</div>
+              </div>
+            </div>
+
+            <div class="mini-card">
+              <div class="tag" id="writingTipTagZh">学习建议</div>
+
+              <div class="feedback mid" style="margin-top:12px;" id="writingTip1Zh">
+                你可以先看拼音和英文提示，在纸上写一遍，再用这个网页检查笔顺和结构。
+              </div>
+
+              <div class="feedback" style="margin-top:12px;" id="writingTip2Zh">
+                如果笔顺动画没有加载出来，也没关系，你还是可以在右边的手写格里练习。
+              </div>
+            </div>
+          </div>
+
+          <div class="char-grid" id="charGrid"></div>
+        </div>
+      </section>
+
+      <section id="pinyin">
+        <div class="section-card">
+          <h2 class="section-title"><span class="icon">🔤</span><span id="pinyinTitleZh">拼音标注练习</span></h2>
+          <p class="hint">
+            <span id="pinyinHintZh">看词语，自己标拼音。你可以先写完整带声调的拼音，也可以先写不带声调的版本，再核对答案。</span>
+            <span class="en">Look at the word or phrase and add pinyin. You can type full pinyin with tones, or try a plain version first and then check the answer.</span>
+          </p>
+
+          <div class="grid grid-2">
+            <div class="mini-card">
+              <div class="tag" id="pinyinModeTagZh">拼音模式</div>
+
+              <div class="prompt-box" style="margin-top:12px; min-height:96px;">
+                <div>
+                  <div class="stage" id="pinyinStage">第 1 / 11 题</div>
+                  <div class="display" id="pinyinWord">关心</div>
+                </div>
+              </div>
+
+              <div class="input-row">
+                <input id="pinyinInput" type="text" placeholder="请输入拼音" />
+              </div>
+
+              <div class="controls">
+                <button class="btn" id="checkPinyinBtn">检查</button>
+                <button class="btn secondary" id="nextPinyinBtn">下一个</button>
+                <button class="btn ghost" id="showPinyinBtn">显示答案</button>
+              </div>
+
+              <div class="feedback" id="pinyinFeedback">先自己标拼音，再核对答案。</div>
+
+              <div class="progress">
+                <div class="progress-bar"><div class="progress-fill" id="pinyinProgress"></div></div>
+                <div class="score" id="pinyinScore">0 / 0</div>
+              </div>
+            </div>
+
+            <div class="mini-card">
+              <div class="tag" id="pinyinTipTagZh">小提醒</div>
+              <div class="feedback" style="margin-top:12px;" id="pinyinTipZh">
+                先自己想一想，再输入答案。拼音练习的重点不是“快”，而是“看清楚、想清楚、写清楚”。
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="grammar">
+        <div class="section-card">
+          <h2 class="section-title"><span class="icon">🧠</span><span id="grammarTitleZh">语法讲解与练习</span></h2>
+          <p class="hint">
+            <span id="grammarHintZh">先看语法提示，再完成练习。你需要把比较笨拙的句子改成更自然、更地道的表达。</span>
+            <span class="en">Read the grammar notes first, then complete the exercises. Your goal is to rewrite clunky sentences into more natural Chinese.</span>
+          </p>
+
+          <div class="grid grid-2">
+            <div class="grammar-note">
+              <div class="note-title" id="noteTitle1Zh">自从 / 每当 / 尤其 / 只好 / 总是 / 其中</div>
+              <span id="noteBody1Zh">这些词可以帮助你把时间、频率、重点和无奈感表达得更准确。比如：自从……以后 表示“从那个时候开始”；每当……就…… 表示“每次……的时候”；只好 表示“没有更好的办法”。</span>
+              <span class="en">These words help you express time, frequency, emphasis, and “having no better choice” more precisely.</span>
+            </div>
+
+            <div class="grammar-note">
+              <div class="note-title" id="noteTitle2Zh">疑问词 + 都 / 也；比 / 没有</div>
+              <span id="noteBody2Zh">谁都、什么都、哪儿都、怎么都 可以把重复的信息压缩成更自然的概括句；比 / 没有 可以帮助你做比较，表达“更……”或“不如……”。</span>
+              <span class="en">Patterns like shéi dōu, shénme dōu, nǎr dōu, and zěnme dōu make repeated information sound more natural. Bǐ and méiyǒu help you compare things.</span>
+            </div>
+          </div>
+
+          <div class="grid" style="margin-top:16px;">
+            <div class="exercise-block">
+              <h3 class="exercise-title" id="grammarFillTitleZh">A. 目标词语填空</h3>
+              <div id="grammarFillSet"></div>
+            </div>
+
+            <div class="exercise-block">
+              <h3 class="exercise-title" id="grammarRewriteTitleZh">B. 把笨拙句子改得更自然</h3>
+              <div id="grammarRewriteSet"></div>
+            </div>
+
+            <div class="exercise-block">
+              <h3 class="exercise-title" id="grammarCompareTitleZh">C. 用“比 / 没有”改写</h3>
+              <div id="grammarCompareSet"></div>
+            </div>
+          </div>
+
+          <div class="footnote" id="footnoteZh">
+            做完以后，你可以回到上面，再挑几题重新练习。
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.7.2/dist/hanzi-writer.min.js"></script>
+  <script>
+    const uiText = {
+      simp: {
+        title: "第15、16课复习互动网页",
+        eyebrow: "第15、16课复习",
+        heroTitle: "第15、16课复习互动网页",
+        heroSub: "你可以先练写重点词，再练拼音，最后做语法改写。每一部分都可以反复练习，也可以按自己的速度完成。",
+        startBtn: "开始练习",
+        pinyinBtn: "拼音练习",
+        grammarBtn: "语法练习",
+        navWriting: "红色词汇书写",
+        navPinyin: "拼音标注练习",
+        navGrammar: "语法讲解与练习",
+        writingTitle: "红色词汇书写练习",
+        writingHint: "看拼音和英文提示，先自己写，再看答案。左边可以看笔顺动画，右边可以直接练写。",
+        writingModeTag: "书写模式",
+        writingTipTag: "学习建议",
+        writingTip1: "你可以先看拼音和英文提示，在纸上写一遍，再用这个网页检查笔顺和结构。",
+        writingTip2: "如果笔顺动画没有加载出来，也没关系，你还是可以在右边的手写格里练习。",
+        pinyinTitle: "拼音标注练习",
+        pinyinHint: "看词语，自己标拼音。你可以先写完整带声调的拼音，也可以先写不带声调的版本，再核对答案。",
+        pinyinModeTag: "拼音模式",
+        pinyinTipTag: "小提醒",
+        pinyinTip: "先自己想一想，再输入答案。拼音练习的重点不是“快”，而是“看清楚、想清楚、写清楚”。",
+        grammarTitle: "语法讲解与练习",
+        grammarHint: "先看语法提示，再完成练习。你需要把比较笨拙的句子改成更自然、更地道的表达。",
+        noteTitle1: "自从 / 每当 / 尤其 / 只好 / 总是 / 其中",
+        noteBody1: "这些词可以帮助你把时间、频率、重点和无奈感表达得更准确。比如：自从……以后 表示“从那个时候开始”；每当……就…… 表示“每次……的时候”；只好 表示“没有更好的办法”。",
+        noteTitle2: "疑问词 + 都 / 也；比 / 没有",
+        noteBody2: "谁都、什么都、哪儿都、怎么都 可以把重复的信息压缩成更自然的概括句；比 / 没有 可以帮助你做比较，表达“更……”或“不如……”。",
+        grammarFillTitle: "A. 目标词语填空",
+        grammarRewriteTitle: "B. 把笨拙句子改得更自然",
+        grammarCompareTitle: "C. 用“比 / 没有”改写",
+        footnote: "做完以后，你可以回到上面，再挑几题重新练习。",
+        prev: "上一个",
+        next: "下一个",
+        showAnswer: "显示答案",
+        animateAll: "演示笔顺",
+        quizAll: "开始练写",
+        markDone: "完成一题",
+        check: "检查",
+        stageQ: "题",
+        stage: (n,total) => `第 ${n} / ${total} 题`,
+        writingFeedbackDefault: "先看提示自己写，再决定要不要看答案。",
+        writingFeedbackShow: "答案已显示。可以对照结构，再写一遍。",
+        writingFeedbackAnimateOk: "已开始演示这一题的笔顺。",
+        writingFeedbackAnimateFail: "当前没有成功加载笔顺动画，但右边的手写格仍然可以使用。",
+        writingFeedbackQuizOk: "你可以开始练写，也可以直接在右边的手写格里写。",
+        writingFeedbackQuizFail: "当前没有成功加载笔顺练写功能，请直接使用右边的手写格。",
+        writingFeedbackDone: "已标记完成。你可以继续下一个词。",
+        strokeDemo: "笔顺演示",
+        writingPad: "手写格",
+        charDemo: "演示",
+        charQuiz: "练写",
+        charClear: "清空手写",
+        pinyinPlaceholder: "请输入拼音",
+        pinyinDefault: "先自己标拼音，再核对答案。",
+        pinyinNeedInput: "先输入拼音。",
+        pinyinPerfect: ans => `完全正确！${ans}`,
+        pinyinAlmost: ans => `音节基本对了。更完整的写法：${ans}`,
+        pinyinTryAgain: ans => `再看看。正确答案：${ans}`,
+        pinyinShow: ans => `参考答案：${ans}`,
+        fillPlaceholder: "请输入答案",
+        rewritePlaceholder: "请改写成更自然的句子",
+        fillDefault: "先自己完成，再核对答案。",
+        rewriteDefault: "尽量用目标结构，把重复信息压缩成一句更自然的话。",
+        fillNeedInput: "先输入答案。",
+        fillCorrect: exp => `答对了！${exp}`,
+        fillShow: (ans, exp) => `参考答案：${ans}。${exp}`,
+        fillWrong: (ans, exp) => `再看看。参考答案：${ans}。${exp}`,
+        rewriteNeedInput: "先写出你的改写句。",
+        rewriteGood: exp => `很好！${exp}`,
+        rewriteNear: (ans, exp) => `这个意思已经接近了；参考答案可以写成：${ans}。${exp}`,
+        rewriteShow: (ans, exp) => `参考答案：${ans}。${exp}`,
+        targetLabel: "目标结构："
+      },
+      trad: {
+        title: "第15、16課複習互動網頁",
+        eyebrow: "第15、16課複習",
+        heroTitle: "第15、16課複習互動網頁",
+        heroSub: "你可以先練寫重點詞，再練拼音，最後做語法改寫。每一部分都可以反覆練習，也可以按自己的速度完成。",
+        startBtn: "開始練習",
+        pinyinBtn: "拼音練習",
+        grammarBtn: "語法練習",
+        navWriting: "紅色詞彙書寫",
+        navPinyin: "拼音標註練習",
+        navGrammar: "語法講解與練習",
+        writingTitle: "紅色詞彙書寫練習",
+        writingHint: "看拼音和英文提示，先自己寫，再看答案。左邊可以看筆順動畫，右邊可以直接練寫。",
+        writingModeTag: "書寫模式",
+        writingTipTag: "學習建議",
+        writingTip1: "你可以先看拼音和英文提示，在紙上寫一遍，再用這個網頁檢查筆順和結構。",
+        writingTip2: "如果筆順動畫沒有載入出來，也沒關係，你還是可以在右邊的手寫格裡練習。",
+        pinyinTitle: "拼音標註練習",
+        pinyinHint: "看詞語，自己標拼音。你可以先寫完整帶聲調的拼音，也可以先寫不帶聲調的版本，再核對答案。",
+        pinyinModeTag: "拼音模式",
+        pinyinTipTag: "小提醒",
+        pinyinTip: "先自己想一想，再輸入答案。拼音練習的重點不是「快」，而是「看清楚、想清楚、寫清楚」。",
+        grammarTitle: "語法講解與練習",
+        grammarHint: "先看語法提示，再完成練習。你需要把比較笨拙的句子改成更自然、更地道的表達。",
+        noteTitle1: "自從 / 每當 / 尤其 / 只好 / 總是 / 其中",
+        noteBody1: "這些詞可以幫助你把時間、頻率、重點和無奈感表達得更準確。比如：自從……以後 表示「從那個時候開始」；每當……就…… 表示「每次……的時候」；只好 表示「沒有更好的辦法」。",
+        noteTitle2: "疑問詞 + 都 / 也；比 / 沒有",
+        noteBody2: "誰都、什麼都、哪兒都、怎麼都 可以把重複的信息壓縮成更自然的概括句；比 / 沒有 可以幫助你做比較，表達「更……」或「不如……」。",
+        grammarFillTitle: "A. 目標詞語填空",
+        grammarRewriteTitle: "B. 把笨拙句子改得更自然",
+        grammarCompareTitle: "C. 用「比 / 沒有」改寫",
+        footnote: "做完以後，你可以回到上面，再挑幾題重新練習。",
+        prev: "上一個",
+        next: "下一個",
+        showAnswer: "顯示答案",
+        animateAll: "演示筆順",
+        quizAll: "開始練寫",
+        markDone: "完成一題",
+        check: "檢查",
+        stageQ: "題",
+        stage: (n,total) => `第 ${n} / ${total} 題`,
+        writingFeedbackDefault: "先看提示自己寫，再決定要不要看答案。",
+        writingFeedbackShow: "答案已顯示。可以對照結構，再寫一遍。",
+        writingFeedbackAnimateOk: "已開始演示這一題的筆順。",
+        writingFeedbackAnimateFail: "目前沒有成功載入筆順動畫，但右邊的手寫格仍然可以使用。",
+        writingFeedbackQuizOk: "你可以開始練寫，也可以直接在右邊的手寫格裡寫。",
+        writingFeedbackQuizFail: "目前沒有成功載入筆順練寫功能，請直接使用右邊的手寫格。",
+        writingFeedbackDone: "已標記完成。你可以繼續下一個詞。",
+        strokeDemo: "筆順演示",
+        writingPad: "手寫格",
+        charDemo: "演示",
+        charQuiz: "練寫",
+        charClear: "清空手寫",
+        pinyinPlaceholder: "請輸入拼音",
+        pinyinDefault: "先自己標拼音，再核對答案。",
+        pinyinNeedInput: "先輸入拼音。",
+        pinyinPerfect: ans => `完全正確！${ans}`,
+        pinyinAlmost: ans => `音節基本對了。更完整的寫法：${ans}`,
+        pinyinTryAgain: ans => `再看看。正確答案：${ans}`,
+        pinyinShow: ans => `參考答案：${ans}`,
+        fillPlaceholder: "請輸入答案",
+        rewritePlaceholder: "請改寫成更自然的句子",
+        fillDefault: "先自己完成，再核對答案。",
+        rewriteDefault: "盡量用目標結構，把重複信息壓縮成一句更自然的話。",
+        fillNeedInput: "先輸入答案。",
+        fillCorrect: exp => `答對了！${exp}`,
+        fillShow: (ans, exp) => `參考答案：${ans}。${exp}`,
+        fillWrong: (ans, exp) => `再看看。參考答案：${ans}。${exp}`,
+        rewriteNeedInput: "先寫出你的改寫句。",
+        rewriteGood: exp => `很好！${exp}`,
+        rewriteNear: (ans, exp) => `這個意思已經接近了；參考答案可以寫成：${ans}。${exp}`,
+        rewriteShow: (ans, exp) => `參考答案：${ans}。${exp}`,
+        targetLabel: "目標結構："
+      }
+    };
+
+    let currentScript = "simp";
+
+    const writingWords = [
+      { simp:"态度", trad:"態度", pinyin:"tài dù", english:"attitude" },
+      { simp:"耐心", trad:"耐心", pinyin:"nài xīn", english:"patience; patient" },
+      { simp:"关心", trad:"關心", pinyin:"guān xīn", english:"to care about" },
+      { simp:"热心", trad:"熱心", pinyin:"rè xīn", english:"enthusiastic; warm-hearted" },
+      { simp:"教育", trad:"教育", pinyin:"jiào yù", english:"education" },
+      { simp:"机会", trad:"機會", pinyin:"jī huì", english:"opportunity" },
+      { simp:"社会", trad:"社會", pinyin:"shè huì", english:"society" },
+      { simp:"环境", trad:"環境", pinyin:"huán jìng", english:"environment" },
+      { simp:"合适", trad:"合適", pinyin:"hé shì", english:"suitable" },
+      { simp:"主张", trad:"主張", pinyin:"zhǔ zhāng", english:"to advocate" },
+      { simp:"管理", trad:"管理", pinyin:"guǎn lǐ", english:"to manage" },
+      { simp:"经验", trad:"經驗", pinyin:"jīng yàn", english:"experience" },
+      { simp:"经常", trad:"經常", pinyin:"jīng cháng", english:"often" },
+      { simp:"模仿", trad:"模仿", pinyin:"mó fǎng", english:"to imitate" },
+      { simp:"附近", trad:"附近", pinyin:"fù jìn", english:"nearby" },
+      { simp:"市场", trad:"市場", pinyin:"shì chǎng", english:"market" },
+      { simp:"礼仪", trad:"禮儀", pinyin:"lǐ yí", english:"etiquette" },
+      { simp:"影响", trad:"影響", pinyin:"yǐng xiǎng", english:"influence" }
+    ];
+
+    const pinyinWords = [
+      { simp:"关心", trad:"關心", marked:"guān xīn", plain:"guan xin", numbered:"guan1 xin1" },
+      { simp:"热心", trad:"熱心", marked:"rè xīn", plain:"re xin", numbered:"re4 xin1" },
+      { simp:"小心", trad:"小心", marked:"xiǎo xīn", plain:"xiao xin", numbered:"xiao3 xin1" },
+      { simp:"粗心", trad:"粗心", marked:"cū xīn", plain:"cu xin", numbered:"cu1 xin1" },
+      { simp:"开心", trad:"開心", marked:"kāi xīn", plain:"kai xin", numbered:"kai1 xin1" },
+      { simp:"已经", trad:"已經", marked:"yǐ jīng", plain:"yi jing", numbered:"yi3 jing1" },
+      { simp:"经过", trad:"經過", marked:"jīng guò", plain:"jing guo", numbered:"jing1 guo4" },
+      { simp:"来来往往的人", trad:"來來往往的人", marked:"lái lái wǎng wǎng de rén", plain:"lai lai wang wang de ren", numbered:"lai2 lai2 wang3 wang3 de ren2" },
+      { simp:"静静地听", trad:"靜靜地聽", marked:"jìng jìng de tīng", plain:"jing jing de ting", numbered:"jing4 jing4 de ting1" },
+      { simp:"高高兴兴地去", trad:"高高興興地去", marked:"gāo gāo xìng xìng de qù", plain:"gao gao xing xing de qu", numbered:"gao1 gao1 xing4 xing4 de qu4" },
+      { simp:"收拾收拾屋子", trad:"收拾收拾屋子", marked:"shōu shi shōu shi wū zi", plain:"shou shi shou shi wu zi", numbered:"shou1 shi shou1 shi wu1 zi" }
+    ];
+
+    const grammarFill = [
+      {
+        prompt:{ simp:"_____我搬来纽约，我就没开过车。", trad:"_____我搬來紐約，我就沒開過車。" },
+        answers:{ simp:["自从"], trad:["自從"] },
+        explain:{ simp:"表示“从那个时候开始”。", trad:"表示「從那個時候開始」。" }
+      },
+      {
+        prompt:{ simp:"开学以后，他_____和朋友们一起去吃午饭。", trad:"開學以後，他_____和朋友們一起去吃午飯。" },
+        answers:{ simp:["总是"], trad:["總是"] },
+        explain:{ simp:"表示经常如此、形成习惯。", trad:"表示經常如此、形成習慣。" }
+      },
+      {
+        prompt:{ simp:"_____她经过这个咖啡店，她就会想起她的好朋友。", trad:"_____她經過這個咖啡店，她就會想起她的好朋友。" },
+        answers:{ simp:["每当"], trad:["每當"] },
+        explain:{ simp:"表示“每次……的时候”。", trad:"表示「每次……的時候」。" }
+      },
+      {
+        prompt:{ simp:"美国有很多节日，_____最有名的是圣诞节。", trad:"美國有很多節日，_____最有名的是聖誕節。" },
+        answers:{ simp:["其中"], trad:["其中"] },
+        explain:{ simp:"表示“在这些里面”。", trad:"表示「在這些裡面」。" }
+      },
+      {
+        prompt:{ simp:"她不喜欢吃西餐，我_____带她去吃中餐。", trad:"她不喜歡吃西餐，我_____帶她去吃中餐。" },
+        answers:{ simp:["只好"], trad:["只好"] },
+        explain:{ simp:"表示没有更好的办法。", trad:"表示沒有更好的辦法。" }
+      },
+      {
+        prompt:{ simp:"这里人很多，_____是下课的时候。", trad:"這裡人很多，_____是下課的時候。" },
+        answers:{ simp:["尤其"], trad:["尤其"] },
+        explain:{ simp:"表示“特别是”。", trad:"表示「特別是」。" }
+      }
+    ];
+
+    const grammarRewrite = [
+      {
+        target:{ simp:"谁都", trad:"誰都" },
+        prompt:{
+          simp:"A喜欢中餐，B喜欢中餐，C也喜欢中餐。",
+          trad:"A喜歡中餐，B喜歡中餐，C也喜歡中餐。"
+        },
+        answers:{
+          simp:["谁都喜欢中餐"],
+          trad:["誰都喜歡中餐"]
+        },
+        explain:{
+          simp:"把重复列举的人压缩成“谁都”。",
+          trad:"把重複列舉的人壓縮成「誰都」。"
+        }
+      },
+      {
+        target:{ simp:"谁都", trad:"誰都" },
+        prompt:{
+          simp:"A不喜欢战争，B不喜欢战争，C也不喜欢战争。",
+          trad:"A不喜歡戰爭，B不喜歡戰爭，C也不喜歡戰爭。"
+        },
+        answers:{
+          simp:["谁都不喜欢战争"],
+          trad:["誰都不喜歡戰爭"]
+        },
+        explain:{
+          simp:"否定时，还是“谁都 + 不/没 + ……”的意思。",
+          trad:"否定時，還是「誰都 + 不/沒 + ……」的意思。"
+        }
+      },
+      {
+        target:{ simp:"什么都", trad:"什麼都" },
+        prompt:{
+          simp:"这个花园里有树、草、花……",
+          trad:"這個花園裡有樹、草、花……"
+        },
+        answers:{
+          simp:["这个花园里什么都有"],
+          trad:["這個花園裡什麼都有"]
+        },
+        explain:{
+          simp:"用“什么都”来概括种类很多。",
+          trad:"用「什麼都」來概括種類很多。"
+        }
+      },
+      {
+        target:{ simp:"哪儿都", trad:"哪兒都" },
+        prompt:{
+          simp:"哥大附近有中餐馆，中城有中餐馆，下城也有中餐馆。",
+          trad:"哥大附近有中餐館，中城有中餐館，下城也有中餐館。"
+        },
+        answers:{
+          simp:["纽约哪儿都有中餐馆","这座城市哪儿都有中餐馆"],
+          trad:["紐約哪兒都有中餐館","這座城市哪兒都有中餐館"]
+        },
+        explain:{
+          simp:"把不同地点合并成“哪儿都”。",
+          trad:"把不同地點合併成「哪兒都」。"
+        }
+      },
+      {
+        target:{ simp:"哪儿都", trad:"哪兒都" },
+        prompt:{
+          simp:"我想找到他，可他不在寝室，不在图书馆，也不在健身房。",
+          trad:"我想找到他，可他不在寢室，不在圖書館，也不在健身房。"
+        },
+        answers:{
+          simp:["他哪儿都不在","我哪儿都找不到他"],
+          trad:["他哪兒都不在","我哪兒都找不到他"]
+        },
+        explain:{
+          simp:"否定句里，没 / 不 一般放在 都 后面。",
+          trad:"否定句裡，沒 / 不 一般放在 都 後面。"
+        }
+      },
+      {
+        target:{ simp:"怎么都", trad:"怎麼都" },
+        prompt:{
+          simp:"我炒鸡蛋好吃，我煮鸡蛋好吃，我蒸的鸡蛋也好吃。",
+          trad:"我炒雞蛋好吃，我煮雞蛋好吃，我蒸的雞蛋也好吃。"
+        },
+        answers:{
+          simp:["我怎么做鸡蛋都好吃","鸡蛋我怎么做都好吃"],
+          trad:["我怎麼做雞蛋都好吃","雞蛋我怎麼做都好吃"]
+        },
+        explain:{
+          simp:"把不同做法概括成“怎么都”。",
+          trad:"把不同做法概括成「怎麼都」。"
+        }
+      },
+      {
+        target:{ simp:"怎么都", trad:"怎麼都" },
+        prompt:{
+          simp:"这件上衣搭配裙子不好看，搭配裤子也不好看。",
+          trad:"這件上衣搭配裙子不好看，搭配褲子也不好看。"
+        },
+        answers:{
+          simp:["这件上衣怎么搭配都不好看"],
+          trad:["這件上衣怎麼搭配都不好看"]
+        },
+        explain:{
+          simp:"这里“怎么都”表示“不管怎么……都……”。",
+          trad:"這裡「怎麼都」表示「不管怎麼……都……」。"
+        }
+      }
+    ];
+
+    const grammarCompare = [
+      {
+        target:{ simp:"没有", trad:"沒有" },
+        prompt:{
+          simp:"这学期我有4门课，我的朋友有5门课。",
+          trad:"這學期我有4門課，我的朋友有5門課。"
+        },
+        answers:{
+          simp:["这学期我没有我朋友课多","这学期我没有我的朋友课多"],
+          trad:["這學期我沒有我朋友課多","這學期我沒有我的朋友課多"]
+        },
+        explain:{
+          simp:"A 没有 B + 数量 / 形容词 + 多 / 高 / 大……",
+          trad:"A 沒有 B + 數量 / 形容詞 + 多 / 高 / 大……"
+        }
+      },
+      {
+        target:{ simp:"比", trad:"比" },
+        prompt:{
+          simp:"纽约州很大。新泽西州也大。",
+          trad:"紐約州很大。新澤西州也大。"
+        },
+        answers:{
+          simp:["纽约州比新泽西州大"],
+          trad:["紐約州比新澤西州大"]
+        },
+        explain:{
+          simp:"直接比较两者，用“A 比 B + 形容词”。",
+          trad:"直接比較兩者，用「A 比 B + 形容詞」。"
+        }
+      },
+      {
+        target:{ simp:"比……更", trad:"比……更" },
+        prompt:{
+          simp:"昨天70度，今天60度。",
+          trad:"昨天70度，今天60度。"
+        },
+        answers:{
+          simp:["昨天的温度比今天更高","昨天比今天更热"],
+          trad:["昨天的溫度比今天更高","昨天比今天更熱"]
+        },
+        explain:{
+          simp:"70度高于60度，所以昨天更热 / 温度更高。",
+          trad:"70度高於60度，所以昨天更熱 / 溫度更高。"
+        }
+      }
+    ];
+
+    const accentMap = {
+      'ā':'a','á':'a','ǎ':'a','à':'a',
+      'ē':'e','é':'e','ě':'e','è':'e',
+      'ī':'i','í':'i','ǐ':'i','ì':'i',
+      'ō':'o','ó':'o','ǒ':'o','ò':'o',
+      'ū':'u','ú':'u','ǔ':'u','ù':'u',
+      'ǖ':'v','ǘ':'v','ǚ':'v','ǜ':'v','ü':'v',
+      'ń':'n','ň':'n','ǹ':'n'
+    };
+
+    function t(key){
+      return uiText[currentScript][key];
+    }
+
+    function pick(obj){
+      if (typeof obj === "string") return obj;
+      return obj[currentScript] ?? obj.simp ?? obj.trad;
+    }
+
+    function getAllAnswers(answerObj){
+      const simp = answerObj.simp || [];
+      const trad = answerObj.trad || [];
+      return [...simp, ...trad];
+    }
+
+    function normalizeHan(text){
+      return (text || '').replace(/[，。、“”‘’！!？?；;：:（）()\s]/g,'').trim();
+    }
+
+    function normalizePinyinLoose(s){
+      return (s || '')
+        .toLowerCase()
+        .replace(/u:/g,'v')
+        .split('')
+        .map(ch => accentMap[ch] || ch)
+        .join('')
+        .replace(/[0-5]/g,'')
+        .replace(/[^a-zv\s]/g,'')
+        .replace(/\s+/g,' ')
+        .trim();
+    }
+
+    function normalizePinyinExact(s){
+      return (s || '')
+        .toLowerCase()
+        .replace(/u:/g,'v')
+        .replace(/\s+/g,' ')
+        .trim();
+    }
+
+    function applyStaticUI(){
+      document.title = t("title");
+      document.getElementById("eyebrowZh").textContent = t("eyebrow");
+      document.getElementById("heroTitleZh").textContent = t("heroTitle");
+      document.getElementById("heroSubZh").textContent = t("heroSub");
+      document.getElementById("startBtnZh").textContent = t("startBtn");
+      document.getElementById("pinyinBtnZh").textContent = t("pinyinBtn");
+      document.getElementById("grammarBtnZh").textContent = t("grammarBtn");
+      document.getElementById("navWritingZh").textContent = t("navWriting");
+      document.getElementById("navPinyinZh").textContent = t("navPinyin");
+      document.getElementById("navGrammarZh").textContent = t("navGrammar");
+      document.getElementById("writingTitleZh").textContent = t("writingTitle");
+      document.getElementById("writingHintZh").textContent = t("writingHint");
+      document.getElementById("writingModeTagZh").textContent = t("writingModeTag");
+      document.getElementById("writingTipTagZh").textContent = t("writingTipTag");
+      document.getElementById("writingTip1Zh").textContent = t("writingTip1");
+      document.getElementById("writingTip2Zh").textContent = t("writingTip2");
+      document.getElementById("pinyinTitleZh").textContent = t("pinyinTitle");
+      document.getElementById("pinyinHintZh").textContent = t("pinyinHint");
+      document.getElementById("pinyinModeTagZh").textContent = t("pinyinModeTag");
+      document.getElementById("pinyinTipTagZh").textContent = t("pinyinTipTag");
+      document.getElementById("pinyinTipZh").textContent = t("pinyinTip");
+      document.getElementById("grammarTitleZh").textContent = t("grammarTitle");
+      document.getElementById("grammarHintZh").textContent = t("grammarHint");
+      document.getElementById("noteTitle1Zh").textContent = t("noteTitle1");
+      document.getElementById("noteBody1Zh").textContent = t("noteBody1");
+      document.getElementById("noteTitle2Zh").textContent = t("noteTitle2");
+      document.getElementById("noteBody2Zh").textContent = t("noteBody2");
+      document.getElementById("grammarFillTitleZh").textContent = t("grammarFillTitle");
+      document.getElementById("grammarRewriteTitleZh").textContent = t("grammarRewriteTitle");
+      document.getElementById("grammarCompareTitleZh").textContent = t("grammarCompareTitle");
+      document.getElementById("footnoteZh").textContent = t("footnote");
+
+      document.getElementById("prevWordBtn").textContent = t("prev");
+      document.getElementById("nextWordBtn").textContent = t("next");
+      document.getElementById("showAnswerBtn").textContent = t("showAnswer");
+      document.getElementById("animateAllBtn").textContent = t("animateAll");
+      document.getElementById("quizAllBtn").textContent = t("quizAll");
+      document.getElementById("markDoneBtn").textContent = t("markDone");
+
+      document.getElementById("checkPinyinBtn").textContent = t("check");
+      document.getElementById("nextPinyinBtn").textContent = t("next");
+      document.getElementById("showPinyinBtn").textContent = t("showAnswer");
+      document.getElementById("pinyinInput").placeholder = t("pinyinPlaceholder");
+
+      document.getElementById("toggleSimp").classList.toggle("active", currentScript === "simp");
+      document.getElementById("toggleTrad").classList.toggle("active", currentScript === "trad");
+    }
+
+    let writingIndex = 0;
+    const doneWordSet = new Set();
+    let wordWriters = [];
+    let drawPads = [];
+
+    const writingStage = document.getElementById("writingStage");
+    const writingPromptPinyin = document.getElementById("writingPromptPinyin");
+    const writingPromptEnglish = document.getElementById("writingPromptEnglish");
+    const writingAnswer = document.getElementById("writingAnswer");
+    const writingFeedback = document.getElementById("writingFeedback");
+    const writingProgress = document.getElementById("writingProgress");
+    const writingScore = document.getElementById("writingScore");
+    const charGrid = document.getElementById("charGrid");
+
+    function updateWritingProgress(){
+      const percent = (doneWordSet.size / writingWords.length) * 100;
+      writingProgress.style.width = percent + "%";
+      writingScore.textContent = `${doneWordSet.size} / ${writingWords.length}`;
+    }
+
+    function drawGrid(canvas, ctx){
+      const ratio = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const width = Math.max(160, Math.round(rect.width || 160));
+      const height = width;
+      canvas.width = width * ratio;
+      canvas.height = height * ratio;
+      ctx.setTransform(ratio,0,0,ratio,0,0);
+      ctx.clearRect(0,0,width,height);
+      ctx.fillStyle = "#fffdf9";
+      ctx.fillRect(0,0,width,height);
+      ctx.strokeStyle = "#dbc8a5";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(0.5,0.5,width-1,height-1);
+      ctx.beginPath();
+      ctx.moveTo(width/2,0); ctx.lineTo(width/2,height);
+      ctx.moveTo(0,height/2); ctx.lineTo(width,height/2);
+      ctx.stroke();
+      ctx.setLineDash([5,5]);
+      ctx.beginPath();
+      ctx.moveTo(0,0); ctx.lineTo(width,height);
+      ctx.moveTo(width,0); ctx.lineTo(0,height);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    function setupDrawPad(canvas){
+      const ctx = canvas.getContext("2d");
+      drawGrid(canvas, ctx);
+      let drawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      const getPoint = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const point = e.touches ? e.touches[0] : e;
+        return { x: point.clientX - rect.left, y: point.clientY - rect.top };
+      };
+
+      const start = (e) => {
+        e.preventDefault();
+        drawing = true;
+        const p = getPoint(e);
+        lastX = p.x;
+        lastY = p.y;
+      };
+
+      const move = (e) => {
+        if(!drawing) return;
+        e.preventDefault();
+        const p = getPoint(e);
+        ctx.strokeStyle = "#2457a7";
+        ctx.lineWidth = 4;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.beginPath();
+        ctx.moveTo(lastX,lastY);
+        ctx.lineTo(p.x,p.y);
+        ctx.stroke();
+        lastX = p.x;
+        lastY = p.y;
+      };
+
+      const end = (e) => {
+        if(e) e.preventDefault();
+        drawing = false;
+      };
+
+      canvas.addEventListener("pointerdown", start);
+      canvas.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", end);
+      canvas.addEventListener("touchstart", start, {passive:false});
+      canvas.addEventListener("touchmove", move, {passive:false});
+      canvas.addEventListener("touchend", end, {passive:false});
+
+      return {
+        clear(){ drawGrid(canvas, ctx); },
+        redraw(){ drawGrid(canvas, ctx); }
+      };
+    }
+
+    function createWriter(containerId, char){
+      const container = document.getElementById(containerId);
+      if(typeof HanziWriter === "undefined"){
+        container.innerHTML = `<div class="writer-fallback">Stroke animation is not available right now.<br/>You can still use the writing pad.</div>`;
+        return null;
+      }
+
+      container.innerHTML = "";
+      try{
+        const writer = HanziWriter.create(containerId, char, {
+          width: container.clientWidth || 180,
+          height: container.clientHeight || 180,
+          padding: 6,
+          showOutline: true,
+          showCharacter: false,
+          strokeColor: "#b42318",
+          radicalColor: "#c58a1f",
+          outlineColor: "#ddcfb6",
+          drawingColor: "#2457a7",
+          strokeAnimationSpeed: 1,
+          delayBetweenStrokes: 220,
+          showHintAfterMisses: 1,
+          charDataLoader: function(loadChar, onComplete){
+            fetch(`https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0/${encodeURIComponent(loadChar)}.json`)
+              .then(res => {
+                if(!res.ok) throw new Error("load failed");
+                return res.json();
+              })
+              .then(onComplete)
+              .catch(() => {
+                container.innerHTML = `<div class="writer-fallback">${char}<br/>Stroke animation is not available.<br/>You can still use the writing pad.</div>`;
+              });
+          }
+        });
+        writer.animateCharacter();
+        return writer;
+      }catch(err){
+        container.innerHTML = `<div class="writer-fallback">${char}<br/>Stroke animation is not available.</div>`;
+        return null;
+      }
+    }
+
+    function renderWritingWord(){
+      const item = writingWords[writingIndex];
+      writingStage.textContent = t("stage")(writingIndex + 1, writingWords.length);
+      writingPromptPinyin.textContent = item.pinyin;
+      writingPromptEnglish.textContent = item.english;
+      writingAnswer.textContent = currentScript === "trad" ? item.trad : item.simp;
+      writingAnswer.classList.remove("show");
+      writingFeedback.className = "feedback";
+      writingFeedback.textContent = t("writingFeedbackDefault");
+
+      wordWriters = [];
+      drawPads = [];
+
+      const currentWord = currentScript === "trad" ? item.trad : item.simp;
+      const chars = [...currentWord];
+
+      charGrid.innerHTML = chars.map((char, idx) => `
+        <div class="char-card">
+          <div class="char-header">
+            <div class="char">${char}</div>
+            <div class="char-tools">
+              <button class="small-btn" data-animate-char="${idx}">${t("charDemo")}</button>
+              <button class="small-btn" data-quiz-char="${idx}">${t("charQuiz")}</button>
+              <button class="small-btn" data-clear-pad="${idx}">${t("charClear")}</button>
+            </div>
+          </div>
+          <div class="square-wrap">
+            <div class="square-panel">
+              <div class="panel-label">${t("strokeDemo")} / Stroke Demo</div>
+              <div class="writer-box" id="writer-box-${idx}"></div>
+            </div>
+            <div class="square-panel">
+              <div class="panel-label">${t("writingPad")} / Writing Pad</div>
+              <canvas class="draw-pad" id="draw-pad-${idx}"></canvas>
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+      chars.forEach((char, idx) => {
+        const writer = createWriter(`writer-box-${idx}`, char);
+        wordWriters.push(writer);
+        const pad = setupDrawPad(document.getElementById(`draw-pad-${idx}`));
+        drawPads.push(pad);
+      });
+
+      charGrid.querySelectorAll("[data-animate-char]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const writer = wordWriters[Number(btn.dataset.animateChar)];
+          if(writer && writer.animateCharacter) writer.animateCharacter();
+        });
+      });
+
+      charGrid.querySelectorAll("[data-quiz-char]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const writer = wordWriters[Number(btn.dataset.quizChar)];
+          if(writer && writer.quiz){
+            writer.quiz();
+          } else {
+            writingFeedback.className = "feedback mid";
+            writingFeedback.textContent = t("writingFeedbackAnimateFail");
+          }
+        });
+      });
+
+      charGrid.querySelectorAll("[data-clear-pad]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const pad = drawPads[Number(btn.dataset.clearPad)];
+          if(pad) pad.clear();
+        });
+      });
+    }
+
+    document.getElementById("showAnswerBtn").addEventListener("click", () => {
+      writingAnswer.classList.add("show");
+      writingFeedback.className = "feedback mid";
+      writingFeedback.textContent = t("writingFeedbackShow");
+    });
+
+    document.getElementById("animateAllBtn").addEventListener("click", () => {
+      let used = false;
+      wordWriters.forEach(writer => {
+        if(writer && writer.animateCharacter){
+          writer.animateCharacter();
+          used = true;
+        }
+      });
+      writingFeedback.className = used ? "feedback ok" : "feedback mid";
+      writingFeedback.textContent = used ? t("writingFeedbackAnimateOk") : t("writingFeedbackAnimateFail");
+    });
+
+    document.getElementById("quizAllBtn").addEventListener("click", () => {
+      let used = false;
+      wordWriters.forEach(writer => {
+        if(writer && writer.quiz){
+          writer.quiz();
+          used = true;
+        }
+      });
+      writingFeedback.className = used ? "feedback ok" : "feedback mid";
+      writingFeedback.textContent = used ? t("writingFeedbackQuizOk") : t("writingFeedbackQuizFail");
+    });
+
+    document.getElementById("markDoneBtn").addEventListener("click", () => {
+      doneWordSet.add(writingIndex);
+      updateWritingProgress();
+      writingFeedback.className = "feedback ok";
+      writingFeedback.textContent = t("writingFeedbackDone");
+    });
+
+    document.getElementById("prevWordBtn").addEventListener("click", () => {
+      writingIndex = (writingIndex - 1 + writingWords.length) % writingWords.length;
+      renderWritingWord();
+    });
+
+    document.getElementById("nextWordBtn").addEventListener("click", () => {
+      writingIndex = (writingIndex + 1) % writingWords.length;
+      renderWritingWord();
+    });
+
+    let pinyinIndex = 0;
+    let pinyinDone = 0;
+    let pinyinCorrect = 0;
+    let pinyinChecked = false;
+
+    const pinyinStage = document.getElementById("pinyinStage");
+    const pinyinWord = document.getElementById("pinyinWord");
+    const pinyinInput = document.getElementById("pinyinInput");
+    const pinyinFeedback = document.getElementById("pinyinFeedback");
+    const pinyinProgress = document.getElementById("pinyinProgress");
+    const pinyinScore = document.getElementById("pinyinScore");
+
+    function updatePinyinCard(){
+      const item = pinyinWords[pinyinIndex];
+      pinyinStage.textContent = t("stage")(pinyinIndex + 1, pinyinWords.length);
+      pinyinWord.textContent = currentScript === "trad" ? item.trad : item.simp;
+      pinyinInput.value = "";
+      pinyinInput.placeholder = t("pinyinPlaceholder");
+      pinyinChecked = false;
+      pinyinFeedback.className = "feedback";
+      pinyinFeedback.textContent = t("pinyinDefault");
+      const percent = (pinyinDone / pinyinWords.length) * 100;
+      pinyinProgress.style.width = percent + "%";
+      pinyinScore.textContent = `${pinyinCorrect} / ${pinyinDone}`;
+    }
+
+    document.getElementById("checkPinyinBtn").addEventListener("click", () => {
+      const item = pinyinWords[pinyinIndex];
+      const input = pinyinInput.value;
+
+      if(!input.trim()){
+        pinyinFeedback.className = "feedback bad";
+        pinyinFeedback.textContent = t("pinyinNeedInput");
+        return;
+      }
+
+      const loose = normalizePinyinLoose(input);
+      const exact = normalizePinyinExact(input);
+      const looseAnswer = normalizePinyinLoose(item.marked);
+      const exactMarked = normalizePinyinExact(item.marked);
+      const exactNumber = normalizePinyinExact(item.numbered);
+      const exactPlain = normalizePinyinExact(item.plain);
+
+      let level = "bad";
+      let message = t("pinyinTryAgain")(item.marked);
+
+      if(loose === looseAnswer){
+        if(exact === exactMarked || exact === exactNumber){
+          level = "ok";
+          message = t("pinyinPerfect")(item.marked);
+        } else if(exact === exactPlain || loose === looseAnswer){
+          level = "mid";
+          message = t("pinyinAlmost")(item.marked);
+        }
+      }
+
+      if(!pinyinChecked){
+        pinyinDone += 1;
+        if(level === "ok" || level === "mid") pinyinCorrect += 1;
+      }
+      pinyinChecked = true;
+
+      pinyinFeedback.className = `feedback ${level}`;
+      pinyinFeedback.textContent = message;
+
+      const percent = (pinyinDone / pinyinWords.length) * 100;
+      pinyinProgress.style.width = percent + "%";
+      pinyinScore.textContent = `${pinyinCorrect} / ${pinyinDone}`;
+    });
+
+    document.getElementById("nextPinyinBtn").addEventListener("click", () => {
+      pinyinIndex = (pinyinIndex + 1) % pinyinWords.length;
+      updatePinyinCard();
+    });
+
+    document.getElementById("showPinyinBtn").addEventListener("click", () => {
+      const item = pinyinWords[pinyinIndex];
+      pinyinFeedback.className = "feedback mid";
+      pinyinFeedback.textContent = t("pinyinShow")(item.marked);
+    });
+
+    pinyinInput.addEventListener("keydown", (e) => {
+      if(e.key === "Enter"){
+        e.preventDefault();
+        document.getElementById("checkPinyinBtn").click();
+      }
+    });
+
+    function renderFillSet(containerId, items){
+      const container = document.getElementById(containerId);
+      container.innerHTML = items.map((item, idx) => `
+        <div class="exercise-item">
+          <div class="label-soft">${t("stage")(idx + 1, items.length)}</div>
+          <div>${pick(item.prompt)}</div>
+          <div class="input-row">
+            <input type="text" id="${containerId}-input-${idx}" placeholder="${t("fillPlaceholder")}" />
+            <button class="btn secondary" data-check="${containerId}-${idx}">${t("check")}</button>
+            <button class="btn ghost" data-show="${containerId}-${idx}">${t("showAnswer")}</button>
+          </div>
+          <div class="feedback" id="${containerId}-fb-${idx}">${t("fillDefault")}</div>
+        </div>
+      `).join("");
+
+      items.forEach((item, idx) => {
+        const input = document.getElementById(`${containerId}-input-${idx}`);
+        const fb = document.getElementById(`${containerId}-fb-${idx}`);
+        container.querySelector(`[data-check="${containerId}-${idx}"]`).addEventListener("click", () => {
+          const user = normalizeHan(input.value);
+          const answers = getAllAnswers(item.answers).map(a => normalizeHan(a));
+
+          if(!user){
+            fb.className = "feedback bad";
+            fb.textContent = t("fillNeedInput");
+            return;
+          }
+
+          if(answers.includes(user)){
+            fb.className = "feedback ok";
+            fb.textContent = t("fillCorrect")(pick(item.explain));
+          } else {
+            fb.className = "feedback bad";
+            fb.textContent = t("fillWrong")(pick(item.answers).join ? pick(item.answers).join(" / ") : pick(item.answers), pick(item.explain));
+          }
+        });
+
+        container.querySelector(`[data-show="${containerId}-${idx}"]`).addEventListener("click", () => {
+          fb.className = "feedback mid";
+          fb.textContent = t("fillShow")(pick(item.answers).join ? pick(item.answers).join(" / ") : pick(item.answers), pick(item.explain));
+        });
+
+        input.addEventListener("keydown", (e) => {
+          if(e.key === "Enter"){
+            e.preventDefault();
+            container.querySelector(`[data-check="${containerId}-${idx}"]`).click();
+          }
+        });
+      });
+    }
+
+    function displayAnswers(answerObj){
+      const list = answerObj[currentScript] || answerObj.simp || answerObj.trad || [];
+      return list.join(" / ");
+    }
+
+    function renderRewriteSet(containerId, items){
+      const container = document.getElementById(containerId);
+      container.innerHTML = items.map((item, idx) => `
+        <div class="exercise-item">
+          <div class="label-soft">${t("stage")(idx + 1, items.length)}</div>
+          <div class="target">${t("targetLabel")}${pick(item.target)}</div>
+          <div style="margin-top:8px;">${pick(item.prompt)}</div>
+          <div class="input-row">
+            <textarea id="${containerId}-input-${idx}" placeholder="${t("rewritePlaceholder")}"></textarea>
+          </div>
+          <div class="controls">
+            <button class="btn secondary" data-check="${containerId}-${idx}">${t("check")}</button>
+            <button class="btn ghost" data-show="${containerId}-${idx}">${t("showAnswer")}</button>
+          </div>
+          <div class="feedback" id="${containerId}-fb-${idx}">${t("rewriteDefault")}</div>
+        </div>
+      `).join("");
+
+      items.forEach((item, idx) => {
+        const input = document.getElementById(`${containerId}-input-${idx}`);
+        const fb = document.getElementById(`${containerId}-fb-${idx}`);
+        const answers = getAllAnswers(item.answers).map(a => normalizeHan(a));
+
+        container.querySelector(`[data-check="${containerId}-${idx}"]`).addEventListener("click", () => {
+          const user = normalizeHan(input.value);
+          if(!user){
+            fb.className = "feedback bad";
+            fb.textContent = t("rewriteNeedInput");
+            return;
+          }
+          if(answers.includes(user)){
+            fb.className = "feedback ok";
+            fb.textContent = t("rewriteGood")(pick(item.explain));
+          } else {
+            fb.className = "feedback mid";
+            fb.textContent = t("rewriteNear")(displayAnswers(item.answers), pick(item.explain));
+          }
+        });
+
+        container.querySelector(`[data-show="${containerId}-${idx}"]`).addEventListener("click", () => {
+          fb.className = "feedback mid";
+          fb.textContent = t("rewriteShow")(displayAnswers(item.answers), pick(item.explain));
+        });
+      });
+    }
+
+    function switchScript(script){
+      currentScript = script;
+      applyStaticUI();
+      renderWritingWord();
+      updateWritingProgress();
+      updatePinyinCard();
+      renderFillSet("grammarFillSet", grammarFill);
+      renderRewriteSet("grammarRewriteSet", grammarRewrite);
+      renderRewriteSet("grammarCompareSet", grammarCompare);
+    }
+
+    document.getElementById("toggleSimp").addEventListener("click", () => switchScript("simp"));
+    document.getElementById("toggleTrad").addEventListener("click", () => switchScript("trad"));
+
+    window.addEventListener("resize", () => {
+      drawPads.forEach(pad => pad && pad.redraw && pad.redraw());
+    });
+
+    switchScript("simp");
+  </script>
+</body>
+</html>
